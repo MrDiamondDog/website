@@ -1,0 +1,117 @@
+@font-face {
+    font-family: "Fira Mono";
+    src: url("../fonts/FiraMono-Regular.ttf");
+}
+
+:root {
+    --background: #05093b;
+    --gloss: rgba(0, 0, 0, 0.8);
+
+    --primary: #2538a3;
+    --secondary: #1f3091;
+    --tertiary: #13216d;
+    --quaternary: #0d1a5c;
+
+    --text-primary: #ffffff;
+    --text-secondary: #979797;
+
+    --navbar-height: 50px;
+
+    --font: "Fira Mono", monospace;
+}
+
+::-webkit-scrollbar {
+    background-color: #233970;
+    transition: all 0.2s ease;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #1657b1;
+    transition: all 0.2s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: #184e99;
+}
+
+::-webkit-scrollbar-thumb:active {
+    background-color: #174a91;
+}
+
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: var(--navbar-height);
+    background-color: var(--gloss);
+    backdrop-filter: saturate(180%) blur(4px);
+    padding: 0 1rem;
+    padding-top: 1rem;
+    transition: all 0.2s;
+    user-select: none;
+}
+
+.nav-item {
+    font-size: 1.8rem;
+    text-decoration: none;
+    color: white;
+    margin: 0 1rem;
+    margin-top: 1rem;
+    transition: all 0.2s;
+}
+
+.nav-item:hover:not(:has(.dropdown)) {
+    color: var(--text-secondary);
+    cursor: pointer;
+}
+
+.nav-item:hover {
+    cursor: pointer;
+}
+
+.nav-item .dropdown {
+    transition: 0.2s all;
+    position: absolute;
+    margin-top: 0.5rem;
+}
+
+.nav-item:hover .dropdown {
+    color: var(--text-secondary);
+}
+
+.nav-item:has(.dropdown) {
+    margin-right: 2rem;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: var(--gloss);
+    backdrop-filter: saturate(180%) blur(4px);
+    min-width: fit-content;
+    padding: 0.5rem 0;
+    padding-top: 0;
+    z-index: 1;
+    transition: 0.2s all;
+    top: 100%;
+}
+
+.dropdown-content.show {
+    display: block;
+}
+
+.dropdown-item {
+    font-size: 1.5rem;
+    text-decoration: none;
+    color: white;
+    margin: 0 1rem;
+    margin-top: 0.5rem;
+    transition: all 0.2s;
+    display: block;
+}
+
+.dropdown-item:hover {
+    color: var(--text-secondary);
+    cursor: pointer;
+}

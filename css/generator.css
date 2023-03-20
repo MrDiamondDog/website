@@ -1,0 +1,182 @@
+* {
+    color: var(--text-primary);
+    font-family: var(--font);
+}
+
+body {
+    background-color: var(--background);
+    padding: 10px;
+}
+
+.content {
+    border-left: 10px solid var(--primary);
+    padding: 10px;
+    padding-left: 20px;
+    margin: 10px;
+    margin-left: 0;
+}
+
+input {
+    background-color: var(--primary);
+    border: 1px solid var(--secondary);
+    color: var(--text-primary);
+    padding: 5px;
+    font-size: 1.2rem;
+
+    width: 200px;
+    height: 30px;
+
+    transition: all 0.2s;
+
+    display: block;
+    margin: 20px 0px;
+
+    border-radius: 5px;
+
+    box-shadow: 5px 5px 0 0 var(--quaternary);
+}
+
+input::placeholder {
+    color: var(--text-secondary);
+    font-size: 1.2rem;
+}
+
+input:active,
+input:focus {
+    background-color: var(--secondary);
+    outline: 0;
+    box-shadow: 9px 9px 0 0 var(--quaternary);
+}
+
+input[type="color"] {
+    width: 40px;
+    height: 40px;
+}
+
+input[type="color"]::placeholder {
+    display: block;
+
+    color: var(--text-primary);
+    font-size: 1.2rem;
+
+    width: 40px;
+    height: 40px;
+}
+
+input[type="checkbox"] {
+    width: 0;
+    height: 0;
+    padding: 0;
+    margin: 0;
+    visibility: hidden;
+}
+
+input[type="checkbox"] + label {
+    display: block;
+    width: 30px;
+    height: 30px;
+    border: 1px solid var(--secondary);
+    border-radius: 5px;
+    background-color: var(--primary);
+    transition: all 0.2s;
+    box-shadow: 5px 5px 0 0 var(--quaternary);
+}
+
+input[type="checkbox"]:checked + label {
+    background-color: var(--secondary);
+}
+
+input[type="checkbox"]:checked + label::after {
+    content: "";
+    display: block;
+    width: 20px;
+    height: 20px;
+    border-radius: 5px;
+    background-color: #0b57d2;
+    margin: 5px;
+}
+
+input[type="checkbox"]:hover + label {
+    cursor: pointer;
+    box-shadow: 9px 9px 0 0 var(--quaternary);
+}
+
+textarea {
+    background-color: var(--primary);
+    border: 1px solid var(--secondary);
+    color: var(--text-primary);
+    padding: 10px;
+    font-size: 1.2rem;
+
+    width: 200px;
+    height: 100px;
+
+    transition: all 0.2s;
+
+    display: block;
+    margin: 20px 0px;
+
+    border-radius: 5px;
+
+    box-shadow: 5px 5px 0 0 var(--quaternary);
+}
+
+textarea::placeholder {
+    color: var(--text-secondary);
+    font-size: 1.2rem;
+}
+
+textarea:active,
+textarea:focus {
+    background-color: var(--secondary);
+    outline: 0;
+    box-shadow: 9px 9px 0 0 var(--quaternary);
+}
+
+label {
+    font-size: 1.2rem;
+    margin: 10px 0px;
+}
+
+button {
+    background-color: var(--primary);
+    border: 1px solid var(--secondary);
+    color: var(--text-primary);
+    padding: 10px;
+    font-size: 1.2rem;
+
+    height: 40px;
+
+    transition: all 0.2s;
+
+    display: block;
+    margin: 20px 0px;
+
+    border-radius: 5px;
+
+    box-shadow: 5px 5px 0 0 var(--quaternary);
+}
+
+button:hover {
+    cursor: pointer;
+    box-shadow: 9px 9px 0 0 var(--quaternary);
+}
+
+button:active {
+    background-color: var(--secondary);
+    outline: 0;
+    box-shadow: 9px 9px 0 0 var(--quaternary);
+}
+
+.divider {
+    border-bottom: 2px solid var(--primary);
+    margin: 20px 0px;
+}
+
+.field {
+    background-color: var(--tertiary);
+    border: 3px solid var(--secondary);
+
+    padding: 0 10px;
+    margin-top: 10px;
+}

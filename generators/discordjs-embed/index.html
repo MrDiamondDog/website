@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Discord.js Embed Builder</title>
+        <link rel="stylesheet" href="/css/styles.css" />
+        <link rel="stylesheet" href="/css/generator.css" />
+        <link rel="stylesheet" href="/css/embed.css" />
+    </head>
+    <body>
+        <script src="/dist/navbar.js"></script>
+        <br />
+        <br />
+        <br />
+        <h1>Discord.js Embed Builder</h1>
+        <h3>An easy way to make embeds for Discord.js, without coding.</h3>
+        <div class="content">
+            <h2>Information</h2>
+            <input placeholder="Title" id="title" autocomplete="off" />
+            <input placeholder="URL" id="url" autocomplete="off" type="url" />
+            <input placeholder="Description" id="description" autocomplete="off" />
+            <input placeholder="Color" id="color" type="color" autocomplete="off" />
+
+            <div class="divider"></div>
+            <h2>Author</h2>
+            <input placeholder="Author" id="author" autocomplete="off" />
+            <input placeholder="Author URL" id="authorURL" autocomplete="off" type="url" />
+            <input placeholder="Author Icon" id="author-icon" autocomplete="off" type="url" />
+
+            <div class="divider"></div>
+            <h2>Fields</h2>
+            <div id="fields"></div>
+            <button id="add-field">Add Field</button>
+
+            <div class="divider"></div>
+            <h2>Images</h2>
+            <input placeholder="Thumbnail URL" id="thumbnail" autocomplete="off" type="url" />
+            <input placeholder="Image URL" id="image" autocomplete="off" type="url" />
+
+            <div class="divider"></div>
+            <h2>Footer</h2>
+            <input placeholder="Footer" id="footer" autocomplete="off" />
+            <input placeholder="Footer Icon" id="footer-icon" autocomplete="off" type="url" />
+            <input placeholder="Timestamp" id="timestamp" autocomplete="off" />
+
+            <div class="divider"></div>
+
+            <button id="generate">Generate</button>
+
+            <div class="divider"></div>
+            <h2>Preview</h2>
+
+            <div class="discord-embed">
+                <div class="discord-embed-left-border" style="background-color: #0099ff"></div>
+                <div class="discord-embed-container">
+                    <div class="discord-embed-content">
+                        <div>
+                            <div class="discord-embed-author">
+                                <img class="discord-embed-author-icon" src="/images/discord.png" alt="" />
+                                <span><a href="/" target="_blank" rel="noopener noreferrer">Some name</a></span>
+                            </div>
+                            <div class="discord-embed-title"><a href="/" target="_blank" rel="noopener noreferrer">Some title</a></div>
+                            <div class="discord-embed-description">Some description here</div>
+                            <div class="discord-embed-fields">
+                                <div class="discord-embed-field">
+                                    <div class="discord-embed-field-title">Regular field title</div>
+                                    Some value here
+                                </div>
+                                <div class="discord-embed-field discord-embed-field-inline">
+                                    <div class="discord-embed-field-title">Inline field title</div>
+                                    Some value here
+                                </div>
+                                <div class="discord-embed-field discord-embed-field-inline">
+                                    <div class="discord-embed-field-title">Inline field title</div>
+                                    Some value here
+                                </div>
+                                <div class="discord-embed-field discord-embed-field-inline">
+                                    <div class="discord-embed-field-title">Inline field title</div>
+                                    Some value here
+                                </div>
+                            </div>
+                            <img class="discord-embed-image" src="/images/discord.png" alt="" />
+                        </div>
+                        <img class="discord-embed-thumbnail" src="/images/discord.png" alt="" />
+                    </div>
+                    <div class="discord-embed-footer">
+                        <img class="discord-embed-footer-icon" src="/images/discord.png" alt="" />
+                        <span><span>Some footer text here</span><span class="discord-embed-footer-separator"> • </span><span>01/01/2018</span></span>
+                    </div>
+                </div>
+            </div>
+            <div class="divider"></div>
+            <h2>Code</h2>
+            <textarea id="code" readonly style="width: 800px; height: 600px" placeholder="Press 'Generate' to Generate the Embed"></textarea>
+        </div>
+
+        <script src="/dist/embedGenerator.js"></script>
+    </body>
+</html>
