@@ -115,3 +115,7 @@
     color: var(--text-secondary);
     cursor: pointer;
 }
+
+a:hover {
+    color: var(--primary);
+}

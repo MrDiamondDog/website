@@ -68,6 +68,17 @@ setInterval(() => __awaiter(void 0, void 0, void 0, function* () {
         isTransitioning = false;
     }
 }), 100);
+window.addEventListener("load", () => {
+    for (const element of document.querySelectorAll(".project")) {
+        element.addEventListener("click", () => {
+            console.log("click");
+            const url = element.getAttribute("data-url");
+            if (url == null)
+                return;
+            window.location.href = url;
+        });
+    }
+});
 function sleep(ms) {
     return __awaiter(this, void 0, void 0, function* () {
         return new Promise((resolve) => setTimeout(resolve, ms));

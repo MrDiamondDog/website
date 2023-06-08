@@ -76,6 +76,18 @@ setInterval(async () => {
     }
 }, 100);
 
+window.addEventListener("load", () => {
+    for (const element of document.querySelectorAll(".project")) {
+        element.addEventListener("click", () => {
+            console.log("click");
+            const url = element.getAttribute("data-url");
+            if (url == null) return;
+
+            window.location.href = url;
+        });
+    }
+});
+
 async function sleep(ms: number) {
     return new Promise((resolve) => setTimeout(resolve, ms));
 }
