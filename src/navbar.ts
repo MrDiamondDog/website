@@ -13,7 +13,6 @@ navbar.innerHTML = `
 `;
 
 document.body.appendChild(navbar);
-console.log(window.location.pathname);
 if (window.location.pathname == "/" || window.location.pathname == "/index.html" || window.location.pathname == "/website/") {
     navbar.style.opacity = "0";
 }
