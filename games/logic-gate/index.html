@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Logic Gate Sim</title>
+        <link rel="stylesheet" href="styles.css" />
+        <link rel="icon" href="images/node.png" />
+        <link rel="apple-touch-icon" href="images/node.png" />
+        <meta name="theme-color" content="#212d38" />
+        <meta
+            name="description"
+            content="A logic gate simulator made with HTML5 canvas and JavaScript."
+        />
+    </head>
+    <body>
+        <canvas id="canvas" tabindex="0"></canvas>
+        <img
+            id="github-img"
+            src="images/git.png"
+            alt="github logo"
+            onclick="window.location.href='https://github.com/MrDiamondDog/logic-gates'"
+        />
+        <div id="menu">
+            <button id="back">Home</button>
+            <button id="create">Create</button>
+            <button id="generate">Truth Table</button>
+            <button id="clear">Clear</button>
+            <button id="random">Random Node</button>
+            <button
+                onclick="document.getElementById('suggest-form').style.display = 'none'; 
+                document.getElementById('settings').style.display = 'block';"
+            >
+                Settings
+            </button>
+        </div>
+        <footer id="footer"></footer>
+        <div id="tt-container" style="display: none">
+            <button id="hide-tt" class="button-sm">Hide Truth Table</button>
+            <button id="copy-tt" class="button-sm">Copy Truth Table</button>
+            <table id="truth-table"></table>
+        </div>
+        <div id="mobile-warning" style="display: none">
+            <h1>Mobile User</h1>
+            <p>
+                This project does not work on mobile at all. Nothing works. Please come back on a
+                computer.
+            </p>
+            <button
+                onclick="document.getElementById('mobile-warning').style.display = 'none'"
+                class="button-menu"
+            >
+                Ok
+            </button>
+            <button onclick="history.back()" class="button-menu">Back</button>
+        </div>
+        <div id="suggest-form" style="display: none">
+            <form action="#" name="suggestions" data-netlify="true">
+                <h2>Have a suggestion? Enter it here!</h2>
+                <textarea
+                    name="suggestion"
+                    id="suggestion"
+                    placeholder="Suggestion"
+                    class="input-menu"
+                ></textarea>
+                <br />
+                <br />
+                <button
+                    type="submit"
+                    onclick="document.getElementById('suggest-form').style.display = 'none'"
+                    class="button-menu"
+                >
+                    Submit
+                </button>
+                <button
+                    type="button"
+                    onclick="document.getElementById('suggest-form').style.display = 'none'"
+                    class="button-menu"
+                >
+                    Cancel
+                </button>
+            </form>
+        </div>
+        <div id="settings" style="display: none">
+            <h1>Settings</h1>
+            <button
+                onclick="document.getElementById('suggest-form').style.display = 'block'; document.getElementById('settings').style.display = 'none'"
+                class="button-menu"
+            >
+                Suggest
+            </button>
+            <br />
+            <br />
+            <label for="debug"
+                ><input type="checkbox" id="debug" name="debug" /> Debug Mode (DevTools)</label
+            >
+            <br />
+            <br />
+            <button
+                onclick="document.getElementById('settings').style.display = 'none'"
+                class="button-menu"
+            >
+                Close
+            </button>
+        </div>
+        <script>
+            var exports = {};
+        </script>
+        <script src="js/main.js" type="module"></script>
+        <script src="/dist/navbar.js"></script>
+    </body>
+</html>

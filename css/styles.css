@@ -61,7 +61,7 @@
     transition: all 0.2s;
 }
 
-.nav-item:hover:not(:has(.dropdown)) {
+.nav-item:hover {
     color: var(--text-secondary);
     cursor: pointer;
 }
@@ -118,4 +118,22 @@
 
 a:hover {
     color: var(--primary);
+}
+
+@media (max-width: 600px) {
+    :root {
+        --navbar-height: 35px;
+    }
+
+    .nav-item {
+        font-size: 1rem;
+    }
+
+    .dropdown-item {
+        font-size: 1.2rem;
+    }
+
+    .nav-item .dropdown {
+        margin-top: 0;
+    }
 }

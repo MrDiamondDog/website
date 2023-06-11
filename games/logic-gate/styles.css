@@ -1,0 +1,369 @@
+:root {
+    --background: #212d38;
+    --foreground: #fff;
+    --primary: #2d4052;
+    --secondary: #3d5468;
+    --tertiary: #4d687d;
+    --placeholder: #a0a0a0;
+}
+
+* {
+    font-family: "Roboto", monospace;
+    color: white;
+    box-sizing: border-box;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    overflow-x: hidden;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+    margin: 0;
+    padding: 5px;
+    padding-bottom: 20px;
+}
+
+body {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: var(--background);
+}
+
+#canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: calc(100% - 50px);
+    border: none;
+    outline: none;
+}
+
+#canvas:focus {
+    outline: none;
+}
+
+footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 50px;
+    background-color: var(--background);
+    color: var(--foreground);
+    padding: 5px;
+    margin: 0;
+    line-height: 25px;
+    overflow-x: hidden;
+}
+
+button {
+    background-color: var(--primary);
+    color: var(--foreground);
+    border: 0;
+    padding: 5px 10px;
+    margin: 2px;
+    margin-bottom: 0;
+    cursor: pointer;
+    font-size: 20px;
+    transition: all 0.1s ease-in-out;
+    overflow-x: hidden;
+    vertical-align: middle;
+    border-radius: 3px;
+}
+
+button:hover {
+    background-color: var(--secondary);
+}
+
+button:active {
+    background-color: var(--primary);
+}
+
+.button-menu {
+    background-color: var(--secondary);
+}
+
+.button-menu:hover {
+    background-color: var(--tertiary);
+}
+
+.button-menu:active {
+    background-color: var(--secondary);
+}
+
+input,
+textarea {
+    background-color: var(--primary);
+    color: var(--foreground);
+    border: 0;
+    padding: 5px 10px;
+    margin: 2px;
+    margin-bottom: 0;
+    cursor: pointer;
+    font-size: 20px;
+    transition: all 0.1s ease-in-out;
+    overflow-x: hidden;
+    vertical-align: middle;
+    border-radius: 3px;
+}
+
+input:hover,
+textarea:hover {
+    background-color: var(--secondary);
+}
+
+input:active,
+textarea:active {
+    background-color: var(--primary);
+}
+
+input::placeholder,
+textarea::placeholder {
+    color: var(--placeholder);
+}
+
+input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    margin: 0;
+    padding: 0;
+    vertical-align: middle;
+    cursor: pointer;
+}
+
+label {
+    margin-left: 5px;
+    cursor: pointer;
+}
+
+.input-menu {
+    background-color: var(--secondary);
+}
+
+.input-menu:hover {
+    background-color: var(--tertiary);
+}
+
+.input-menu:active {
+    background-color: var(--secondary);
+}
+
+.button-sm {
+    background-color: var(--primary);
+    color: var(--foreground);
+    border: 0;
+    padding: 5px 10px;
+    margin: 0 2px;
+    cursor: pointer;
+    font-size: 20px;
+    transition: all 0.1s ease-in-out;
+    font-size: 14px;
+}
+
+select {
+    background-color: var(--primary);
+    color: var(--foreground);
+    border: 0;
+    border-radius: 5px;
+    padding: 5px 10px;
+    margin: 0 2px;
+    margin-bottom: 2px;
+    cursor: pointer;
+    font-size: 20px;
+    transition: all 0.1s ease-in-out;
+}
+
+select:hover {
+    background-color: var(--secondary);
+}
+
+select:active {
+    background-color: var(--primary);
+}
+
+option {
+    background-color: var(--primary);
+    color: var(--foreground);
+    border: 0;
+    border-radius: 5px;
+    padding: 5px 10px;
+    margin: 0 2px;
+    cursor: pointer;
+    font-size: 20px;
+    transition: all 0.1s ease-in-out;
+}
+
+#tt-container {
+    display: block;
+    bottom: 0;
+    right: 0;
+    padding: 6px;
+    padding-bottom: 20px;
+    z-index: 2;
+    font-size: 20px;
+}
+
+#hide-tt,
+#copy-tt {
+    position: relative;
+    margin-top: 45px;
+}
+
+#truth-table {
+    background-color: var(--background);
+    position: absolute;
+    top: 85px;
+    z-index: 3;
+}
+
+#truth-table table {
+    width: 100%;
+    height: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    margin: 0;
+}
+
+#truth-table th {
+    background-color: var(--primary);
+    margin: 0;
+}
+
+#truth-table td {
+    background-color: var(--secondary);
+    text-align: center;
+    padding: 3px;
+    margin: 0;
+}
+
+.tt-0 {
+    background-color: #841616 !important;
+}
+
+.tt-1 {
+    background-color: #1f921f !important;
+}
+
+#github-img {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    width: 35px;
+    height: 35px;
+    cursor: pointer;
+    transition: all 0.1s ease-in-out;
+    z-index: 3;
+}
+
+#context {
+    position: absolute;
+    width: 150px;
+    padding: 5px;
+    background-color: var(--primary);
+    z-index: 5;
+    border-radius: 5px;
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.5), 0 4px 5px 0 rgba(0, 0, 0, 0.5);
+}
+
+#context button {
+    background-color: var(--secondary);
+    width: 100%;
+    margin: 0;
+    margin-bottom: 5px;
+    padding: 5px;
+}
+
+#context button:hover {
+    background-color: var(--tertiary);
+}
+
+#context button:active {
+    background-color: var(--secondary);
+}
+
+#context button:last-child {
+    margin-bottom: 0;
+}
+
+#context input {
+    background-color: var(--secondary);
+    width: 100%;
+    margin: 0;
+    margin-bottom: 5px;
+    padding: 5px;
+}
+
+#context input:hover {
+    background-color: var(--tertiary);
+}
+
+#context input:active {
+    background-color: var(--secondary);
+}
+
+#context input:last-child {
+    margin-bottom: 0;
+}
+
+#mobile-warning {
+    position: absolute;
+    background-color: var(--primary);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80vw;
+    padding: 10px;
+}
+
+#mobile-warning button {
+    background-color: var(--secondary);
+}
+
+#mobile-warning button:active {
+    background-color: var(--tertiary);
+}
+
+#menu {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    background-color: var(--background);
+    z-index: 4;
+}
+
+#suggest-form {
+    position: absolute;
+    width: 20rem;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: var(--primary);
+    padding: 10px;
+}
+
+#suggestion {
+    height: 100px;
+    vertical-align: text-top;
+}
+
+#settings {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20rem;
+    transform: translate(-50%, -50%);
+    background-color: var(--primary);
+    z-index: 4;
+    padding: 10px;
+}
