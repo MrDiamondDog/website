@@ -5,16 +5,19 @@
 
 body {
     background-color: var(--background);
-    padding: 10px;
 }
 
 .content {
-    border-left: 10px solid var(--primary);
     padding: 10px;
-    padding-left: 20px;
     margin: 10px;
     margin-left: 0;
     transition: all 0.2s;
+}
+
+.generator-content {
+    border-left: 10px solid var(--primary);
+    padding: 5px;
+    padding-left: 20px;
 }
 
 input {

@@ -3,6 +3,18 @@
     src: url("../fonts/FiraMono-Regular.ttf");
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+
 :root {
     --background: #05093b;
     --gloss: rgba(0, 0, 0, 0.8);
@@ -18,6 +30,10 @@
     --navbar-height: 50px;
 
     --font: "Fira Mono", monospace;
+}
+
+.content {
+    padding: 10px;
 }
 
 ::-webkit-scrollbar {
@@ -117,7 +133,7 @@
 }
 
 a:hover {
-    color: var(--primary);
+    color: var(--text-secondary);
 }
 
 @media (max-width: 600px) {
@@ -135,5 +151,57 @@ a:hover {
 
     .nav-item .dropdown {
         margin-top: 0;
+    }
+}
+
+#footer-bg {
+    background-image: url("../images/footer-bg.svg");
+    background-size: cover;
+    background-repeat: no-repeat;
+
+    height: 650px;
+    width: 100%;
+    margin-top: auto;
+}
+
+.footer-content {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 50px;
+    height: 100%;
+}
+
+.footer-col {
+    padding-top: 450px;
+}
+
+.footer-col img {
+    width: 50px;
+}
+
+.footer-col img.clickable:hover {
+    cursor: pointer;
+}
+
+.footer-col h2 {
+    margin-top: 0;
+    margin-bottom: 3px;
+}
+
+@media (max-width: 600px) {
+    #footer-bg {
+        height: 500px;
+    }
+
+    .footer-content {
+        flex-direction: column;
+        gap: 50px;
+        margin-left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .footer-col {
+        padding-top: 0;
     }
 }
