@@ -5,3 +5,4 @@
 .env
 .vercel
 next-env.d.ts
+.next.zip

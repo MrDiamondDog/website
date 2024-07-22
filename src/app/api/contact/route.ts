@@ -1,6 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
+import rateLimitMiddleware from "..";
 
 export async function POST(req: NextRequest) {
+    if (rateLimitMiddleware(req)) {
+        return NextResponse.json({ body: "Rate limit exceeded." }, { status: 429 });
+    }
+
     if (!process.env.DISCORD_WEBHOOK) 
         return NextResponse.json({ body: "No Discord webhook set up." }, { status: 500 });
 
