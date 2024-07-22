@@ -1,0 +1,189 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: "Miracode";
+  src: url("../../public/fonts/Miracode.ttf");
+}
+
+:root {
+  font-family: "Miracode";
+  font-size: 16px;
+  color: white;
+
+  --background: #17181a;
+  --background-light: #1f2124;
+  --background-lighter: #242930;
+
+  --primary: #3181bf;
+  --secondary: #1e5178;
+  --tertiary: #143b59;
+}
+
+@layer base {
+  h1 {
+    font-size: 2rem;
+    font-weight: 700;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+  }
+
+  h3 {
+    font-size: 1.25rem;
+    font-weight: 500;
+  }
+}
+
+@layer utilities {
+  .absolute-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .text-clamp {
+    font-size: clamp(1rem, 2vw, 1.5rem);
+  }
+
+  .oneko {
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+    image-rendering: pixelated;
+    background-image: url(/images/oneko.gif);
+    animation: sleep 1s infinite;
+    cursor: pointer
+  }
+  .oneko:hover {
+    animation:2.5s 1 forwards wakeup
+  }
+  @media (prefers-reduced-motion) {
+    .oneko {
+      display: none
+    }
+  }
+  @media only screen and (max-width: 600px) {
+    .nav-content[data-astro-cid-ymhdp2rl] {
+      margin-top: 1em;
+      position: relative;
+      flex-direction: column
+    }
+  }
+  @keyframes sleep {
+    0%,
+    50% {
+      background-position:-64px 0
+    }
+    50.00001%,
+    to {
+      background-position:-64px -32px
+    }
+  }
+  @keyframes wakeup {
+    0%,
+    20% {
+      background-position:-160px 0
+    }
+    20.00001%,
+    40% {
+      background-position:-192px 0
+    }
+    40.00001%,
+    60% {
+      background-position:-224px 0
+    }
+    60.00001%,
+    80% {
+      background-position:-96px -64px
+    }
+    80.00001%,
+    to {
+      background-position:-96px -96px
+    }
+  }
+}
+
+@layer components {
+  .tabbutton {
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .tabbutton::after {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 0.25rem;
+    border-radius: 0.25rem;
+    animation: underline-shrink 0.2s ease-in-out;
+  }
+
+  .tabbutton.active::after, .tabbutton:hover::after {
+    animation: underline-expand 0.2s ease-in-out;
+    background-color: var(--primary);
+  }
+
+  a {
+    text-decoration: none;
+    color: inherit;
+    transition: color 0.2s;
+    position: relative;
+  }
+
+  a::after {
+    content: "";
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    display: block;
+    width: 100%;
+    height: 0.25rem;
+    border-radius: 0.25rem;
+    animation: underline-shrink 0.2s ease-in-out;
+  }
+
+  a:hover {
+    color: var(--primary);
+  }
+
+  a.active::after, a:hover::after {
+    animation: underline-expand 0.2s ease-in-out;
+    background-color: var(--primary);
+  }
+}
+
+@keyframes underline-expand {
+  0% {
+    width: 0;
+    background-color: transparent;
+  }
+
+  100% {
+    width: 100%;
+    background-color: var(--primary);
+  }
+}
+
+@keyframes underline-shrink {
+  0% {
+    width: 100%;
+    background-color: var(--primary);
+  }
+
+  100% {
+    width: 0;
+    background-color: transparent;
+  }
+}
