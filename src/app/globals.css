@@ -106,6 +106,10 @@
       background-position:-96px -96px
     }
   }
+
+  .overflow-scroll::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 @layer components {
