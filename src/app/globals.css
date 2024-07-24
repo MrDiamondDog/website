@@ -207,6 +207,11 @@
     background-color: var(--background-lighter);
     padding: 1rem;
     border-radius: 0.5rem;
+    overflow-x: scroll;
+  }
+
+  & pre code {
+    overflow-x: hidden;
   }
 
   & img {

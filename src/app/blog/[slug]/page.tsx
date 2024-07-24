@@ -1,6 +1,8 @@
+import Button from "@/components/Button";
 import Divider from "@/components/Divider";
 import { getPostBySlug, getPostContentBySlug } from "@/lib/posts";
 import { Metadata } from "next";
+import { IoIosArrowUp } from "react-icons/io";
 import { remark } from "remark";
 import html from 'remark-html';
 
@@ -30,7 +32,7 @@ export default async function BlogPage({ params: { slug } }: { params: { slug: s
         .process(postContent);
     const contentHtml = processedContent.toString();
 
-    return (<main className="absolute-center w-2/3 p-10 bg-bg-light rounded-lg drop-shadow-xl h-full">
+    return (<main className="absolute-center w-full md:w-2/3 p-4 md:p-10 bg-bg-light rounded-lg drop-shadow-xl h-full relative">
         <div className="h-full text-wrap overflow-scroll markdown">
             <a href="/">&lt; Go back</a>
             <h1 className="text-4xl font-bold pt-4 pb-3">{post.title}</h1>
