@@ -2,13 +2,13 @@
 
 This document is all about my adventure reverse engineering the fake download at https://vencord.lol/.
 
-Vencord is a client modification for Discord. It's offical website is https://vencord.dev/. Many impersonation websites have popped up,
+Vencord is a client modification for Discord. Its offical website is https://vencord.dev/. Many impersonation websites have popped up,
 such as https://vencord.app/ and the now-taken-down https://vencord.xyz/. These have popped enough for me to make a [Vencord Impersonation Reporter](https://github.com/MrDiamondDog/Vencord-Impersonation-Reporter)-
 which scans every TLD (Top Level Domain) named "vencord". It runs every day and eventually found this website.
 
 ## Vencord.lol
 
-On 3/28/2024, Imperonsation Reporter found vencord.lol, and when I went to investigae, it was an almost exact copy of vencord.dev. No other buttons
+On 3/28/2024, Impersonation Reporter found vencord.lol, and when I went to investigate, it was an almost exact copy of vencord.dev. No other buttons
 worked other than the download button, which redirected you to https://ven.lol/. There is nothing on this page except for a very ominous "[click to enter]" (clicking does nothing)
 
 ![image](https://gist.github.com/assets/84212701/bdd977c4-a55b-483a-b972-6aabe3f2bc1f)
@@ -359,4 +359,6 @@ I also ran an any.run analysis. You can review the results [here](https://app.an
 
 # The End
 
-That's it. There is nothing more to explore here- the dll file is way to obfuscated to do anything with, and actually running the file seems to not much effect on anything. This was very fun for me to make and I hope you read all of it as well. Feel free to dm me on discord (@mrdiamonddog) about any of this or if you would like to take on the challenge of figuring out what this does for yourself.
+That's it. There is nothing more I can do- the dll file is way to obfuscated to do anything with, and actually running the file seems to not much effect on anything. This was very fun for me to make and I hope you read all of it as well. 
+
+If you would like to help deobfuscate this, please do! If you want the DLL file without having to do all the steps I did then [contact me](/#contact). If you manage to find anything else out, please let me know!

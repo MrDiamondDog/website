@@ -1,8 +1,6 @@
-import Button from "@/components/Button";
 import Divider from "@/components/Divider";
 import { getPostBySlug, getPostContentBySlug } from "@/lib/posts";
 import { Metadata } from "next";
-import { IoIosArrowUp } from "react-icons/io";
 import { remark } from "remark";
 import html from 'remark-html';
 

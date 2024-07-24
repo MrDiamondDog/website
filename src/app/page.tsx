@@ -13,8 +13,8 @@ import { FaDiscord, FaGithub, FaGlobe } from "react-icons/fa6";
 import { MdRamenDining } from "react-icons/md";
 import { SiCplusplus, SiCsharp, SiIntellijidea, SiKotlin, SiNextdotjs, SiNodedotjs, SiOracle, SiPostgresql, SiPrisma, SiRider, SiTailwindcss, SiTypescript, SiUnity, SiVercel, SiVisualstudiocode } from "react-icons/si";
 import { TbBrandMinecraft } from "react-icons/tb";
-import fs from "fs";
 import { getPosts } from "@/lib/posts";
+import { headers } from "next/headers";
 
 export default function Home() {
   return (<>

@@ -21,6 +21,10 @@ export default function ContactTab() {
         }).then(res => {
             if (!res.ok) throw res;
             toast.success("Message sent. Expect a response... eventually.");
+
+            setDiscord("");
+            setSubject("");
+            setMessage("");
         }).catch(res => {
             res.json().then(data => {
                 toast.error(`${data.body}\nStatus Code: ${res.status}`);

@@ -1,15 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@font-face {
-  font-family: "Miracode";
-  src: url("../../public/fonts/Miracode.ttf");
-}
-
 :root {
-  font-family: "Miracode";
-  font-size: 16px;
+  font-size: 20px;
   color: white;
 
   --background: #17181a;
@@ -201,6 +197,7 @@
 .markdown {
   & code {
     white-space: pre-wrap;
+    font-family: 'Space Mono', monospace;
   }
 
   & pre:has(code) {
