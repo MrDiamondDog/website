@@ -4,7 +4,10 @@ import { Toaster } from "sonner";
 
 export const metadata: Metadata = {
   title: "mrdiamond.is-a.dev",
-  description: "website",
+  description: "you should go to this website",
+  icons: [
+    "/avatar.webp"
+  ]
 };
 
 export default function RootLayout({

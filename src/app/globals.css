@@ -141,7 +141,7 @@
 
   a {
     text-decoration: none;
-    color: inherit;
+    color: var(--primary);
     transition: color 0.2s;
     position: relative;
   }
@@ -166,6 +166,12 @@
     animation: underline-expand 0.2s ease-in-out;
     background-color: var(--primary);
   }
+
+  code:not(pre code) {
+    background-color: var(--background-lighter);
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+  }
 }
 
 @keyframes underline-expand {
@@ -189,5 +195,45 @@
   100% {
     width: 0;
     background-color: transparent;
+  }
+}
+
+.markdown {
+  & code {
+    white-space: pre-wrap;
+  }
+
+  & pre:has(code) {
+    background-color: var(--background-lighter);
+    padding: 1rem;
+    border-radius: 0.5rem;
+  }
+
+  & img {
+    max-width: 100%;
+    border-radius: 0.5rem;
+  }
+
+  & p {
+    padding: 0.5rem 0;
+  }
+
+  & h1, h2, h3, h4 {
+    padding-top: 0.75rem;
+    padding-bottom: 0.25rem;
+  }
+
+
+  & ul li {
+    padding: 0.25rem 1rem;
+  }
+
+  & ul li::before {
+    content: "•";
+    color: var(--primary);
+    display: inline-block;
+    width: 1em;
+    font-size: 1rem;
+    margin-left: -1em;
   }
 }

@@ -3,9 +3,10 @@ import { NextRequest } from "next/server";
 const rateLimitMap = new Map();
 
 export default function rateLimitMiddleware(req: NextRequest) {
-    const ip = req.headers["x-real-ip"];
-    if (!ip)
+    const ip = req.headers.get("x-real-ip");
+    if (!ip) {
         return true;
+    }
     const limit = 1; // Limiting requests to 1 per minute per IP
     const windowMs = 60 * 1000; // 1 minute
     
@@ -28,6 +29,6 @@ export default function rateLimitMiddleware(req: NextRequest) {
     }
     
     ipData.count += 1;
-    
+        
     return false;
 }

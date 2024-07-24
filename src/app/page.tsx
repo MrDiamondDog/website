@@ -13,6 +13,8 @@ import { FaDiscord, FaGithub, FaGlobe } from "react-icons/fa6";
 import { MdRamenDining } from "react-icons/md";
 import { SiCplusplus, SiCsharp, SiIntellijidea, SiKotlin, SiNextdotjs, SiNodedotjs, SiOracle, SiPostgresql, SiPrisma, SiRider, SiTailwindcss, SiTypescript, SiUnity, SiVercel, SiVisualstudiocode } from "react-icons/si";
 import { TbBrandMinecraft } from "react-icons/tb";
+import fs from "fs";
+import { getPosts } from "@/lib/posts";
 
 export default function Home() {
   return (<>
@@ -21,7 +23,7 @@ export default function Home() {
       className="absolute-center lg:w-1/2 md:w-2/3 w-full h-2/3 p-5 rounded-lg border-[3px] border-primary bg-bg-light drop-shadow-xl overflow-scroll"
     >
       <Tablist
-        tabs={["Profile", "Stack", "Projects", "Contact"]}
+        tabs={["Profile", "Stack", "Projects", "Blog", "Contact"]}
         activeTab="Profile"
       >
         <Tab name="Profile">
@@ -53,6 +55,7 @@ export default function Home() {
               My main language for basically everything. I often use TypeScript over JavaScript for its type safety. 
               Type safety is extremely important to me and I can't live without it.
             </StackItem>
+
             <StackItem title="Tailwind CSS" icon={SiTailwindcss}>
               I use Tailwind for styling my websites. Yes, the classnames do get really long, but I much prefer it over writing CSS.
             </StackItem>
@@ -131,7 +134,7 @@ export default function Home() {
         </Tab>
         <Tab name="Projects">
           <div className="flex flex-row flex-wrap gap-5">
-            <ProjectCard icon={FaGlobe} title="Website" tags={["NextJS", "TypeScript", "TailwindCSS"]}>
+            <ProjectCard icon={FaGlobe} title="Website" tags={["NextJS", "TypeScript", "TailwindCSS"]} link="https://github.com/MrDiamondDog/website">
               This website!
             </ProjectCard>
             <ProjectCard icon={MdRamenDining} title="Ramen" tags={["NextJS", "TypeScript", "TailwindCSS"]}>
@@ -154,6 +157,21 @@ export default function Home() {
             <ProjectCard icon={MdRamenDining} title="Noodle" tags={["NextJS", "TypeScript"]} link="https://noodle.run/">
               A student productivity app that I am really looking forward using.
             </ProjectCard>
+          </div>
+        </Tab>
+        <Tab name="Blog">
+          <p>Just things I find interesting and decide to write about</p>
+          <Divider />
+          <div>
+            {getPosts().map((post) => {
+              return (
+                <div key={post.slug} className="px-2">
+                  <h2><a href={`/blog/${post.slug}`}>{post.title}</a></h2>
+                  <Subtext>{post.date}</Subtext>
+                  <p>{post.description}</p>
+                </div>
+              );
+            })}
           </div>
         </Tab>
         <Tab name="Contact">
