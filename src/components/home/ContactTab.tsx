@@ -1,9 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import Button from "./Button";
-import Divider from "./Divider";
-import Input from "./Input";
+import Button from "../general/Button";
+import Divider from "../general/Divider";
+import Input from "../general/Input";
 import { toast } from "sonner";
 
 export default function ContactTab() {

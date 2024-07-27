@@ -1,5 +1,5 @@
 import { IconType } from "react-icons";
-import Copyable from "./Copyable";
+import Copyable from "../general/Copyable";
 
 export default function SocialMediaProfile(props: Readonly<{
   icon: IconType;

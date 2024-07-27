@@ -1,4 +1,4 @@
-import Divider from "@/components/Divider";
+import Divider from "@/components/general/Divider";
 import { getPostBySlug, getPostContentBySlug } from "@/lib/posts";
 import { Metadata } from "next";
 import { remark } from "remark";

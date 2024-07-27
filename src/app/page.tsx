@@ -1,20 +1,19 @@
-import CanvasBackground from "@/components/CanvasBackground";
-import ContactTab from "@/components/ContactTab";
-import Divider from "@/components/Divider";
-import Oneko from "@/components/Oneko";
-import ProjectCard from "@/components/ProjectCard";
-import SocialMediaProfile from "@/components/SocialMediaProfile";
-import StackItem from "@/components/StackItem";
-import Subtext from "@/components/Subtext";
-import Tab from "@/components/Tab";
-import Tablist from "@/components/Tablist";
+import CanvasBackground from "@/components/home/CanvasBackground";
+import ContactTab from "@/components/home/ContactTab";
+import Divider from "@/components/general/Divider";
+import Oneko from "@/components/general/Oneko";
+import ProjectCard from "@/components/home/ProjectCard";
+import StackItem from "@/components/home/StackItem";
+import Subtext from "@/components/general/Subtext";
+import Tab from "@/components/tabs/Tab";
+import Tablist from "@/components/tabs/Tablist";
 import { DiJava } from "react-icons/di";
 import { FaDiscord, FaGithub, FaGlobe } from "react-icons/fa6";
 import { MdRamenDining } from "react-icons/md";
 import { SiCplusplus, SiCsharp, SiIntellijidea, SiKotlin, SiNextdotjs, SiNodedotjs, SiOracle, SiPostgresql, SiPrisma, SiRider, SiTailwindcss, SiTypescript, SiUnity, SiVercel, SiVisualstudiocode } from "react-icons/si";
 import { TbBrandMinecraft } from "react-icons/tb";
 import { getPosts } from "@/lib/posts";
-import { headers } from "next/headers";
+import SocialMediaProfile from "@/components/home/SocialMediaProfile";
 
 export default function Home() {
   return (<>

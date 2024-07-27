@@ -11,6 +11,11 @@ const nextConfig = {
                 source: "/posts/:slug/:file",
                 destination: "/blog/:slug",
                 permanent: true
+            },
+            {
+                source: "/free-ram",
+                destination: "/funny/free-ram",
+                permanent: true
             }
         ];
     }
