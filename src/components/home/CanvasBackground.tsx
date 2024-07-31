@@ -2,16 +2,7 @@
 
 import { useEffect, useRef } from "react";
 
-interface Vec2 {
-    x: number;
-    y: number;
-}
-
-const colors = {
-    primary: "#3181bf",
-    secondary: "#1e5178",
-    tertiary: "#143b59",
-};
+import { colors, Vec2 } from "@/lib/util";
 
 export default function CanvasBackground() {
     const canvas = useRef<HTMLCanvasElement>(null);
@@ -37,7 +28,7 @@ export default function CanvasBackground() {
 
         for (let i = 0; i < numDots; i++) {
             dots.push({
-                pos: { 
+                pos: {
                     x: Math.random() * window.innerWidth,
                     y: Math.random() * window.innerHeight
                 },
@@ -102,5 +93,5 @@ export default function CanvasBackground() {
 
     return (
         <canvas className="absolute inset-0 motion-reduce:hidden" ref={canvas} />
-    )
+    );
 }

@@ -16,7 +16,7 @@ export default function ProjectCard(props: Props) {
                 <h1 className="text-clamp">{props.link ? <a href={props.link} className="text-white">{props.title}</a> : props.title}</h1>
             </div>
             <div className="flex flex-row flex-wrap gap-2">
-                {props.tags.map((tag) => (
+                {props.tags.map(tag => (
                     <span className="bg-bg-lighter text-sm rounded-full px-3 py-1">{tag}</span>
                 ))}
             </div>

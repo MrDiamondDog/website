@@ -1,7 +1,7 @@
-export default function Tab({ children, name }: Readonly<{ children: React.ReactNode, name: string }>) {
+export default function Tab(props: Readonly<{ children: React.ReactNode, name: string, className?: string }>) {
     return (
-        <div data-tab={name}>
-            {children}
+        <div data-tab={props.name} className={props.className}>
+            {props.children}
         </div>
     );
 }

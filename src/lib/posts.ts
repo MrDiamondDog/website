@@ -13,7 +13,7 @@ export function getPostContentBySlug(slug: string) {
 }
 
 export function getPosts() {
-    return fs.readdirSync("./public/posts").map((file) => {
+    return fs.readdirSync("./public/posts").map(file => {
         return getPostBySlug(file);
-    })
+    });
 }

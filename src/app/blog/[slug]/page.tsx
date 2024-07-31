@@ -1,8 +1,9 @@
-import Divider from "@/components/general/Divider";
-import { getPostBySlug, getPostContentBySlug } from "@/lib/posts";
 import { Metadata } from "next";
 import { remark } from "remark";
-import html from 'remark-html';
+import html from "remark-html";
+
+import Divider from "@/components/general/Divider";
+import { getPostBySlug, getPostContentBySlug } from "@/lib/posts";
 
 export function generateMetadata({ params: { slug } }: { params: { slug: string }}): Metadata {
     const post = getPostBySlug(slug);

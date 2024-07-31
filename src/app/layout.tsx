@@ -1,7 +1,8 @@
-import type { Metadata } from "next";
 import "./globals.css";
+
+import type { Metadata } from "next";
+import { Rethink_Sans } from "next/font/google";
 import { Toaster } from "sonner";
-import { Dosis, Mukta, Oxygen, Red_Hat_Display, Rethink_Sans, Schibsted_Grotesk } from "next/font/google";
 
 // const font = Mukta({
 //   weight: "400",
@@ -29,28 +30,28 @@ import { Dosis, Mukta, Oxygen, Red_Hat_Display, Rethink_Sans, Schibsted_Grotesk 
 //   subsets: ["latin-ext"],
 // });
 const font = Rethink_Sans({
-  weight: "400",
-  display: "swap",
-  subsets: ["latin-ext"],
+    weight: "400",
+    display: "swap",
+    subsets: ["latin-ext"],
 });
 
 export const metadata: Metadata = {
-  title: "mrdiamond.is-a.dev",
-  description: "you should go to this website",
-  icons: [
-    "/avatar.webp"
-  ]
+    title: "mrdiamond.is-a.dev",
+    description: "you should go to this website",
+    icons: [
+        "/avatar.webp"
+    ]
 };
 
 export default function RootLayout({
-  children,
+    children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return (
-    <html lang="en">
-      <Toaster richColors theme="dark" />
-      <body className={"bg-bg " + font.className}>{children}</body>
-    </html>
-  );
+    return (
+        <html lang="en">
+            <Toaster richColors theme="dark" />
+            <body className={"bg-bg " + font.className}>{children}</body>
+        </html>
+    );
 }

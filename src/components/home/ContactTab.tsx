@@ -1,10 +1,11 @@
 "use client";
 
 import { useState } from "react";
+import { toast } from "sonner";
+
 import Button from "../general/Button";
 import Divider from "../general/Divider";
 import Input from "../general/Input";
-import { toast } from "sonner";
 
 export default function ContactTab() {
     const [discord, setDiscord] = useState("");

@@ -1,14 +1,15 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import TabButton from "./TabButton";
-import React from "react";
 import { useParams } from "next/navigation";
+import React, { useEffect, useState } from "react";
+
+import TabButton from "./TabButton";
 
 interface Props {
     tabs: string[];
     activeTab?: string;
     children: React.ReactNode;
+    className?: string;
 }
 
 export default function Tablist(props: Props) {
@@ -27,8 +28,8 @@ export default function Tablist(props: Props) {
     }, [params]);
 
     return (<>
-        <div className="flex space-x-2 mb-4 overflow-scroll">
-            {props.tabs.map((tab) => (
+        <div className={"flex space-x-2 mb-4 overflow-scroll " + props.className}>
+            {props.tabs.map(tab => (
                 <TabButton
                     key={tab}
                     active={activeTab === tab}
@@ -39,7 +40,7 @@ export default function Tablist(props: Props) {
 
         {React.Children.map(props.children, child => {
             if (React.isValidElement(child)) {
-                if (child.props["data-tab"] === activeTab) {
+                if (child.props["data-tab"] === activeTab || child.props.name === activeTab) {
                     return child;
                 }
             }
