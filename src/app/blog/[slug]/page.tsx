@@ -5,6 +5,8 @@ import html from "remark-html";
 import Divider from "@/components/general/Divider";
 import { getPostBySlug, getPostContentBySlug } from "@/lib/posts";
 
+export const runtime = "edge";
+
 export function generateMetadata({ params: { slug } }: { params: { slug: string }}): Metadata {
     const post = getPostBySlug(slug);
     if (!post)
