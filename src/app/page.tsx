@@ -14,7 +14,6 @@ import SocialMediaProfile from "@/components/home/SocialMediaProfile";
 import StackItem from "@/components/home/StackItem";
 import Tab from "@/components/tabs/Tab";
 import Tablist from "@/components/tabs/Tablist";
-import { getPosts } from "@/lib/posts";
 
 export default function Home() {
     return (<>
@@ -23,7 +22,7 @@ export default function Home() {
             className="absolute-center lg:w-1/2 md:w-2/3 w-full h-2/3 p-5 rounded-lg border-[3px] border-primary bg-bg-light drop-shadow-xl overflow-scroll"
         >
             <Tablist
-                tabs={["Profile", "Stack", "Projects", "Blog", "Contact"]}
+                tabs={["Profile", "Stack", "Projects", "Contact"]}
                 activeTab="Profile"
             >
                 <Tab name="Profile">
@@ -157,21 +156,6 @@ export default function Home() {
                         <ProjectCard icon={MdRamenDining} title="Noodle" tags={["NextJS", "TypeScript"]} link="https://noodle.run/">
               A student productivity app that I am really looking forward using.
                         </ProjectCard>
-                    </div>
-                </Tab>
-                <Tab name="Blog">
-                    <p>Just things I find interesting and decide to write about</p>
-                    <Divider />
-                    <div>
-                        {getPosts().map(post => {
-                            return (
-                                <div key={post.slug} className="px-2">
-                                    <h2><a href={`/blog/${post.slug}`}>{post.title}</a></h2>
-                                    <Subtext>{post.date}</Subtext>
-                                    <p>{post.description}</p>
-                                </div>
-                            );
-                        })}
                     </div>
                 </Tab>
                 <Tab name="Contact">

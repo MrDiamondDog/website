@@ -12,7 +12,3 @@ export const colors = {
     backgroundLight: "#1f2124",
     backgroundLighter: "#242930",
 };
-
-export function pointInside(point: Vec2, pos: Vec2, size: Vec2) {
-    return point.x >= pos.x && point.x <= pos.x + size.x && point.y >= pos.y && point.y <= pos.y + size.y;
-}
