@@ -15,6 +15,12 @@
   --primary: #3181bf;
   --secondary: #1e5178;
   --tertiary: #143b59;
+
+  font-variant-ligatures: none;
+}
+
+select, option {
+  font: -moz-pull-down-menu;
 }
 
 @layer base {
