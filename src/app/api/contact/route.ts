@@ -2,7 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 
 import rateLimitMiddleware from "..";
 
-export const runtime = "edge";
+// eslint-disable-next-line quotes
+export const runtime = 'edge';
 
 export async function POST(req: NextRequest) {
     if (rateLimitMiddleware(req)) {
