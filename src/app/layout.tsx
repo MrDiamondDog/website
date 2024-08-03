@@ -4,6 +4,8 @@ import type { Metadata } from "next";
 import { Rethink_Sans } from "next/font/google";
 import { Toaster } from "sonner";
 
+import Analytics from "@/components/general/Analytics";
+
 // const font = Mukta({
 //   weight: "400",
 //   display: "swap",
@@ -51,7 +53,10 @@ export default function RootLayout({
     return (
         <html lang="en">
             <Toaster richColors theme="dark" />
-            <body className={"bg-bg " + font.className}>{children}</body>
+            <body className={"bg-bg " + font.className}>
+                <Analytics />
+                {children}
+            </body>
         </html>
     );
 }

@@ -6,7 +6,7 @@ import rateLimitMiddleware from "..";
 export const runtime = 'edge';
 
 export async function POST(req: NextRequest) {
-    if (rateLimitMiddleware(req)) {
+    if (rateLimitMiddleware(req, 1, 1000 * 60)) {
         return NextResponse.json({ body: "Rate limit exceeded." }, { status: 429 });
     }
 

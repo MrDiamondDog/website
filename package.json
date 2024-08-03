@@ -14,14 +14,20 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.1",
+    "lucide-react": "^0.424.0",
     "matter-js": "^0.20.0",
     "next": "14.2.5",
     "react": "^18",
     "react-dom": "^18",
     "react-icons": "^5.2.1",
+    "recharts": "2.13.0-alpha.4",
     "remark": "^15.0.1",
     "remark-html": "^16.0.1",
-    "sonner": "^1.5.0"
+    "sonner": "^1.5.0",
+    "tailwind-merge": "^2.4.0",
+    "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
     "@types/matter-js": "^0.19.7",

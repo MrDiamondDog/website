@@ -1,7 +1,7 @@
-export default function Subtext({ children }: Readonly<{ children: React.ReactNode }>) {
+export default function Subtext(props: React.HTMLAttributes<HTMLParagraphElement>) {
     return (
-        <p className="text-sm text-gray-400">
-            {children}
+        <p {...props} className={"text-sm text-gray-400 " + (props.className ?? "")}>
+            {props.children}
         </p>
     );
 }

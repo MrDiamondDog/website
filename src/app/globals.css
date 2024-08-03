@@ -11,6 +11,7 @@
   --background: #17181a;
   --background-light: #1f2124;
   --background-lighter: #242930;
+  --background-light-transparent: rgba(31, 33, 36, 0.5);
 
   --primary: #3181bf;
   --secondary: #1e5178;
@@ -37,6 +38,14 @@ select, option {
   h3 {
     font-size: 1.25rem;
     font-weight: 500;
+  }
+
+  :root {
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
   }
 }
 
@@ -249,4 +258,20 @@ select, option {
     font-size: 1rem;
     margin-left: -1em;
   }
+}
+
+.recharts-cartesian-grid line {
+  stroke: var(--background-lighter);
+}
+
+.recharts-rectangle.recharts-tooltip-cursor {
+  fill: var(--background-lighter);
+}
+
+.recharts-cartesian-axis-tick line, .recharts-cartesian-axis-line {
+  stroke: var(--background-lighter);
+}
+
+.table-alternate-colors tbody > tr:nth-child(odd) {
+  background-color: var(--background-light);
 }

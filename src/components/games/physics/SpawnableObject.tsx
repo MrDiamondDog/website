@@ -16,14 +16,14 @@ export interface SpawnableObjectProps {
 
 interface SpawnableObjectOption {
     default: number;
+    value?: number;
     min?: number;
     max?: number;
     step?: number;
 }
 
 export default function SpawnableObject(props: SpawnableObjectProps) {
-    // @ts-expect-error
-    function spawn(e: MouseEvent<HTMLButtonElement, MouseEvent>, options?: Record<string, number>) {
+    function spawn(e: any, options?: Record<string, number>) {
         const body = props.spawn(screenToWorld(screenMousePos), options);
         addBody(body);
         canvas.dispatchEvent(new MouseEvent("mousedown", e));
@@ -31,12 +31,15 @@ export default function SpawnableObject(props: SpawnableObjectProps) {
 
     return (<>
         {props.options ? (
-            <DropdownToolbarButton title={props.name}>
+            <DropdownToolbarButton
+                title={props.name}
+            >
                 {Object.entries(props.options).map(([key, settings]) => {
-                    const [value, setValue] = useState(settings.default);
+                    if (!settings.value) settings.value = settings.default;
+                    const [value, setValue] = useState(settings.value);
 
                     useEffect(() => {
-                        settings.default = value;
+                        settings.value = value;
                     }, [value]);
 
                     return <Input
@@ -51,14 +54,14 @@ export default function SpawnableObject(props: SpawnableObjectProps) {
                     />;
                 })}
                 <ToolbarButton
-                    onClick={e =>
-                        spawn(e, Object.fromEntries(Object.entries(props.options).map(([key, value]) => [key, value.default])))}
+                    onMouseDown={e =>
+                        spawn(e, Object.fromEntries(Object.entries(props.options).map(([key, option]) => [key, option.value])))}
                 >
                     Spawn
                 </ToolbarButton>
             </DropdownToolbarButton>
         ) : (
-            <ToolbarButton onClick={e => spawn(e)}>{props.name}</ToolbarButton>
+            <ToolbarButton onMouseDown={e => spawn(e)}>{props.name}</ToolbarButton>
         )}
     </>);
 }
