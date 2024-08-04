@@ -20,10 +20,10 @@ export default function CatsPage() {
     }, []);
 
     return (
-        <div className="my-10 w-2/3 mx-auto border border-bg-lighter p-10 rounded-lg">
+        <div className="my-10 md:w-2/3 w-full md:mx-auto border border-bg-lighter p-10 rounded-lg">
             <h1>Silly cats</h1>
             <Subtext>Submit a cat <a href="https://github.com/MrDiamondDog/website-cats" target="_blank">here</a></Subtext>
-            <div className="grid grid-cols-2 gap-5">
+            <div className="grid md:grid-cols-2 grid-cols-1 gap-5">
                 {catsList.map((cat: Cat) => (
                     <div key={cat.name} className="bg-bg-light rounded-lg p-5">
                         <h2>{cat.name}</h2>
