@@ -22,11 +22,19 @@ export type AnalyticsEvent = {
     timestamp: Date;
 };
 
+export const validVisitedFrom = ["twitter", "github", "discord", "unknown"];
+export type AnalyticsEntry = {
+    date: `${number}/${number}`;
+    country: Record<string, number>;
+    route: Record<string, number>;
+    from: Record<string, number>;
+    device: Partial<Record<"desktop" | "mobile", number>>;
+};
 
 export const cloudflareKVUrl =
 `https://api.cloudflare.com/client/v4/accounts/${process.env.CF_ACCOUNT_ID}/storage/kv/namespaces/c0f7a6c2f8474ba1bbc9bdb55b5567d6/values/events`;
 
-export async function getAnalyticsEvents() {
+export async function getAnalyticsEntries() {
     if (!process.env.CF_ACCOUNT_ID || !process.env.CF_ACCOUNT_TOKEN) {
         throw new Error("Cloudflare credentials not set.");
     }
@@ -41,4 +49,29 @@ export async function getAnalyticsEvents() {
         }
         return res.text();
     }).then(JSON.parse);
+}
+
+
+// like Math.random() but with a seed
+export function seededRandom(seed: string | number) {
+    if (typeof seed === "string") {
+        let hash = 0;
+        for (let i = 0; i < seed.length; i++) {
+            hash = (hash << 5) - hash + seed.charCodeAt(i);
+            hash |= 0;
+        }
+        seed = hash;
+    }
+
+    const x = Math.sin(seed++) * 10000;
+    return x - Math.floor(x);
+}
+
+export function randomColor(seed?: string | number) {
+    const random = seed !== undefined ? seededRandom(seed) : Math.random();
+    return `hsl(${random * 360}, 100%, 50%)`;
+}
+
+export function toDate(date: Date): `${number}/${number}` {
+    return `${date.getMonth() + 1}/${date.getDate()}`;
 }

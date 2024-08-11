@@ -1,11 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 
-import { AnalyticsEvent, cloudflareKVUrl, getAnalyticsEvents } from "@/lib/util";
+import { AnalyticsEntry, AnalyticsEvent, cloudflareKVUrl, getAnalyticsEntries, toDate, validVisitedFrom } from "@/lib/util";
 
 // eslint-disable-next-line quotes
 export const runtime = 'edge';
-
-const validVisitedFrom = ["twitter", "github", "discord", "unknown"];
 
 async function getCountry(ip: string) {
     const url = `http://ip-api.com/json/${ip}?fields=status,message,country`;
@@ -22,16 +20,110 @@ async function getCountry(ip: string) {
         .catch(() => "unknown");
 }
 
-async function logEvent(event: AnalyticsEvent) {
+async function logEvent(newEvent: AnalyticsEvent) {
     if (!process.env.CF_ACCOUNT_ID || !process.env.CF_ACCOUNT_TOKEN) {
         throw new Error("Cloudflare credentials not set.");
     }
 
     const form = new FormData();
     form.append("metadata", "{}");
-    form.append("value", await getAnalyticsEvents().then(events => {
-        events.push(event);
-        return JSON.stringify(events);
+    form.append("value", await getAnalyticsEntries().then((existingEvents: AnalyticsEntry[]) => {
+        let currentEvent = existingEvents.find(e => toDate(newEvent.timestamp) === e.date);
+        if (!currentEvent) {
+            existingEvents.push({
+                date: toDate(newEvent.timestamp),
+                country: {},
+                route: {},
+                from: {},
+                device: {},
+            });
+            currentEvent = existingEvents[existingEvents.length - 1];
+        }
+
+        currentEvent.country[newEvent.country] = (currentEvent.country[newEvent.country] || 0) + 1;
+        currentEvent.route[newEvent.path] = (currentEvent.route[newEvent.path] || 0) + 1;
+        currentEvent.from[newEvent.from || "unknown"] = (currentEvent.from[newEvent.from || "unknown"] || 0) + 1;
+        currentEvent.device[newEvent.isMobile ? "mobile" : "desktop"] = (currentEvent.device[newEvent.isMobile ? "mobile" : "desktop"] || 0) + 1;
+
+
+        const uniqueCountries = new Set<string>();
+        const uniqueRoutes = new Set<string>();
+        const uniqueDevices = ["desktop", "mobile"];
+        const uniqueFrom = validVisitedFrom;
+
+        existingEvents.forEach((entry: AnalyticsEntry) => {
+            Object.keys(entry.country).forEach(country => uniqueCountries.add(country));
+            Object.keys(entry.route).forEach(route => uniqueRoutes.add(route));
+        });
+
+        for (const entry of existingEvents) {
+            for (const country of uniqueCountries) {
+                if (!entry.country[country]) {
+                    entry.country[country] = 0;
+                }
+            }
+
+            for (const route of uniqueRoutes) {
+                if (!entry.route[route]) {
+                    entry.route[route] = 0;
+                }
+            }
+
+            for (const device of uniqueDevices) {
+                if (!entry.device[device]) {
+                    entry.device[device] = 0;
+                }
+            }
+
+            for (const from of uniqueFrom) {
+                if (!entry.from[from]) {
+                    entry.from[from] = 0;
+                }
+            }
+        }
+
+        const emptyRouteObject: Record<string, number> = {};
+        uniqueRoutes.forEach(route => {
+            emptyRouteObject[route] = 0;
+        });
+
+        const emptyCountryObject: Record<string, number> = {};
+        emptyCountryObject.unknown = 0;
+        uniqueCountries.forEach(country => {
+            emptyCountryObject[country] = 0;
+        });
+
+        // fill in missing days (past 30)
+        const now = new Date();
+        for (let i = 1; i <= 30; i++) {
+            const date = new Date(now);
+            date.setDate(now.getDate() - i);
+
+            const existing = existingEvents.find(e => e.date === toDate(date));
+
+            if (!existing) {
+                existingEvents.push({
+                    date: toDate(date),
+                    country: emptyCountryObject,
+                    route: emptyRouteObject,
+                    from: {
+                        github: 0,
+                        twitter: 0,
+                        discord: 0,
+                        unknown: 0,
+                    },
+                    device: {
+                        desktop: 0,
+                        mobile: 0,
+                    },
+                });
+            }
+        }
+
+        // sort by date
+        existingEvents.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+
+        return JSON.stringify(existingEvents);
     }));
 
     await fetch(cloudflareKVUrl, {
@@ -79,6 +171,6 @@ export async function POST(req: NextRequest) {
 }
 
 export async function GET() {
-    const events = await getAnalyticsEvents().catch(() => []);
+    const events = await getAnalyticsEntries().catch(() => []);
     return NextResponse.json(events);
 }
