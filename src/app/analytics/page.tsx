@@ -50,65 +50,67 @@ export default function AnalyticsPage() {
                     </Select>
                 </div>
 
-                <ChartContainer config={chartConfig} className="max-h-[500px] w-full">
-                    <LineChart accessibilityLayer data={pageViewData}>
-                        <CartesianGrid vertical={false} />
-                        <XAxis
-                            dataKey="date"
-                            tickLine={false}
-                            tickMargin={10}
-                            axisLine={false}
-                        />
-                        <YAxis />
-                        <ChartTooltip content={<ChartTooltipContent />} />
+                {!!pageViewData.length && <>
+                    <ChartContainer config={chartConfig} className="max-h-[500px] w-full">
+                        <LineChart accessibilityLayer data={pageViewData}>
+                            <CartesianGrid vertical={false} />
+                            <XAxis
+                                dataKey="date"
+                                tickLine={false}
+                                tickMargin={10}
+                                axisLine={false}
+                            />
+                            <YAxis />
+                            <ChartTooltip content={<ChartTooltipContent />} />
+                            {viewBy === "device" && (<>
+                                <Line dataKey="device.desktop" fill="var(--primary)" stroke="var(--primary)" radius={4} />
+                                <Line dataKey="device.mobile" fill="#178a2a" stroke="#178a2a" radius={4} />
+                            </>)}
+                            {viewBy === "from" && Object.keys(pageViewData[0].from).map((referer, i) => (
+                                <Line key={referer} dataKey={`from["${referer}"]`} name={referer} radius={4} fill={color(i)} stroke={color(i)} />
+                            ))}
+                            {viewBy === "country" && Object.keys(pageViewData[0].country).map((country, i) => (
+                                <Line key={country} dataKey={`country.${country}`} name={country} radius={4} fill={color(i)} stroke={color(i)} />
+                            ))}
+                            {viewBy === "route" && Object.keys(pageViewData[0].route).map((route, i) => (
+                                <Line key={route} dataKey={`route.${route}`} name={route} radius={4} fill={color(i)} stroke={color(i)} />
+                            ))}
+                        </LineChart>
+                    </ChartContainer>
+
+                    <Divider className="!bg-bg-light" />
+
+                    <Table>
                         {viewBy === "device" && (<>
-                            <Line dataKey="device.desktop" fill="var(--primary)" stroke="var(--primary)" radius={4} />
-                            <Line dataKey="device.mobile" fill="#178a2a" stroke="#178a2a" radius={4} />
+                            <TableRow>
+                                <td>Desktop</td>
+                                <td>{pageViewData.map(data => data.device.desktop).reduce((prev, curr) => curr + prev)}</td>
+                            </TableRow>
+                            <TableRow>
+                                <td>Mobile</td>
+                                <td>{pageViewData.map(data => data.device.mobile).reduce((prev, curr) => curr + prev)}</td>
+                            </TableRow>
                         </>)}
-                        {viewBy === "from" && Object.keys(pageViewData[0].from).map((referer, i) => (
-                            <Line key={referer} dataKey={`from.${referer}`} name={referer} radius={4} fill={color(i)} stroke={color(i)} />
+                        {viewBy === "from" && Object.keys(pageViewData[0].from).map(referer => (
+                            <TableRow>
+                                <td>{referer}</td>
+                                <td>{pageViewData.map(data => data.from[referer]).reduce((prev, curr) => curr + prev)}</td>
+                            </TableRow>
                         ))}
-                        {viewBy === "country" && Object.keys(pageViewData[0].country).map((country, i) => (
-                            <Line key={country} dataKey={`country.${country}`} name={country} radius={4} fill={color(i)} stroke={color(i)} />
+                        {viewBy === "country" && Object.keys(pageViewData[0].country).map(country => (
+                            <TableRow>
+                                <td>{country}</td>
+                                <td>{pageViewData.map(data => data.country[country]).reduce((prev, curr) => curr + prev)}</td>
+                            </TableRow>
                         ))}
-                        {viewBy === "route" && Object.keys(pageViewData[0].route).map((route, i) => (
-                            <Line key={route} dataKey={`route.${route}`} name={route} radius={4} fill={color(i)} stroke={color(i)} />
+                        {viewBy === "route" && Object.keys(pageViewData[0].route).map(route => (
+                            <TableRow>
+                                <td>{route}</td>
+                                <td>{pageViewData.map(data => data.route[route]).reduce((prev, curr) => curr + prev)}</td>
+                            </TableRow>
                         ))}
-                    </LineChart>
-                </ChartContainer>
-
-                <Divider className="!bg-bg-light" />
-
-                {pageViewData.length && <Table>
-                    {viewBy === "device" && (<>
-                        <TableRow>
-                            <td>Desktop</td>
-                            <td>{pageViewData.map(data => data.device.desktop).reduce((prev, curr) => curr + prev)}</td>
-                        </TableRow>
-                        <TableRow>
-                            <td>Mobile</td>
-                            <td>{pageViewData.map(data => data.device.mobile).reduce((prev, curr) => curr + prev)}</td>
-                        </TableRow>
-                    </>)}
-                    {viewBy === "from" && Object.keys(pageViewData[0].from).map(referer => (
-                        <TableRow>
-                            <td>{referer}</td>
-                            <td>{pageViewData.map(data => data.from[referer]).reduce((prev, curr) => curr + prev)}</td>
-                        </TableRow>
-                    ))}
-                    {viewBy === "country" && Object.keys(pageViewData[0].country).map(country => (
-                        <TableRow>
-                            <td>{country}</td>
-                            <td>{pageViewData.map(data => data.country[country]).reduce((prev, curr) => curr + prev)}</td>
-                        </TableRow>
-                    ))}
-                    {viewBy === "route" && Object.keys(pageViewData[0].route).map(route => (
-                        <TableRow>
-                            <td>{route}</td>
-                            <td>{pageViewData.map(data => data.route[route]).reduce((prev, curr) => curr + prev)}</td>
-                        </TableRow>
-                    ))}
-                </Table>}
+                    </Table>
+                </>}
             </div>
         </main>
     );

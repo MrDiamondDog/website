@@ -42,7 +42,7 @@ async function logEvent(newEvent: AnalyticsEvent) {
 
         currentEvent.country[newEvent.country] = (currentEvent.country[newEvent.country] || 0) + 1;
         currentEvent.route[newEvent.path] = (currentEvent.route[newEvent.path] || 0) + 1;
-        currentEvent.from[newEvent.from || "unknown"] = (currentEvent.from[newEvent.from || "unknown"] || 0) + 1;
+        if (newEvent.from) currentEvent.from[newEvent.from] = (currentEvent.from[newEvent.from] || 0) + 1;
         currentEvent.device[newEvent.isMobile ? "mobile" : "desktop"] = (currentEvent.device[newEvent.isMobile ? "mobile" : "desktop"] || 0) + 1;
 
 
@@ -159,7 +159,7 @@ export async function POST(req: NextRequest) {
     await logEvent({
         type: body.type,
         country,
-        from: body.from,
+        from: !body.from ? undefined : body.from,
         isMobile: body.isMobile || false,
         path: body.path || "/",
         timestamp: new Date(),
@@ -169,6 +169,6 @@ export async function POST(req: NextRequest) {
 }
 
 export async function GET() {
-    const events = await getAnalyticsEntries().catch(() => []);
+    const events = await getAnalyticsEntries();
     return NextResponse.json(events);
 }
