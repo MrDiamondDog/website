@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
-import { AnalyticsEntry, AnalyticsEvent, cloudflareKVUrl, getAnalyticsEntries, toDate, validVisitedFrom } from "@/lib/util";
+import { AnalyticsEntry, AnalyticsEvent, cloudflareKVUrl, getAnalyticsEntries, toDate } from "@/lib/util";
 
 // eslint-disable-next-line quotes
 export const runtime = 'edge';
@@ -49,11 +49,12 @@ async function logEvent(newEvent: AnalyticsEvent) {
         const uniqueCountries = new Set<string>();
         const uniqueRoutes = new Set<string>();
         const uniqueDevices = ["desktop", "mobile"];
-        const uniqueFrom = validVisitedFrom;
+        const uniqueFrom = new Set<string>();
 
         existingEvents.forEach((entry: AnalyticsEntry) => {
             Object.keys(entry.country).forEach(country => uniqueCountries.add(country));
             Object.keys(entry.route).forEach(route => uniqueRoutes.add(route));
+            Object.keys(entry.from).forEach(from => uniqueFrom.add(from));
         });
 
         for (const entry of existingEvents) {
@@ -93,6 +94,12 @@ async function logEvent(newEvent: AnalyticsEvent) {
             emptyCountryObject[country] = 0;
         });
 
+        const emptyFromObject: Record<string, number> = {};
+        emptyFromObject.unknown = 0;
+        uniqueFrom.forEach(country => {
+            emptyFromObject[country] = 0;
+        });
+
         // fill in missing days (past 30)
         const now = new Date();
         for (let i = 1; i <= 30; i++) {
@@ -106,12 +113,7 @@ async function logEvent(newEvent: AnalyticsEvent) {
                     date: toDate(date),
                     country: emptyCountryObject,
                     route: emptyRouteObject,
-                    from: {
-                        github: 0,
-                        twitter: 0,
-                        discord: 0,
-                        unknown: 0,
-                    },
+                    from: emptyFromObject,
                     device: {
                         desktop: 0,
                         mobile: 0,
@@ -152,7 +154,7 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({ body: "Invalid type." }, { status: 400 });
 
     // check if from is valid
-    if (body.from && !validVisitedFrom.includes(body.from))
+    if (body.from)
         return NextResponse.json({ body: "Invalid 'from' value." }, { status: 400 });
 
     const ip = req.headers.get("x-forwarded-for") || req.ip || undefined;

@@ -22,7 +22,6 @@ export type AnalyticsEvent = {
     timestamp: Date;
 };
 
-export const validVisitedFrom = ["twitter", "github", "discord", "unknown"];
 export type AnalyticsEntry = {
     date: `${number}/${number}`;
     country: Record<string, number>;
