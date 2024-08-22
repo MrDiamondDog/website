@@ -2,7 +2,6 @@ import "./globals.css";
 
 import type { Metadata } from "next";
 import { Rethink_Sans } from "next/font/google";
-import { headers } from "next/headers";
 import { Toaster } from "sonner";
 
 import Analytics from "@/components/general/Analytics";
@@ -55,7 +54,7 @@ export default function RootLayout({
         <html lang="en">
             <Toaster richColors theme="dark" />
             <body className={"bg-bg " + font.className}>
-                <Analytics headers={headers()} />
+                <Analytics />
                 {children}
             </body>
         </html>
