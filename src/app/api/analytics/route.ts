@@ -153,10 +153,6 @@ export async function POST(req: NextRequest) {
     if (!["pageview"].includes(body.type))
         return NextResponse.json({ body: "Invalid type." }, { status: 400 });
 
-    // check if from is valid
-    if (body.from)
-        return NextResponse.json({ body: "Invalid 'from' value." }, { status: 400 });
-
     const ip = req.headers.get("x-forwarded-for") || req.ip || undefined;
     const country = ip ? await getCountry(ip) : "unknown";
 
