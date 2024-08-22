@@ -67,9 +67,27 @@ export function seededRandom(seed: string | number) {
     return x - Math.floor(x);
 }
 
-export function randomColor(seed?: string | number) {
-    const random = seed !== undefined ? seededRandom(seed) : Math.random();
-    return `hsl(${random * 360}, 100%, 50%)`;
+const rainbow = [
+    "hsl(0, 100%, 50%)", // Red
+    "hsl(20, 100%, 50%)", // Red-Orange
+    "hsl(40, 100%, 50%)", // Orange
+    "hsl(60, 100%, 50%)", // Yellow
+    "hsl(80, 100%, 50%)", // Yellow-Green
+    "hsl(100, 100%, 50%)", // Green
+    "hsl(120, 100%, 50%)", // Green
+    "hsl(140, 100%, 50%)", // Green-Cyan
+    "hsl(160, 100%, 50%)", // Cyan
+    "hsl(180, 100%, 50%)", // Cyan-Blue
+    "hsl(200, 100%, 50%)", // Blue
+    "hsl(220, 100%, 50%)", // Blue-Indigo
+    "hsl(240, 100%, 50%)", // Indigo
+    "hsl(260, 100%, 50%)", // Indigo-Violet
+    "hsl(280, 100%, 50%)", // Violet
+    "hsl(300, 100%, 50%)" // Magenta
+];
+
+export function color(i: number) {
+    return rainbow[i % 16];
 }
 
 export function toDate(date: Date): `${number}/${number}` {

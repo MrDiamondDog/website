@@ -3,10 +3,12 @@
 import { useEffect, useState } from "react";
 import { CartesianGrid, Line, LineChart, XAxis, YAxis } from "recharts";
 
+import Divider from "@/components/general/Divider";
 import Select from "@/components/general/Select";
 import Subtext from "@/components/general/Subtext";
+import { Table, TableRow } from "@/components/general/Table";
 import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
-import { AnalyticsEntry, randomColor } from "@/lib/util";
+import { AnalyticsEntry, color } from "@/lib/util";
 
 const chartConfig = {
     "device.desktop": {
@@ -17,23 +19,6 @@ const chartConfig = {
         label: "Mobile",
         color: "#178a2a",
     },
-
-    "from.github": {
-        label: "GitHub",
-        color: "#333",
-    },
-    "from.twitter": {
-        label: "Twitter",
-        color: "#1DA1F2",
-    },
-    "from.discord": {
-        label: "Discord",
-        color: "#7289DA",
-    },
-    "from.unknown": {
-        label: "Unknown",
-        color: "#888",
-    }
 } satisfies ChartConfig;
 
 export default function AnalyticsPage() {
@@ -44,9 +29,7 @@ export default function AnalyticsPage() {
         fetch("/api/analytics")
             .then(response => response.json())
             .then(data => {
-
                 setPageViewData(data);
-                console.log(data);
             });
     }, []);
 
@@ -61,7 +44,7 @@ export default function AnalyticsPage() {
                     <p>By</p>
                     <Select onChange={e => setViewBy(e.target.value)} value={viewBy}>
                         <option value="device">Device</option>
-                        <option value="from">Redirect Location</option>
+                        <option value="from">Referrer</option>
                         <option value="country">Country</option>
                         <option value="route">Route</option>
                     </Select>
@@ -82,20 +65,50 @@ export default function AnalyticsPage() {
                             <Line dataKey="device.desktop" fill="var(--primary)" stroke="var(--primary)" radius={4} />
                             <Line dataKey="device.mobile" fill="#178a2a" stroke="#178a2a" radius={4} />
                         </>)}
-                        {viewBy === "from" && (<>
-                            <Line dataKey="from.github" fill="#333" stroke="#333" radius={4} />
-                            <Line dataKey="from.twitter" fill="#1DA1F2" stroke="#1DA1F2" radius={4} />
-                            <Line dataKey="from.discord" fill="#7289DA" stroke="#7289DA" radius={4} />
-                            <Line dataKey="from.unknown" fill="#888" stroke="#888" radius={4} />
-                        </>)}
+                        {viewBy === "from" && Object.keys(pageViewData[0].from).map((referer, i) => (
+                            <Line key={referer} dataKey={`from.${referer}`} name={referer} radius={4} fill={color(i)} stroke={color(i)} />
+                        ))}
                         {viewBy === "country" && Object.keys(pageViewData[0].country).map((country, i) => (
-                            <Line key={country} dataKey={`country.${country}`} radius={4} fill={randomColor(country)} stroke={randomColor(country)} />
+                            <Line key={country} dataKey={`country.${country}`} name={country} radius={4} fill={color(i)} stroke={color(i)} />
                         ))}
                         {viewBy === "route" && Object.keys(pageViewData[0].route).map((route, i) => (
-                            <Line key={route} dataKey={`route.${route}`} radius={4} fill={randomColor(route)} stroke={randomColor(route)} />
+                            <Line key={route} dataKey={`route.${route}`} name={route} radius={4} fill={color(i)} stroke={color(i)} />
                         ))}
                     </LineChart>
                 </ChartContainer>
+
+                <Divider className="!bg-bg-light" />
+
+                {pageViewData.length && <Table>
+                    {viewBy === "device" && (<>
+                        <TableRow>
+                            <td>Desktop</td>
+                            <td>{pageViewData.map(data => data.device.desktop).reduce((prev, curr) => curr + prev)}</td>
+                        </TableRow>
+                        <TableRow>
+                            <td>Mobile</td>
+                            <td>{pageViewData.map(data => data.device.mobile).reduce((prev, curr) => curr + prev)}</td>
+                        </TableRow>
+                    </>)}
+                    {viewBy === "from" && Object.keys(pageViewData[0].from).map(referer => (
+                        <TableRow>
+                            <td>{referer}</td>
+                            <td>{pageViewData.map(data => data.from[referer]).reduce((prev, curr) => curr + prev)}</td>
+                        </TableRow>
+                    ))}
+                    {viewBy === "country" && Object.keys(pageViewData[0].country).map(country => (
+                        <TableRow>
+                            <td>{country}</td>
+                            <td>{pageViewData.map(data => data.country[country]).reduce((prev, curr) => curr + prev)}</td>
+                        </TableRow>
+                    ))}
+                    {viewBy === "route" && Object.keys(pageViewData[0].route).map(route => (
+                        <TableRow>
+                            <td>{route}</td>
+                            <td>{pageViewData.map(data => data.route[route]).reduce((prev, curr) => curr + prev)}</td>
+                        </TableRow>
+                    ))}
+                </Table>}
             </div>
         </main>
     );
