@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
-import { AnalyticsEntry, AnalyticsEvent, cloudflareKVUrl, getAnalyticsEntries, toDate, validVisitedFrom } from "@/lib/util";
+import { AnalyticsEntry, AnalyticsEvent, cloudflareKVUrl, getAnalyticsEntries, toDate } from "@/lib/util";
 
 // eslint-disable-next-line quotes
 export const runtime = 'edge';
@@ -42,18 +42,19 @@ async function logEvent(newEvent: AnalyticsEvent) {
 
         currentEvent.country[newEvent.country] = (currentEvent.country[newEvent.country] || 0) + 1;
         currentEvent.route[newEvent.path] = (currentEvent.route[newEvent.path] || 0) + 1;
-        currentEvent.from[newEvent.from || "unknown"] = (currentEvent.from[newEvent.from || "unknown"] || 0) + 1;
+        if (newEvent.from) currentEvent.from[newEvent.from] = (currentEvent.from[newEvent.from] || 0) + 1;
         currentEvent.device[newEvent.isMobile ? "mobile" : "desktop"] = (currentEvent.device[newEvent.isMobile ? "mobile" : "desktop"] || 0) + 1;
 
 
         const uniqueCountries = new Set<string>();
         const uniqueRoutes = new Set<string>();
         const uniqueDevices = ["desktop", "mobile"];
-        const uniqueFrom = validVisitedFrom;
+        const uniqueFrom = new Set<string>();
 
         existingEvents.forEach((entry: AnalyticsEntry) => {
             Object.keys(entry.country).forEach(country => uniqueCountries.add(country));
             Object.keys(entry.route).forEach(route => uniqueRoutes.add(route));
+            Object.keys(entry.from).forEach(from => uniqueFrom.add(from));
         });
 
         for (const entry of existingEvents) {
@@ -93,6 +94,12 @@ async function logEvent(newEvent: AnalyticsEvent) {
             emptyCountryObject[country] = 0;
         });
 
+        const emptyFromObject: Record<string, number> = {};
+        emptyFromObject.unknown = 0;
+        uniqueFrom.forEach(country => {
+            emptyFromObject[country] = 0;
+        });
+
         // fill in missing days (past 30)
         const now = new Date();
         for (let i = 1; i <= 30; i++) {
@@ -106,12 +113,7 @@ async function logEvent(newEvent: AnalyticsEvent) {
                     date: toDate(date),
                     country: emptyCountryObject,
                     route: emptyRouteObject,
-                    from: {
-                        github: 0,
-                        twitter: 0,
-                        discord: 0,
-                        unknown: 0,
-                    },
+                    from: emptyFromObject,
                     device: {
                         desktop: 0,
                         mobile: 0,
@@ -151,17 +153,13 @@ export async function POST(req: NextRequest) {
     if (!["pageview"].includes(body.type))
         return NextResponse.json({ body: "Invalid type." }, { status: 400 });
 
-    // check if from is valid
-    if (body.from && !validVisitedFrom.includes(body.from))
-        return NextResponse.json({ body: "Invalid 'from' value." }, { status: 400 });
-
     const ip = req.headers.get("x-forwarded-for") || req.ip || undefined;
     const country = ip ? await getCountry(ip) : "unknown";
 
     await logEvent({
         type: body.type,
         country,
-        from: body.from,
+        from: !body.from ? undefined : body.from,
         isMobile: body.isMobile || false,
         path: body.path || "/",
         timestamp: new Date(),
@@ -171,6 +169,6 @@ export async function POST(req: NextRequest) {
 }
 
 export async function GET() {
-    const events = await getAnalyticsEntries().catch(() => []);
+    const events = await getAnalyticsEntries();
     return NextResponse.json(events);
 }

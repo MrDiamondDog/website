@@ -1,17 +1,11 @@
 "use client";
 
-import { ReadonlyHeaders } from "next/dist/server/web/spec-extension/adapters/headers";
 import dynamic from "next/dynamic";
 import { useEffect } from "react";
 
-function Analytics({ headers }: { headers: ReadonlyHeaders }) {
+function Analytics() {
     let pageViewSent = false;
-
-    let from: string | undefined;
-
-    for (const header of headers) {
-        if (header[0] === "referer") from = header[1];
-    }
+    const referrer = document.referrer ?? undefined;
 
     const path = window.location.pathname || "/";
     const isMobile = window.innerWidth < 768;
@@ -22,7 +16,7 @@ function Analytics({ headers }: { headers: ReadonlyHeaders }) {
 
         const body = {
             type: "pageview",
-            from,
+            from: referrer,
             path,
             isMobile
         };
