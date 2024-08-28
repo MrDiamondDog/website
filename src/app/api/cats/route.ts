@@ -5,6 +5,7 @@ import { createOrUpdateFile, createPullRequest, getFileContents, newBranch, repo
 
 import rateLimitMiddleware from "..";
 
+
 // eslint-disable-next-line quotes
 export const runtime = 'edge';
 
@@ -31,6 +32,8 @@ export async function POST(req: NextRequest) {
     try {
         const image = Buffer.from(await file.arrayBuffer()).toString("base64");
 
+        console.log("creating branch", branchName);
+
         await newBranch(branchName);
         await createOrUpdateFile(branchName, `cats/${file.name}`, `Add ${file.name}`, image);
 
@@ -44,7 +47,7 @@ export async function POST(req: NextRequest) {
 
         await createPullRequest(branchName, name, `![image](https://raw.githubusercontent.com/${username}/${repository}/${branchName}/cats/${file.name}))`);
     } catch (e: any) {
-        return NextResponse.json({ error: (e as Error).message }, { status: 500 });
+        return NextResponse.json({ error: (e as Error).message, full: (e as Error) }, { status: 500 });
     }
 
     return NextResponse.json({ message: "Success", branchName });

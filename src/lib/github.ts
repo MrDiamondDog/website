@@ -15,6 +15,8 @@ export async function newBranch(newBranchName: string) {
         branch: "main"
     });
 
+    console.log(latestCommitSha);
+
     return await octokit.git.createRef({
         owner: username,
         repo: repository,
