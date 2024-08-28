@@ -92,3 +92,7 @@ export function color(i: number) {
 export function toDate(date: Date): `${number}/${number}` {
     return `${date.getMonth() + 1}/${date.getDate()}`;
 }
+
+export function randomRange(min: number, max: number) {
+    return Math.random() * (max - min) + min;
+}

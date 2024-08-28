@@ -32,8 +32,6 @@ export async function POST(req: NextRequest) {
     try {
         const image = Buffer.from(await file.arrayBuffer()).toString("base64");
 
-        console.log("creating branch", branchName);
-
         await newBranch(branchName);
         await createOrUpdateFile(branchName, `cats/${file.name}`, `Add ${file.name}`, image);
 
@@ -45,7 +43,7 @@ export async function POST(req: NextRequest) {
         // @ts-expect-error same thing
         await createOrUpdateFile(branchName, "list.json", "Update list.json", Buffer.from(JSON.stringify(list, null, 4)).toString("base64"), listFile.sha);
 
-        await createPullRequest(branchName, name, `![image](https://raw.githubusercontent.com/${username}/${repository}/${branchName}/cats/${file.name}))`);
+        await createPullRequest(branchName, name, `![image](https://raw.githubusercontent.com/${username}/${repository}/${branchName}/cats/${file.name})`);
     } catch (e: any) {
         return NextResponse.json({ error: (e as Error).message, full: (e as Error) }, { status: 500 });
     }
