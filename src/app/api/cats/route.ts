@@ -5,6 +5,9 @@ import { createOrUpdateFile, createPullRequest, getFileContents, newBranch, repo
 
 import rateLimitMiddleware from "..";
 
+// eslint-disable-next-line quotes
+export const runtime = 'edge';
+
 export async function POST(req: NextRequest) {
     if (rateLimitMiddleware(req, 1, 1000 * 60)) {
         return NextResponse.json({ body: "Rate limit exceeded." }, { status: 429 });
