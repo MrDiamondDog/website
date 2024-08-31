@@ -28,7 +28,7 @@ export default function Home() {
                 <Tab name="Profile">
                     <div className="flex flex-row justify-between">
                         <div className="flex flex-row gap-3 items-center">
-                            <img src="./avatar.webp" alt="Avatar" className="rounded-full w-[50px] md:w-[100px]" />
+                            <img src="/avatar.webp" alt="Avatar" className="rounded-full w-[50px] md:w-[100px]" />
                             <div>
                                 <h1 className="text-sm md:text-3xl">MrDiamondDog</h1>
                                 <Subtext>He/Him</Subtext>

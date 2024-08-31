@@ -2,9 +2,11 @@ import "./globals.css";
 
 import type { Metadata } from "next";
 import { Rethink_Sans } from "next/font/google";
+import { redirect } from "next/navigation";
 import { Toaster } from "sonner";
 
 import Analytics from "@/components/general/Analytics";
+import { randomRange } from "@/lib/util";
 
 // const font = Mukta({
 //   weight: "400",
@@ -50,6 +52,8 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+    if (Math.round(randomRange(0, 100)) === 1) redirect("/stuff/pandemonium");
+
     return (
         <html lang="en">
             <Toaster richColors theme="dark" />
