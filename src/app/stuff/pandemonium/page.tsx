@@ -113,7 +113,7 @@ function Page() {
     }, []);
 
     return (<>
-        {audio && <audio src="/images/pandemonium/pandemonium.MP3" autoPlay controls={false} loop />}
+        {audio && <audio src="/images/pandemonium/pandemonium.mp3" autoPlay controls={false} loop />}
         <div className="absolute-center flex flex-col justify-center items-center">
             <h1>click that mf pandemonium!!!!!</h1>
             <div className="h-[15px]" style={{ backgroundColor: "white", width: "200px" }} ref={energyBar}></div>
