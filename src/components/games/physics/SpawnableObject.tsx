@@ -1,8 +1,8 @@
 import { Body, Vector } from "matter-js";
 import { useEffect, useState } from "react";
 
-import { canvas } from "@/app/games/physics/lib";
-import { addBody, screenMousePos, screenToWorld } from "@/app/games/physics/lib/matter";
+import { canvas } from "@/app/stuff/physics/lib";
+import { addBody, screenMousePos, screenToWorld } from "@/app/stuff/physics/lib/matter";
 import Input from "@/components/general/Input";
 
 import DropdownToolbarButton from "./DropdownToolbarButton";
