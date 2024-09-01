@@ -7,8 +7,9 @@ import { TbBrandMinecraft } from "react-icons/tb";
 import Divider from "@/components/general/Divider";
 import Oneko from "@/components/general/Oneko";
 import Subtext from "@/components/general/Subtext";
-import CanvasBackground from "@/components/home/CanvasBackground";
 import ContactTab from "@/components/home/ContactTab";
+import DotsBackground from "@/components/home/DotsBackground";
+import GameOfLifeBackground from "@/components/home/GameOfLifeBackground";
 import ProjectCard from "@/components/home/ProjectCard";
 import SocialMediaProfile from "@/components/home/SocialMediaProfile";
 import StackItem from "@/components/home/StackItem";
@@ -17,7 +18,7 @@ import Tablist from "@/components/tabs/Tablist";
 
 export default function Home() {
     return (<>
-        <CanvasBackground />
+        {Math.random() > 0.5 ? <DotsBackground /> : <GameOfLifeBackground />}
         <main
             className="absolute-center lg:w-1/2 md:w-2/3 w-full h-2/3 p-5 rounded-lg border-[3px] border-primary bg-bg-light drop-shadow-xl overflow-scroll"
         >
@@ -54,6 +55,7 @@ export default function Home() {
               My main language for basically everything. I often use TypeScript over JavaScript for its type safety.
               Type safety is extremely important to me and I can't live without it.
                         </StackItem>
+
 
                         <StackItem title="Tailwind CSS" icon={SiTailwindcss}>
               I use Tailwind for styling my websites. Yes, the classnames do get really long, but I much prefer it over writing CSS.

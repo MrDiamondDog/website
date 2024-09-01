@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 
 import { colors, Vec2 } from "@/lib/util";
 
-export default function CanvasBackground() {
+export default function DotsBackground() {
     const canvas = useRef<HTMLCanvasElement>(null);
 
     const dots: { pos: Vec2; vel: Vec2; connections: number }[] = [];

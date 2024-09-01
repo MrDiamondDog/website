@@ -93,6 +93,9 @@ export function toDate(date: Date): `${number}/${number}` {
     return `${date.getMonth() + 1}/${date.getDate()}`;
 }
 
+/**
+ * Returns a number n such that min <= n < max
+ */
 export function randomRange(min: number, max: number) {
     return Math.random() * (max - min) + min;
 }
