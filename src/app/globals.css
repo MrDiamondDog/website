@@ -155,14 +155,13 @@ select, option {
     background-color: var(--primary);
   }
 
-  a {
+  a:not(.no-style) {
     text-decoration: none;
-    color: var(--primary);
     transition: color 0.2s;
     position: relative;
   }
 
-  a::after {
+  a:not(.no-style)::after {
     content: "";
     position: absolute;
     bottom: -5px;
@@ -174,11 +173,11 @@ select, option {
     animation: underline-shrink 0.2s ease-in-out;
   }
 
-  a:hover {
+  a:not(.no-style):hover {
     color: var(--primary);
   }
 
-  a.active::after, a:hover::after {
+  a:not(.no-style).active::after, a:not(.no-style):hover::after {
     animation: underline-expand 0.2s ease-in-out;
     background-color: var(--primary);
   }

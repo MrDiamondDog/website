@@ -2,18 +2,19 @@
 
 import { useEffect, useRef } from "react";
 
+import Subtext from "@/components/general/Subtext";
 import { colors } from "@/lib/util";
 
-
-export default function DotsBackground() {
+export default function GameOfLifeBackground() {
     const canvas = useRef<HTMLCanvasElement>(null);
 
     let grid: boolean[][] = [];
     const gridSquareSize = 16;
-    let animating = false;
+    let started = false;
 
     useEffect(() => {
-        if (animating) return;
+        if (started) return;
+        started = true;
         if (!canvas.current) return;
 
         const ctx = canvas.current.getContext("2d");
@@ -22,11 +23,6 @@ export default function DotsBackground() {
         canvas.current.width = window.innerWidth;
         canvas.current.height = window.innerHeight;
 
-        window.addEventListener("resize", () => {
-            canvas.current!.width = window.innerWidth;
-            canvas.current!.height = window.innerHeight;
-        });
-
         for (let x = 0; x < Math.ceil(canvas.current.width / gridSquareSize); x++) {
             grid.push([]);
             for (let y = 0; y < Math.ceil(canvas.current.height / gridSquareSize); y++) {
@@ -34,8 +30,7 @@ export default function DotsBackground() {
             }
         }
 
-        setInterval(() => animate(ctx), 1000 / 15);
-        animating = true;
+        setInterval(() => animate(ctx), 1000 / 5);
     }, [canvas.current]);
 
     function animate(ctx: CanvasRenderingContext2D) {
@@ -64,7 +59,7 @@ export default function DotsBackground() {
 
         grid = tempGrid;
 
-        ctx.fillStyle = colors.secondary;
+        ctx.fillStyle = colors.tertiary;
         for (let x = 0; x < grid.length; x++) {
             for (let y = 0; y < grid[x].length; y++) {
                 if (grid[x][y]) ctx.fillRect(x * gridSquareSize, y * gridSquareSize, gridSquareSize, gridSquareSize);
@@ -72,7 +67,8 @@ export default function DotsBackground() {
         }
     }
 
-    return (
+    return (<>
         <canvas className="absolute inset-0 motion-reduce:hidden" ref={canvas} />
-    );
+        <Subtext className="absolute-center !top-5 hidden motion-reduce:block">There's usually a cool background here, but it has been hidden based on your preferences.</Subtext>
+    </>);
 }

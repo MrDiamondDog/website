@@ -1,26 +1,48 @@
-import { IconType } from "react-icons";
+import { BsBoxArrowUpRight } from "react-icons/bs";
+import { FaStar } from "react-icons/fa6";
+import { RxDotFilled } from "react-icons/rx";
+
+import { getRepository } from "@/lib/github";
+
+import Subtext from "../general/Subtext";
 
 interface Props {
-    title: string;
-    tags: string[];
-    icon?: IconType;
-    link?: string;
-    children: React.ReactNode;
+    owner: string;
+    repo: string;
 }
 
-export default function ProjectCard(props: Props) {
+export default async function ProjectCard(props: Props) {
+    const { data: repo } = await getRepository(props.owner, props.repo);
+    const repoLanguage = repo.language ?
+        await fetch("https://raw.githubusercontent.com/ozh/github-colors/master/colors.json")
+            .then(res => res.json())
+            .then(json => json[repo.language])
+        : null;
+
     return (
-        <div className="flex flex-col gap-2 w-full border-2 border-primary p-5 rounded-lg">
-            <div className="flex flex-row gap-5 items-center mb-0">
-                {props.icon && <props.icon size={32} />}
-                <h1 className="text-clamp">{props.link ? <a href={props.link} className="text-white">{props.title}</a> : props.title}</h1>
+        <a href={`https://github.com/${props.owner}/${props.repo}`} target="_blank" className="no-style rounded-lg bg-bg-lighter p-3 pb-8 relative">
+            <div className="flex flex-row justify-between">
+                <div className="flex flex-row gap-2 items-center">
+                    <img src={repo.owner.avatar_url} alt={`${props.owner}'s avatar`} className="rounded-full w-6" />
+                    <p>{props.owner}</p>
+                </div>
+                <BsBoxArrowUpRight className="text-gray-400" />
             </div>
-            <div className="flex flex-row flex-wrap gap-2">
-                {props.tags.map(tag => (
-                    <span className="bg-bg-lighter text-sm rounded-full px-3 py-1">{tag}</span>
-                ))}
+            <h3 className="font-bold font-">{repo.name}</h3>
+            <Subtext>{repo.description}</Subtext>
+            <div className="flex flex-row gap-2 items-center absolute bottom-3">
+                {repoLanguage && <>
+                    <div className="flex flex-row gap-1 items-center">
+                        <div className="w-3 h-3 rounded-full mt-[3px]" style={{ backgroundColor: repoLanguage.color }} />
+                        <p className="text-sm">{repo.language}</p>
+                    </div>
+                    <RxDotFilled className="text-gray-400" />
+                </>}
+                <div className="flex flex-row gap-1 items-center">
+                    <FaStar className="text-gray-400" />
+                    <p className="text-sm">{repo.stargazers_count}</p>
+                </div>
             </div>
-            <p>{props.children}</p>
-        </div>
+        </a>
     );
 }

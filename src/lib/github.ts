@@ -56,3 +56,10 @@ export async function createPullRequest(branch: string, title: string, body: str
         body,
     });
 }
+
+export async function getRepository(owner: string, repo: string) {
+    return await octokit.request("GET /repos/{owner}/{repo}", {
+        owner,
+        repo
+    });
+}

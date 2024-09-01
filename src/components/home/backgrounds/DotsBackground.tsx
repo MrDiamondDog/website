@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 
+import Subtext from "@/components/general/Subtext";
 import { colors, Vec2 } from "@/lib/util";
 
 export default function DotsBackground() {
@@ -9,7 +10,11 @@ export default function DotsBackground() {
 
     const dots: { pos: Vec2; vel: Vec2; connections: number }[] = [];
 
+    let started = false;
+
     useEffect(() => {
+        if (started) return;
+        started = true;
         if (!canvas.current) return;
 
         const ctx = canvas.current.getContext("2d");
@@ -17,11 +22,6 @@ export default function DotsBackground() {
 
         canvas.current.width = window.innerWidth;
         canvas.current.height = window.innerHeight;
-
-        window.addEventListener("resize", () => {
-            canvas.current!.width = window.innerWidth;
-            canvas.current!.height = window.innerHeight;
-        });
 
         let numDots = 100;
         if (window.innerWidth < 768) numDots = 50;
@@ -91,7 +91,8 @@ export default function DotsBackground() {
         requestAnimationFrame(() => animate(ctx));
     }
 
-    return (
+    return (<>
         <canvas className="absolute inset-0 motion-reduce:hidden" ref={canvas} />
-    );
+        <Subtext className="absolute-center !top-5 hidden motion-reduce:block">There's usually a cool background here, but it has been hidden based on your preferences.</Subtext>
+    </>);
 }

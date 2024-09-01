@@ -99,3 +99,7 @@ export function toDate(date: Date): `${number}/${number}` {
 export function randomRange(min: number, max: number) {
     return Math.random() * (max - min) + min;
 }
+
+export function randomFrom(arr: any[]) {
+    return arr[Math.floor(Math.random() * arr.length)];
+}
