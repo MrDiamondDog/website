@@ -52,7 +52,10 @@ export async function getAnalyticsEntries() {
         return res.text();
     }).then(JSON.parse);
 
-    data.uniqueVisitors = data.uniqueVisitors?.length ?? 0;
+    const uniqueVistors = data.uniqueVisitors;
+    delete data.uniqueVisitors;
+
+    data.uniqueVistors = uniqueVistors.length;
 
     return data;
 }
