@@ -36,6 +36,8 @@ async function logEvent(newEvent: AnalyticsEvent) {
                 route: {},
                 from: {},
                 device: {},
+                uniqueVisitors: [],
+                totalVisitors: 0
             });
             currentEvent = existingEvents[existingEvents.length - 1];
         }
@@ -44,6 +46,8 @@ async function logEvent(newEvent: AnalyticsEvent) {
         currentEvent.route[newEvent.path] = (currentEvent.route[newEvent.path] || 0) + 1;
         if (newEvent.from) currentEvent.from[newEvent.from] = (currentEvent.from[newEvent.from] || 0) + 1;
         currentEvent.device[newEvent.isMobile ? "mobile" : "desktop"] = (currentEvent.device[newEvent.isMobile ? "mobile" : "desktop"] || 0) + 1;
+        if (!currentEvent.uniqueVisitors.includes(newEvent.ip)) currentEvent.uniqueVisitors.push(newEvent.ip);
+        currentEvent.totalVisitors++;
 
 
         const uniqueCountries = new Set<string>();
@@ -81,6 +85,12 @@ async function logEvent(newEvent: AnalyticsEvent) {
                     entry.from[from] = 0;
                 }
             }
+
+            if (entry.uniqueVisitors === undefined)
+                entry.uniqueVisitors = [];
+
+            if (entry.totalVisitors === undefined)
+                entry.totalVisitors = 0;
         }
 
         const emptyRouteObject: Record<string, number> = {};
@@ -118,6 +128,8 @@ async function logEvent(newEvent: AnalyticsEvent) {
                         desktop: 0,
                         mobile: 0,
                     },
+                    uniqueVisitors: [],
+                    totalVisitors: 0
                 });
             }
         }
@@ -163,6 +175,7 @@ export async function POST(req: NextRequest) {
         isMobile: body.isMobile || false,
         path: body.path || "/",
         timestamp: new Date(),
+        ip
     });
 
     return NextResponse.json({ body: "success" }, { status: 200 });

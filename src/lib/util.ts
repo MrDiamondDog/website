@@ -20,6 +20,7 @@ export type AnalyticsEvent = {
     path: string;
     country: string;
     timestamp: Date;
+    ip?: string;
 };
 
 export type AnalyticsEntry = {
@@ -28,6 +29,8 @@ export type AnalyticsEntry = {
     route: Record<string, number>;
     from: Record<string, number>;
     device: Partial<Record<"desktop" | "mobile", number>>;
+    uniqueVisitors: string[];
+    totalVisitors: number;
 };
 
 export const cloudflareKVUrl =
@@ -38,7 +41,7 @@ export async function getAnalyticsEntries() {
         throw new Error("Cloudflare credentials not set.");
     }
 
-    return fetch(cloudflareKVUrl, {
+    const data = await fetch(cloudflareKVUrl, {
         headers: {
             Authorization: `Bearer ${process.env.CF_ACCOUNT_TOKEN}`,
         },
@@ -48,6 +51,10 @@ export async function getAnalyticsEntries() {
         }
         return res.text();
     }).then(JSON.parse);
+
+    data.uniqueVisitors = data.uniqueVisitors?.length ?? 0;
+
+    return data;
 }
 
 

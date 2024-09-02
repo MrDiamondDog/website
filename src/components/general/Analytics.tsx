@@ -35,7 +35,7 @@ function Analytics() {
         });
     }, []);
 
-    return <div></div>;
+    return null;
 }
 
 export default dynamic(() => Promise.resolve(Analytics), { ssr: false });

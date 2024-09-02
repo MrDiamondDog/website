@@ -19,11 +19,19 @@ const chartConfig = {
         label: "Mobile",
         color: "#178a2a",
     },
+    "totalVisitors": {
+        label: "Total Visitors",
+        color: "var(--primary)"
+    },
+    "uniqueVisitors": {
+        label: "Unique Visitors",
+        color: "#178a2a"
+    }
 } satisfies ChartConfig;
 
 export default function AnalyticsPage() {
     const [pageViewData, setPageViewData] = useState<AnalyticsEntry[]>([]);
-    const [viewBy, setViewBy] = useState<string>("device");
+    const [viewBy, setViewBy] = useState<string>("visitors");
 
     useEffect(() => {
         fetch("/api/analytics")
@@ -43,6 +51,7 @@ export default function AnalyticsPage() {
                 <div className="flex flex-row gap-2 items-center mt-3">
                     <p>By</p>
                     <Select onChange={e => setViewBy(e.target.value)} value={viewBy}>
+                        <option value="visitors">Visitors</option>
                         <option value="device">Device</option>
                         <option value="from">Referrer</option>
                         <option value="country">Country</option>
@@ -62,6 +71,10 @@ export default function AnalyticsPage() {
                             />
                             <YAxis />
                             <ChartTooltip content={<ChartTooltipContent />} />
+                            {viewBy === "visitors" && (<>
+                                <Line dataKey="totalVisitors" fill="var(--primary)" stroke="var(--primary)" radius={4} />
+                                <Line dataKey="uniqueVisitors" fill="#178a2a" stroke="#178a2a" radius={4} />
+                            </>)}
                             {viewBy === "device" && (<>
                                 <Line dataKey="device.desktop" fill="var(--primary)" stroke="var(--primary)" radius={4} />
                                 <Line dataKey="device.mobile" fill="#178a2a" stroke="#178a2a" radius={4} />
