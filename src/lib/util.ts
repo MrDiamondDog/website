@@ -52,10 +52,17 @@ export async function getAnalyticsEntries() {
         return res.text();
     }).then(JSON.parse);
 
-    const uniqueVistors = data.uniqueVisitors;
-    delete data.uniqueVisitors;
+    for (const entry of data) {
+        const uniqueVistors = entry.uniqueVisitors?.length ?? 0;
+        delete entry.uniqueVisitors;
 
-    data.uniqueVistors = uniqueVistors.length;
+        entry.uniqueVisitors = uniqueVistors;
+
+        // fallback for old data
+        if (entry.totalVisitors === 0) {
+            entry.totalVisitors = entry.device?.desktop ?? 0 + entry.device?.mobile ?? 0;
+        }
+    }
 
     return data;
 }

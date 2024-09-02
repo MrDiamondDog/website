@@ -46,9 +46,18 @@ async function logEvent(newEvent: AnalyticsEvent) {
         currentEvent.route[newEvent.path] = (currentEvent.route[newEvent.path] || 0) + 1;
         if (newEvent.from) currentEvent.from[newEvent.from] = (currentEvent.from[newEvent.from] || 0) + 1;
         currentEvent.device[newEvent.isMobile ? "mobile" : "desktop"] = (currentEvent.device[newEvent.isMobile ? "mobile" : "desktop"] || 0) + 1;
-        if (!currentEvent.uniqueVisitors.includes(newEvent.ip)) currentEvent.uniqueVisitors.push(newEvent.ip);
         currentEvent.totalVisitors++;
 
+        let found = false;
+        for (const ip of currentEvent.uniqueVisitors) {
+            const decrypted = CryptoJS.AES.decrypt(ip, process.env.ANALYTICS_SECRET).toString();
+            if (decrypted === newEvent.ip) {
+                found = true;
+                break;
+            }
+        }
+        if (!found)
+            currentEvent.uniqueVisitors.push(CryptoJS.AES.encrypt(newEvent.ip, process.env.ANALYTICS_SECRET).toString());
 
         const uniqueCountries = new Set<string>();
         const uniqueRoutes = new Set<string>();

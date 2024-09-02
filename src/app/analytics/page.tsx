@@ -44,7 +44,7 @@ export default function AnalyticsPage() {
     return (
         <main className="md:m-20 m-2 md:p-10 p-3 rounded-lg border border-bg-lighter">
             <h1>Analytics</h1>
-            <Subtext className="mb-5">Yes, this is public on purpose. No IPs are tracked, but are used to determine countries.</Subtext>
+            <Subtext className="mb-5">Yes, this is public on purpose. IPs are stored to determine who has visited the website before. IPs are encrypted and never shared with the public. Learn more <a href="/analytics/privacy" className="text-primary">here</a>.</Subtext>
 
             <div className="md:p-5 p-1 border border-bg-light rounded-lg min-h-[200px] w-full">
                 <h2>Page Views</h2>
