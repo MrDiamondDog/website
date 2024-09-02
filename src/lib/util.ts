@@ -53,11 +53,6 @@ export async function getAnalyticsEntries() {
     }).then(JSON.parse);
 
     for (const entry of data) {
-        const uniqueVistors = entry.uniqueVisitors?.length ?? 0;
-        delete entry.uniqueVisitors;
-
-        entry.uniqueVisitors = uniqueVistors;
-
         // fallback for old data
         if (entry.totalVisitors === 0) {
             entry.totalVisitors = entry.device?.desktop ?? 0 + entry.device?.mobile ?? 0;

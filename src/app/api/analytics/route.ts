@@ -1,3 +1,4 @@
+import CryptoJS from "crypto-js";
 import { NextRequest, NextResponse } from "next/server";
 
 import { AnalyticsEntry, AnalyticsEvent, cloudflareKVUrl, getAnalyticsEntries, toDate } from "@/lib/util";
@@ -50,7 +51,7 @@ async function logEvent(newEvent: AnalyticsEvent) {
 
         let found = false;
         for (const ip of currentEvent.uniqueVisitors) {
-            const decrypted = CryptoJS.AES.decrypt(ip, process.env.ANALYTICS_SECRET).toString();
+            const decrypted = CryptoJS.AES.decrypt(ip, process.env.ANALYTICS_SECRET).toString(CryptoJS.enc.Utf8);
             if (decrypted === newEvent.ip) {
                 found = true;
                 break;
@@ -192,5 +193,10 @@ export async function POST(req: NextRequest) {
 
 export async function GET() {
     const events = await getAnalyticsEntries();
+    for (const event of events) {
+        const uniqueVistors = event.uniqueVisitors?.length ?? 0;
+        delete event.uniqueVisitors;
+        event.uniqueVisitors = uniqueVistors;
+    }
     return NextResponse.json(events);
 }
