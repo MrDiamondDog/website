@@ -1,10 +1,10 @@
 import "./globals.css";
 
+import { GoogleAnalytics } from "@next/third-parties/google";
 import type { Metadata } from "next";
 import { Rethink_Sans } from "next/font/google";
 import { Toaster } from "sonner";
 
-import Analytics from "@/components/general/Analytics";
 
 // const font = Mukta({
 //   weight: "400",
@@ -54,7 +54,7 @@ export default function RootLayout({
         <html lang="en">
             <Toaster richColors theme="dark" />
             <body className={"bg-bg " + font.className}>
-                <Analytics />
+                <GoogleAnalytics gaId={process.env.GOOGLE_ANALYTICS_ID} />
                 {children}
             </body>
         </html>
