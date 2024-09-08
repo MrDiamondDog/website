@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { IoIosSend } from "react-icons/io";
 import { IoChatbubbleEllipses } from "react-icons/io5";
@@ -7,19 +8,29 @@ import { IoChatbubbleEllipses } from "react-icons/io5";
 import Button from "@/components/general/Button";
 import Input from "@/components/general/Input";
 import Spinner from "@/components/general/Spinner";
+import Subtext from "@/components/general/Subtext";
 
 type Message = {
     role: "user" | "assistant";
     content: string;
 }
 
+const commandRe = /\[\[([a-z]+)(?:\s(.*?))?\]\]/;
+
 export default function ChatPage() {
     const [loading, setLoading] = useState(false);
+    const [ended, setEnded] = useState(false);
+
+    const [redirecting, setRedirecting] = useState(false);
+    const [redirectTimeout, setRedirectTimeout] = useState<NodeJS.Timeout | null>(null);
 
     const [content, setContent] = useState("");
     const [messages, setMessages] = useState<Message[]>([{ role: "assistant", content: "hi" }]);
 
     const messageList = useRef<HTMLDivElement>(null);
+
+    const router = useRouter();
+
 
     function scrollToBottom() {
         messageList.current?.scrollTo(0, messageList.current.scrollHeight);
@@ -27,10 +38,49 @@ export default function ChatPage() {
 
     // @ts-expect-error "KeyboardEvent isn't generic" yes it is
     function onKeyDown(e: KeyboardEvent<HTMLInputElement>) {
+        if (loading || ended) return;
         if (e.key === "Enter") {
             sendMessage();
         }
     }
+
+    function handleCommands(content: string) {
+        if (content.match(commandRe)) {
+            const [, command, arg] = content.match(commandRe)!;
+
+            switch (command) {
+                case "end":
+                    setEnded(true);
+                    break;
+                case "redirect":
+                    if (!arg) {
+                        console.error("No argument provided for redirect command.");
+                        return;
+                    }
+
+                    console.log(arg);
+
+                    setRedirecting(true);
+                    setRedirectTimeout(setTimeout(() => {
+                        router.push(arg);
+                        setRedirecting(false);
+                    }, 5000));
+                    break;
+                default:
+                    console.error(`Unknown command: ${command}`);
+                    break;
+            }
+        }
+
+        return content.replace(commandRe, "");
+    }
+
+    useEffect(() => {
+        if (!redirecting && redirectTimeout) {
+            clearTimeout(redirectTimeout);
+            setRedirectTimeout(null);
+        }
+    }, [redirecting]);
 
     async function sendMessage() {
         if (content.trim() === "") return;
@@ -53,7 +103,8 @@ export default function ChatPage() {
                 return;
             }
 
-            const { message } = await res.json();
+            let { message } = await res.json();
+            message = handleCommands(message);
             setMessages([...messages, { role: "user", content }, { role: "assistant", content: message }]);
         } catch (e) {
             console.error(e);
@@ -79,11 +130,13 @@ export default function ChatPage() {
                         <p className={`rounded-lg p-2 ${message.role === "user" ? "bg-primary" : "bg-bg-light"} text-white whitespace-pre-wrap text-wrap`}>{message.content}</p>
                     </div>
                 ))}
-                {loading && <div className="flex flex-col gap-1 mb-2 rounded-lg p-2 bg-bg-light items-start"><Spinner /></div>}
+                {loading && <div className="flex flex-col gap-1 mb-2 items-start"><p className="bg-bg-light p-2 rounded-lg"><Spinner /></p></div>}
+                {ended && <Subtext>Conversation ended by chat bot</Subtext>}
+                {redirecting && <Subtext>Redirecting in 5 seconds... - <a href="#" onClick={() => setRedirecting(false)}>Cancel</a></Subtext>}
             </div>
             <div className="flex flex-row gap-2 mt-2">
-                <Input placeholder="Send a message" className="w-full" value={content} onChange={e => setContent(e.target.value)} onKeyDown={onKeyDown} disabled={loading} />
-                <Button onClick={sendMessage} disabled={loading}>{loading ? <Spinner /> : <IoIosSend size={24} />}</Button>
+                <Input placeholder="Send a message" className="w-full" value={content} onChange={e => setContent(e.target.value)} onKeyDown={onKeyDown} disabled={ended || redirecting} />
+                <Button onClick={sendMessage} disabled={loading || ended || redirecting}><IoIosSend size={24} /></Button>
             </div>
         </div>
     </>);

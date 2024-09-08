@@ -41,7 +41,7 @@ export const metadata: Metadata = {
     title: "mrdiamond.is-a.dev",
     description: "you should go to this website",
     icons: [
-        "/avatar.webp"
+        "/images/avatar.webp"
     ]
 };
 
