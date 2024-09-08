@@ -4,7 +4,7 @@ export default function Button(props: React.ButtonHTMLAttributes<HTMLButtonEleme
     return (
         <button
             {...props}
-            className={`px-4 py-2 rounded-lg ${props.className} bg-primary hover:bg-secondary text-white items-center`}
+            className={`px-4 py-2 rounded-lg ${props.className} bg-primary hover:bg-secondary text-white flex justify-center items-center disabled:bg-secondary`}
         />
     );
 }

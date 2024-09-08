@@ -5,7 +5,6 @@ import { createOrUpdateFile, createPullRequest, getFileContents, newBranch, repo
 
 import rateLimitMiddleware from "..";
 
-
 // eslint-disable-next-line quotes
 export const runtime = 'edge';
 

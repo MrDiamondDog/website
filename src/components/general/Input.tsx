@@ -3,7 +3,7 @@ import { createElement } from "react";
 export default function Input(props: React.InputHTMLAttributes<HTMLInputElement> & { multiline?: boolean | "true"; label?: string }) {
     const Component = props.multiline ? "textarea" : "input";
 
-    return (<div className={"flex " + (props.type === "checkbox" ? "flex-row" : "flex-col")}>
+    return (<div className={"flex " + (props.type === "checkbox" ? "flex-row" : "flex-col") + " " + (props.className ?? "")}>
         {props.label && <label className="text-white">{props.label}{props.required && <span className="text-red-500">*</span>}</label>}
         {createElement(Component, {
             ...props,

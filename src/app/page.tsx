@@ -4,6 +4,7 @@ import { SiCplusplus, SiCsharp, SiIntellijidea, SiKotlin, SiNextdotjs, SiNodedot
 
 import Divider from "@/components/general/Divider";
 import Subtext from "@/components/general/Subtext";
+import AIChat from "@/components/home/AIChat";
 import Background from "@/components/home/Background";
 import ContactTab from "@/components/home/ContactTab";
 import ProjectCard from "@/components/home/ProjectCard";
@@ -15,6 +16,7 @@ import Tablist from "@/components/tabs/Tablist";
 export default function Home() {
     return (<>
         <Background />
+        <AIChat />
         <main
             className="absolute-center lg:w-[45%] md:w-2/3 w-full max-h-[75%] transition-[height] p-5 rounded-lg border-[3px] border-primary bg-bg-light drop-shadow-xl overflow-scroll"
         >
