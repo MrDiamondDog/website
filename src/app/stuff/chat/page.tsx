@@ -21,9 +21,6 @@ export default function ChatPage() {
     const [loading, setLoading] = useState(false);
     const [ended, setEnded] = useState(false);
 
-    const [redirecting, setRedirecting] = useState(false);
-    const [redirectTimeout, setRedirectTimeout] = useState<NodeJS.Timeout | null>(null);
-
     const [content, setContent] = useState("");
     const [messages, setMessages] = useState<Message[]>([{ role: "assistant", content: "hi" }]);
 
@@ -52,20 +49,6 @@ export default function ChatPage() {
                 case "end":
                     setEnded(true);
                     break;
-                case "redirect":
-                    if (!arg) {
-                        console.error("No argument provided for redirect command.");
-                        return;
-                    }
-
-                    console.log(arg);
-
-                    setRedirecting(true);
-                    setRedirectTimeout(setTimeout(() => {
-                        router.push(arg);
-                        setRedirecting(false);
-                    }, 5000));
-                    break;
                 default:
                     console.error(`Unknown command: ${command}`);
                     break;
@@ -74,13 +57,6 @@ export default function ChatPage() {
 
         return content.replace(commandRe, "");
     }
-
-    useEffect(() => {
-        if (!redirecting && redirectTimeout) {
-            clearTimeout(redirectTimeout);
-            setRedirectTimeout(null);
-        }
-    }, [redirecting]);
 
     async function sendMessage() {
         if (content.trim() === "") return;
@@ -132,11 +108,10 @@ export default function ChatPage() {
                 ))}
                 {loading && <div className="flex flex-col gap-1 mb-2 items-start"><p className="bg-bg-light p-2 rounded-lg"><Spinner /></p></div>}
                 {ended && <Subtext>Conversation ended by chat bot</Subtext>}
-                {redirecting && <Subtext>Redirecting in 5 seconds... - <a href="#" onClick={() => setRedirecting(false)}>Cancel</a></Subtext>}
             </div>
             <div className="flex flex-row gap-2 mt-2">
-                <Input placeholder="Send a message" className="w-full" value={content} onChange={e => setContent(e.target.value)} onKeyDown={onKeyDown} disabled={ended || redirecting} />
-                <Button onClick={sendMessage} disabled={loading || ended || redirecting}><IoIosSend size={24} /></Button>
+                <Input placeholder="Send a message" className="w-full" value={content} onChange={e => setContent(e.target.value)} onKeyDown={onKeyDown} disabled={ended} />
+                <Button onClick={sendMessage} disabled={loading || ended}><IoIosSend size={24} /></Button>
             </div>
         </div>
     </>);
