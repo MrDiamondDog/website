@@ -4,7 +4,7 @@ export const scopes = [
     "identify"
 ];
 
-export const redirectUri = process.env.PRODUCTION ? "https://mrdiamond.is-a.dev/" : "http://localhost:3000/";
+export const redirectUri = (process.env.PRODUCTION || process.env.NEXT_PUBLIC_PRODUCTION) ? "https://mrdiamond.is-a.dev/" : "http://localhost:3000/";
 
 export function authUrl(clientId?: string, redirect?: string) {
     return `https://discord.com/oauth2/authorize?client_id=${clientId ?? process.env.DISCORD_OAUTH_ID}&response_type=code&redirect_uri=${encodeURIComponent(redirectUri + (redirect ?? ""))}&scope=identify`;
