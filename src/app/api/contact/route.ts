@@ -1,4 +1,7 @@
+import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
+
+import { getUser } from "@/lib/discord";
 
 import rateLimitMiddleware from "..";
 
@@ -18,11 +21,22 @@ export async function POST(req: NextRequest) {
 
     const body = await req.json();
 
-    if (!body.discord || !body.subject || !body.message)
+    if (!body.userId || !body.subject || !body.message)
         return NextResponse.json({ body: "Please fill out all of the fields." }, { status: 400 });
 
-    if (body.discord.length > 20 || body.subject.length > 256 || body.message.length > 2048)
+    if (body.subject.length > 256 || body.message.length > 2048)
         return NextResponse.json({ body: "Fields are too long." }, { status: 400 });
+
+
+    const accessToken = cookies().get("access_token")?.value;
+
+    if (!accessToken)
+        return NextResponse.json({ body: "Unauthorized" }, { status: 403 });
+
+    const user = await getUser(accessToken);
+
+    if (user?.id && user.id !== body.userId)
+        return NextResponse.json({ body: "Unauthorized" }, { status: 403 });
 
     await fetch(process.env.DISCORD_WEBHOOK, {
         method: "POST",

@@ -5,6 +5,7 @@ import Subtext from "@/components/general/Subtext";
 import Background from "@/components/home/Background";
 import ContactTab from "@/components/home/ContactTab";
 import ProjectCard from "@/components/home/ProjectCard";
+import Route from "@/components/home/Route";
 import SocialMediaProfile from "@/components/home/SocialMediaProfile";
 import StackTab from "@/components/home/StackTab";
 import Tab from "@/components/tabs/Tab";
@@ -17,7 +18,7 @@ export default function Home() {
             className="absolute-center lg:w-[45%] md:w-2/3 w-full max-h-[75%] transition-[height] p-5 rounded-lg border-[3px] border-primary bg-bg-light drop-shadow-xl overflow-scroll"
         >
             <Tablist
-                tabs={["Profile", "Stack", "Projects", "Contact"]}
+                tabs={["Profile", "Stack", "Projects", "Stuff", "Contact"]}
                 activeTab="Profile"
             >
                 <Tab name="Profile">
@@ -56,6 +57,11 @@ export default function Home() {
                         <ProjectCard owner="Vendicated" repo="Vencord" />
                         <ProjectCard owner="Gabber235" repo="TypeWriter" />
                     </div>
+                </Tab>
+                <Tab name="Stuff" className="flex flex-col gap-2">
+                    <Route route="/stuff/chat">AI Chat</Route>
+                    <Route route="/stuff/jonah">Jonah</Route>
+                    <Route route="/stuff/physics">Physics Game</Route>
                 </Tab>
                 <Tab name="Contact">
                     <ContactTab />

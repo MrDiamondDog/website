@@ -3,6 +3,8 @@ import { NextRequest } from "next/server";
 const rateLimitMap = new Map();
 
 export default function rateLimitMiddleware(req: NextRequest, maxReqs: number, reqWindow: number) {
+    if (!process.env.PRODUCTION) return false;
+
     const ip = req.headers.get("x-real-ip");
     if (!ip) {
         return true;

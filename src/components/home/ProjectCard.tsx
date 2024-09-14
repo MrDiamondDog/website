@@ -20,7 +20,7 @@ export default async function ProjectCard(props: Props) {
         : null;
 
     return (
-        <a href={`https://github.com/${props.owner}/${props.repo}`} target="_blank" className="no-style rounded-lg bg-bg-lighter p-3 pb-8 relative">
+        <a href={`https://github.com/${props.owner}/${props.repo}`} target="_blank" className="no-style rounded-lg bg-bg-lighter p-3 pb-8 relative transition-all border-[2px] border-transparent hover:border-primary">
             <div className="flex flex-row justify-between">
                 <div className="flex flex-row gap-2 items-center">
                     <img src={repo.owner.avatar_url} alt={`${props.owner}'s avatar`} className="rounded-full w-6" />

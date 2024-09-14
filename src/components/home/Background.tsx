@@ -1,20 +1,21 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { FaEye } from "react-icons/fa6";
 
 import { randomRange } from "@/lib/util";
 
 import DotsBackground from "./backgrounds/DotsBackground";
-import GameOfLifeBackground from "./backgrounds/GameOfLifeBackground";
-import GridBackground from "./backgrounds/GridBackground";
 
 const backgrounds = [
     () => <DotsBackground />,
-    () => <GameOfLifeBackground />,
-    () => <GridBackground />
+    // () => <GameOfLifeBackground />,
+    // () => <GridBackground />
 ];
 
 export default function Background() {
+    const [visible, setVisible] = useState(true);
+
     const [index, setIndex] = useState(Math.floor(randomRange(0, backgrounds.length)));
     let started = false;
 
@@ -32,6 +33,7 @@ export default function Background() {
     }, []);
 
     return (<>
-        {backgrounds[index]?.()}
+        <div className="absolute top-2 right-2 text-gray-500 cursor-pointer z-10" onClick={() => setVisible(!visible)}><FaEye size={24} /></div>
+        {visible && backgrounds[index]?.()}
     </>);
 }

@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { Rethink_Sans } from "next/font/google";
 import { Toaster } from "sonner";
 
+import DiscordOAuth from "@/components/general/DiscordOAuth";
 import GoogleAnalytics from "@/components/general/GoogleAnalytics";
 
 
@@ -55,6 +56,7 @@ export default function RootLayout({
         <html lang="en">
             <Toaster richColors theme="dark" />
             <GoogleAnalytics />
+            <DiscordOAuth />
             <body className={"bg-bg " + font.className}>
                 {children}
             </body>

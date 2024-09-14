@@ -8,7 +8,7 @@ export default function Input(props: React.InputHTMLAttributes<HTMLInputElement>
         {createElement(Component, {
             ...props,
             className: `px-4 py-2 rounded-lg ${props.className ?? ""} bg-bg-lighter border-2 border-transparent
-            text-white items-center focus:outline-none focus:border-2 focus:border-primary`,
+            text-white items-center outline-none focus:outline-none focus:border-primary`,
         })}
     </div>);
 }
