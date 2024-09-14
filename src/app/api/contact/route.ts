@@ -48,7 +48,8 @@ export async function POST(req: NextRequest) {
                 description: body.message,
                 color: 0x3181bf,
                 author: {
-                    name: body.discord,
+                    name: user.username,
+                    icon_url: `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png`
                 },
                 timestamp: new Date().toISOString(),
             }]

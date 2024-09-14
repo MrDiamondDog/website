@@ -2,6 +2,7 @@ import "./globals.css";
 
 import type { Metadata } from "next";
 import { Rethink_Sans } from "next/font/google";
+import { Suspense } from "react";
 import { Toaster } from "sonner";
 
 import Analytics from "@/components/general/Analytics";
@@ -55,7 +56,7 @@ export default function RootLayout({
     return (
         <html lang="en">
             <Toaster richColors theme="dark" />
-            <DiscordOAuth />
+            <Suspense><DiscordOAuth /></Suspense>
             <Analytics />
             <body className={"bg-bg " + font.className}>
                 {children}
