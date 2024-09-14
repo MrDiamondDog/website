@@ -4,8 +4,8 @@ import type { Metadata } from "next";
 import { Rethink_Sans } from "next/font/google";
 import { Toaster } from "sonner";
 
+import Analytics from "@/components/general/Analytics";
 import DiscordOAuth from "@/components/general/DiscordOAuth";
-import GoogleAnalytics from "@/components/general/GoogleAnalytics";
 
 
 // const font = Mukta({
@@ -55,8 +55,8 @@ export default function RootLayout({
     return (
         <html lang="en">
             <Toaster richColors theme="dark" />
-            <GoogleAnalytics />
             <DiscordOAuth />
+            <Analytics />
             <body className={"bg-bg " + font.className}>
                 {children}
             </body>
