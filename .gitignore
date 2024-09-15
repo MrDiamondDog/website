@@ -6,4 +6,3 @@
 .vercel
 next-env.d.ts
 .next.zip
-websocket-server/state.json

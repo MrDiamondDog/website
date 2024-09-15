@@ -6,7 +6,7 @@ import Spinner from "@/components/general/Spinner";
 import { getNewState, keyboard, State, uppercaseKeyboard } from "@/lib/words";
 
 const wsUrl = process.env.NEXT_PUBLIC_PRODUCTION
-    ? "wss://server.mrdiamond.is-a.dev"
+    ? "ws://server.mrdiamond.is-a.dev"
     : "ws://localhost:8080";
 
 export default function WordsPage() {
