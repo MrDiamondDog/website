@@ -11,7 +11,7 @@ function JonahPage() {
     }
 
     const jonahImage = new window.Image();
-    jonahImage.src = "/jonah.webp";
+    jonahImage.src = "/images/jonah.webp";
 
     useEffect(() => {
         (async () => {
@@ -94,7 +94,7 @@ function JonahPage() {
     return (<main>
         <div className="absolute top-0 left-0 w-[200vw] h-[200vh] flex flex-wrap gap-0">
             {[...Array(100)].map((_, i) => (
-                <img src="/jonah.webp" alt="jonah" key={i} className="p-0 m-0" />
+                <img src="/images/jonah.webp" alt="jonah" key={i} className="p-0 m-0" />
             ))}
         </div>
 

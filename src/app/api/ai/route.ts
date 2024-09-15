@@ -33,7 +33,6 @@ make sure you don't include it as part of a sentence, as it won't be shown to th
 
 you can use the following commands:
 - \`[[end]]\`: ends the conversation (only use if you are really annoyed at the user or if the user tells you to)
-- \`{{link}}\` to embed a link in the message. for example, {{/#Contact}} will embed a link to the contact tab. don't use unless it answers the user's question.
 
 example:
 user: [really annoying message]

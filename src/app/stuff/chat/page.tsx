@@ -1,6 +1,5 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { IoIosSend } from "react-icons/io";
 import { IoChatbubbleEllipses } from "react-icons/io5";
@@ -25,9 +24,6 @@ export default function ChatPage() {
     const [messages, setMessages] = useState<Message[]>([{ role: "assistant", content: "hi" }]);
 
     const messageList = useRef<HTMLDivElement>(null);
-
-    const router = useRouter();
-
 
     function scrollToBottom() {
         messageList.current?.scrollTo(0, messageList.current.scrollHeight);
