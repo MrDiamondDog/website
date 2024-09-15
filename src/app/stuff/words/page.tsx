@@ -87,7 +87,7 @@ export default function WordsPage() {
 
     return (
         <main className="absolute-center bg-bg-light rounded-lg p-10">
-            <div className="p-2 bg-bg border-[2px] border-primary rounded-lg whitespace-pre-wrap">
+            <div className="p-2 bg-bg border-[2px] border-primary rounded-lg whitespace-pre-wrap overflow-y-scroll max-h-[500px]">
                 {state.content || " "}
             </div>
 
@@ -98,9 +98,9 @@ export default function WordsPage() {
                         {row.map((key, j) => (
                             <button
                                 key={j}
-                                className="p-2 px-4 border-[2px] border-transparent hover:border-primary disabled:border-transparent disabled:text-gray-500 transition-all bg-bg-light text-white rounded-lg w-full text-nowrap whitespace-pre-wrap"
+                                className="p-2 px-1 md:px-4 border-[2px] border-transparent hover:border-primary disabled:border-transparent disabled:text-gray-500 transition-all bg-bg-light text-white rounded-lg w-full text-nowrap whitespace-pre-wrap"
                                 onClick={() => onClickButton(key.trim().toLowerCase(), key)}
-                                disabled={!wsReady || loading !== "" || timeRemaining > 0} // Disable button if WebSocket isn't ready
+                                disabled={!wsReady || loading !== "" || timeRemaining > 0}
                             >
                                 {loading === key ? <Spinner /> : key}
                             </button>
