@@ -18,6 +18,7 @@ export default function WordsPage() {
     const [loading, setLoading] = useState("loading");
     const [timeRemaining, setTimeRemaining] = useState(0);
     const [wsReady, setWsReady] = useState(false);
+    const windowRef = useRef<HTMLDivElement | null>(null);
 
     const ws = useRef<WebSocket | null>(null);
     const timeInterval = useRef<NodeJS.Timeout | null>(null);
@@ -51,6 +52,10 @@ export default function WordsPage() {
         }, 1000);
     }
 
+    function scrollToBottom() {
+        windowRef.current?.scrollTo(0, windowRef.current.scrollHeight);
+    }
+
     useEffect(() => {
         ws.current = new WebSocket(wsUrl);
 
@@ -66,6 +71,7 @@ export default function WordsPage() {
 
             if (data.type === "state") {
                 setState(data.state);
+                scrollToBottom();
             }
         });
 
@@ -87,7 +93,7 @@ export default function WordsPage() {
 
     return (
         <main className="absolute-center bg-bg-light rounded-lg p-10">
-            <div className="p-2 bg-bg border-[2px] border-primary rounded-lg whitespace-pre-wrap overflow-y-scroll max-h-[300px]">
+            <div className="p-2 bg-bg border-[2px] border-primary rounded-lg whitespace-pre-wrap overflow-y-scroll max-h-[300px]" ref={windowRef}>
                 {state.content || " "}
             </div>
 
