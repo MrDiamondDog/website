@@ -87,7 +87,7 @@ export default function WordsPage() {
 
     return (
         <main className="absolute-center bg-bg-light rounded-lg p-10">
-            <div className="p-2 bg-bg border-[2px] border-primary rounded-lg whitespace-pre-wrap overflow-y-scroll max-h-[500px]">
+            <div className="p-2 bg-bg border-[2px] border-primary rounded-lg whitespace-pre-wrap overflow-y-scroll max-h-[300px]">
                 {state.content || " "}
             </div>
 
