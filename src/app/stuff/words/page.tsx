@@ -9,6 +9,8 @@ const wsUrl = process.env.NEXT_PUBLIC_PRODUCTION
     ? "wss://server.mrdiamond.is-a.dev"
     : "ws://localhost:8080";
 
+const ratelimit = 10;
+
 export default function WordsPage() {
     const [state, setState] = useState<State>({
         content: "loading...",
@@ -27,7 +29,7 @@ export default function WordsPage() {
         setState(getNewState(state, key));
         setLoading(rawKey);
         sendKey(rawKey);
-        setTimeRemaining(10);
+        setTimeRemaining(ratelimit);
     }
 
     async function sendKey(key: string) {
@@ -37,7 +39,11 @@ export default function WordsPage() {
         ws.current.send(JSON.stringify({ type: "key", key }));
         setLoading("");
 
-        let time = 10;
+        startRatelimit();
+    }
+
+    function startRatelimit(startAt?: number) {
+        let time = startAt ?? ratelimit;
         if (timeInterval.current) return;
 
         timeInterval.current = setInterval(() => {
@@ -71,6 +77,11 @@ export default function WordsPage() {
 
             if (data.type === "state") {
                 setState(data.state);
+                if (data.ratelimit) {
+                    const newTime = Math.ceil((ratelimit * 1000 - data.ratelimit) / 1000);
+                    setTimeRemaining(newTime);
+                    startRatelimit(newTime);
+                }
                 scrollToBottom();
             }
         });
@@ -81,6 +92,8 @@ export default function WordsPage() {
 
         ws.current.addEventListener("error", err => {
             console.error("WebSocket error:", err);
+
+            setState({ ...state, content: "A connection could not be made to the websocket server. Refresh the page to try again.\nIf the problem persists, use the contact form on the homepage to report the issue." });
         });
 
         return () => {
