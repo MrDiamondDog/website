@@ -8,11 +8,9 @@ import Button from "@/components/general/Button";
 import Input from "@/components/general/Input";
 import Spinner from "@/components/general/Spinner";
 import Subtext from "@/components/general/Subtext";
+import { AIMessage } from "@/lib/types";
 
-type Message = {
-    role: "user" | "assistant";
-    content: string;
-}
+
 
 const commandRe = /\[\[([a-z]+)(?:\s(.*?))?\]\]/;
 
@@ -21,7 +19,7 @@ export default function ChatPage() {
     const [ended, setEnded] = useState(false);
 
     const [content, setContent] = useState("");
-    const [messages, setMessages] = useState<Message[]>([{ role: "assistant", content: "hi" }]);
+    const [messages, setMessages] = useState<AIMessage[]>([{ role: "assistant", content: "hi" }]);
 
     const messageList = useRef<HTMLDivElement>(null);
 
@@ -97,7 +95,7 @@ export default function ChatPage() {
                 <p className="text-center">AI Chatbot</p>
             </div>
             <div className="rounded-b-lg p-3 bg-bg-lighter overflow-y-scroll overflow-x-hidden h-full" ref={messageList}>
-                {messages.map((message: Message, i: number) => (
+                {messages.map((message: AIMessage, i: number) => (
                     <div key={i} className={`flex flex-col gap-1 mb-2 ${message.role === "user" ? "items-end" : "items-start"}`}>
                         <p className={`rounded-lg p-2 ${message.role === "user" ? "bg-primary" : "bg-bg-light"} text-white whitespace-pre-wrap text-wrap`}>{message.content}</p>
                     </div>

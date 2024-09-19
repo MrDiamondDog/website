@@ -115,3 +115,7 @@ export function randomRange(min: number, max: number) {
 export function randomFrom(arr: any[]) {
     return arr[Math.floor(Math.random() * arr.length)];
 }
+
+export function map(num: number, inMin: number, inMax: number, outMin: number, outMax: number) {
+    return (num - inMin) * (outMax - outMin) / (inMax - inMin) + outMin;
+}
