@@ -10,11 +10,11 @@ export default function DotsBackground() {
 
     const dots: { pos: Vec2; vel: Vec2; connections: number }[] = [];
 
-    let started = false;
+    const started = useRef(false);
 
     useEffect(() => {
-        if (started) return;
-        started = true;
+        if (started.current) return;
+        started.current = true;
         if (!canvas.current) return;
 
         const ctx = canvas.current.getContext("2d");

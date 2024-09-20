@@ -81,11 +81,11 @@ function StackSpawnDropdown() {
 
 export default function PhysicsGame() {
     const canvasRef = useRef<HTMLCanvasElement>(null);
-    let loaded = false;
+    const loaded = useRef(false);
 
     useEffect(() => {
-        if (!canvasRef.current || loaded) return;
-        loaded = true;
+        if (!canvasRef.current || loaded.current) return;
+        loaded.current = true;
 
         const canvas = canvasRef.current;
         initGame(canvas);

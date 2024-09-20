@@ -2,7 +2,7 @@
 
 
 import { APIUser } from "discord-api-types/v10";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 
 import { authUrl, getUser } from "@/lib/discord";
@@ -20,10 +20,10 @@ export default function ContactTab() {
     const [subject, setSubject] = useState("");
     const [message, setMessage] = useState("");
 
-    let requested = false;
+    const requested = useRef(false);
     useEffect(() => {
-        if (requested) return;
-        requested = true;
+        if (requested.current) return;
+        requested.current = true;
 
         (async () => {
             let newToken = "";

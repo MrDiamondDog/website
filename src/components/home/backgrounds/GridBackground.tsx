@@ -10,11 +10,11 @@ export default function GridBackground() {
 
     const grid: { value: number, dir: number }[][] = [];
     const gridSquareSize = { x: 64, y: 32 };
-    let started = false;
+    const started = useRef(false);
 
     useEffect(() => {
-        if (started) return;
-        started = true;
+        if (started.current) return;
+        started.current = true;
         if (!canvas.current) return;
 
         const ctx = canvas.current.getContext("2d");

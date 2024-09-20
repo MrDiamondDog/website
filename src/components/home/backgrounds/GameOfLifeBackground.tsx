@@ -10,11 +10,11 @@ export default function GameOfLifeBackground() {
 
     let grid: boolean[][] = [];
     const gridSquareSize = 16;
-    let started = false;
+    const started = useRef(false);
 
     useEffect(() => {
-        if (started) return;
-        started = true;
+        if (started.current) return;
+        started.current = true;
         if (!canvas.current) return;
 
         const ctx = canvas.current.getContext("2d");

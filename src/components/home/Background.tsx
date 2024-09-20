@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { FaEye } from "react-icons/fa6";
 
 import { randomRange } from "@/lib/util";
@@ -17,7 +17,7 @@ export default function Background() {
     const [visible, setVisible] = useState(true);
 
     const [index, setIndex] = useState(Math.floor(randomRange(0, backgrounds.length)));
-    let started = false;
+    const started = useRef(false);
 
     let i = 0;
     function cycle() {
@@ -26,8 +26,8 @@ export default function Background() {
     }
 
     useEffect(() => {
-        if (started) return;
-        started = true;
+        if (started.current) return;
+        started.current = true;
 
         setInterval(cycle, 7500);
     }, []);
