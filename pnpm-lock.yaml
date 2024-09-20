@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@aptabase/react':
+        specifier: ^0.3.4
+        version: 0.3.4(react@18.3.1)
       '@octokit/rest':
         specifier: ^21.0.2
         version: 21.0.2
@@ -117,6 +120,11 @@ packages:
   '@alloc/quick-lru@5.2.0':
     resolution: {integrity: sha512-UrcABB+4bUrFABwbluTIBErXwvbsU/V7TZWfmbgJfbkwiBuziS9gxdODUyuiecfdGQ85jglMW6juS3+z5TsKLw==}
     engines: {node: '>=10'}
+
+  '@aptabase/react@0.3.4':
+    resolution: {integrity: sha512-+amGIo3cUD4FjVY4pJi+fcxiZ7iJff8LYKiv11ESYC2pxLAqPWmz6vZe6xfgxc0aMdMyRQ669B+wTvD46Wp79w==}
+    peerDependencies:
+      react: ^18.0.0
 
   '@babel/runtime@7.25.0':
     resolution: {integrity: sha512-7dRy4DwXwtzBrPbZflqxnvfxLF8kdZXPkhymtDeFoFqE6ldzjQFgYTtYIFARcLEYDrqfBfYcZt1WqFxRoyC9Rw==}
@@ -2338,6 +2346,10 @@ packages:
 snapshots:
 
   '@alloc/quick-lru@5.2.0': {}
+
+  '@aptabase/react@0.3.4(react@18.3.1)':
+    dependencies:
+      react: 18.3.1
 
   '@babel/runtime@7.25.0':
     dependencies:

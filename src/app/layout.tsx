@@ -1,5 +1,6 @@
 import "./globals.css";
 
+import { AptabaseProvider } from "@aptabase/react";
 import type { Metadata } from "next";
 import { Rethink_Sans } from "next/font/google";
 import { Suspense } from "react";
@@ -57,9 +58,11 @@ export default function RootLayout({
         <html lang="en">
             <Toaster richColors theme="dark" />
             <Suspense><DiscordOAuth /></Suspense>
-            <Analytics />
             <body className={"bg-bg " + font.className}>
-                {children}
+                <AptabaseProvider appKey="A-US-4621789518">
+                    <Analytics />
+                    {children}
+                </AptabaseProvider>
             </body>
         </html>
     );

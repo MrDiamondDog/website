@@ -1,7 +1,21 @@
-import Script from "next/script";
+"use client";
+
+import { useAptabase } from "@aptabase/react";
+import { usePathname } from "next/navigation";
+import { useEffect, useRef } from "react";
 
 export default function Analytics() {
-    return (<>
-        <Script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon={`{"token": "${process.env.CF_ANALYTICS_TOKEN}"}`}></Script>
-    </>);
+    const path = usePathname();
+
+    const { trackEvent } = useAptabase();
+
+    const tracked = useRef(false);
+    useEffect(() => {
+        if (tracked.current) return;
+        tracked.current = true;
+
+        trackEvent("pageview", { path });
+    }, []);
+
+    return null;
 }
