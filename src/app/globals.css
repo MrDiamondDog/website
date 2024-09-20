@@ -187,6 +187,36 @@ select, option {
     padding: 0.25rem 0.5rem;
     border-radius: 0.25rem;
   }
+
+  input.vertical[type=range] {
+      writing-mode: vertical-lr;
+      direction: rtl;
+      appearance: slider-vertical;
+      width: 16px;
+      vertical-align: bottom;
+  }
+
+  .color-picker {
+    background-color: var(--background-light) !important;
+    border-radius: 0.5rem !important;
+    font-family: unset !important;
+
+    & svg {
+      fill: currentColor !important;
+
+      &:hover {
+        background-color: unset !important;
+      }
+    }
+
+    & input {
+      background-color: var(--background-light) !important;
+      border-radius: 0.2rem !important;
+      color: white !important;
+      border: var(--background-lighter) !important;
+      outline: var(--background-lighter) !important;
+    }
+  }
 }
 
 @keyframes underline-expand {
