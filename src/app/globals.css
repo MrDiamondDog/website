@@ -200,6 +200,11 @@ select, option {
     background-color: var(--background-light) !important;
     border-radius: 0.5rem !important;
     font-family: unset !important;
+    z-index: 60 !important;
+
+    & div {
+      z-index: 60 !important;
+    }
 
     & svg {
       fill: currentColor !important;

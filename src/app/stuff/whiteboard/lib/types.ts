@@ -1,7 +1,7 @@
 import { Vec2 } from "objective-canvas";
 
 export type Tool = "pen" | "eraser" | "shape";
-export type Shape = "line" | "rectangle" | "circle";
+export type Shape = "line" | "arrow" | "rectangle" | "circle";
 
 export type Stroke = {
     startX: number;

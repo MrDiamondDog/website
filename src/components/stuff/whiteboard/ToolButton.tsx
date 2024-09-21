@@ -8,7 +8,7 @@ interface Props {
 
 export default function ToolButton(props: React.ButtonHTMLAttributes<HTMLButtonElement> & Props) {
     return (
-        <button className={"border border-bg-lighter p-2 hover:bg-bg-lighter rounded-lg transition-[background-color] " + (props.selected ? "bg-bg-lighter " : "") + (props.className ?? "")} onClick={props.onClick}>
+        <button className={"p-2 rounded-lg transition-[background-color] " + (props.selected ? "bg-bg-lighter " : "") + (props.disabled ? "text-gray-500" : "hover:bg-bg-lighter") + (props.className ?? "")} onClick={props.onClick}>
             {props.children}
             {props.icon && createElement(props.icon, { size: 24 })}
         </button>
