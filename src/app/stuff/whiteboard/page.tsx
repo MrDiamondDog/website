@@ -93,6 +93,13 @@ function WhiteboardPage() {
 
     return (
         <main>
+            {window.innerWidth < 768 && (
+                <Dialog open={true} onClose={() => {}} title="Mobile User" className="z-[100]">
+                    <p>This page does not work on mobile.</p>
+                    <Button onClick={() => window.location.href = "/"} className="w-full">Home</Button>
+                </Dialog>
+            )}
+
             <Dialog open={exportDialogOpen} onClose={() => setExportDialogOpen(false)} title="Export" className="z-[100]">
                 <Subtext>Export options</Subtext>
                 <Input type="checkbox" label="Transparent Background" onChange={e => setExportTransparent(e.target.checked)} checked={exportTransparent} />
