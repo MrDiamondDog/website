@@ -19,7 +19,7 @@ export const whiteboard = {
 
     currentStroke: null as StrokeObject | ShapeObject | null,
 
-    redoStack: [] as (StrokeObject | ShapeObject)[],
+    redoStack: [] as { obj: (StrokeObject | ShapeObject), index: number }[],
 
     exporting: false,
 
@@ -63,7 +63,8 @@ export function initWhiteboard(canvas: HTMLCanvasElement) {
                 points: [],
                 color: whiteboard.brushColor,
                 size: whiteboard.brushSize,
-                eraser: whiteboard.selectedTool === "eraser"
+                eraser: whiteboard.selectedTool === "eraser",
+                owner: whiteboard.user.id
             });
 
             whiteboard.currentStroke.strokeData.points.push(Mouse.worldPos);
@@ -78,13 +79,15 @@ export function initWhiteboard(canvas: HTMLCanvasElement) {
                 endY: Mouse.worldPos.y,
                 color: whiteboard.brushColor,
                 size: whiteboard.brushSize,
-                fill: whiteboard.shapeFill
+                fill: whiteboard.shapeFill,
+                owner: whiteboard.user.id
             });
 
             whiteboard.currentStroke.addToScene();
         }
     });
 
+    let lastMove = 0;
     Mouse.events.on("move", () => {
         if (whiteboard.selectedTool === "pen" || whiteboard.selectedTool === "eraser")
             (whiteboard.currentStroke as StrokeObject)?.strokeData.points.push(Mouse.worldPos);
@@ -96,7 +99,10 @@ export function initWhiteboard(canvas: HTMLCanvasElement) {
             (whiteboard.currentStroke as ShapeObject).strokeData.endY = Mouse.worldPos.y;
         }
 
-        if (whiteboard.ws)
+        if (whiteboard.ws) {
+            // if last move event was less than 50ms ago, don't send another one
+            if (Date.now() - lastMove < 50) return;
+
             whiteboard.ws.send(JSON.stringify({
                 type: "mousemove",
                 x: Mouse.worldPos.x,
@@ -104,6 +110,9 @@ export function initWhiteboard(canvas: HTMLCanvasElement) {
                 roomCode: whiteboard.roomCode,
                 id: whiteboard.user.id
             }));
+        }
+
+        lastMove = Date.now();
     });
 
     Mouse.events.on("up", () => {
@@ -152,16 +161,22 @@ export function setProfiler(profiler: boolean) {
 
 export function undo() {
     if (!objects.length) return;
-    if (!(objects[objects.length - 1] instanceof ShapeObject) && !(objects[objects.length - 1] instanceof StrokeObject))
-        return;
 
-    whiteboard.redoStack.push(objects.pop() as StrokeObject | ShapeObject);
+    const toRemove = objects.findLastIndex(object => (object instanceof StrokeObject || object instanceof ShapeObject) && (!whiteboard.ws || object.owner === whiteboard.user.id));
+
+    if (toRemove === -1) return;
+
+    whiteboard.redoStack.push({ obj: objects[toRemove] as StrokeObject | ShapeObject, index: toRemove });
+
+    objects.splice(toRemove, 1);
 }
 
 export function redo() {
     if (!whiteboard.redoStack.length) return;
 
-    objects.push(whiteboard.redoStack.pop());
+    const object = whiteboard.redoStack.pop();
+
+    objects.splice(object.index, 0, object.obj);
 }
 
 export const canvasBuffer = 100;

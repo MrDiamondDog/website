@@ -15,6 +15,7 @@ import { LuShapes, LuSquare } from "react-icons/lu";
 import { MdOutlinePeople } from "react-icons/md";
 import { PiPaintBucketBold } from "react-icons/pi";
 import { TbSlash } from "react-icons/tb";
+import { toast } from "sonner";
 
 import Button from "@/components/general/Button";
 import Dialog from "@/components/general/Dialog";
@@ -127,7 +128,12 @@ function WhiteboardPage() {
     const searchParams = useSearchParams();
 
     const opened = useRef(false);
-    if (searchParams.has("code") && !state.multiplayerDialogOpen && !opened.current) {
+    if (searchParams.has("roomCode") && !state.multiplayerDialogOpen && !opened.current) {
+        opened.current = true;
+        dispatch({ type: "SET_ROOM_CODE_INPUT", payload: searchParams.get("roomCode") });
+        dispatch({ type: "TOGGLE_MULTIPLAYER_DIALOG" });
+    }
+    else if (searchParams.has("code") && !state.multiplayerDialogOpen && !opened.current) {
         opened.current = true;
         dispatch({ type: "TOGGLE_MULTIPLAYER_DIALOG" });
     }
@@ -231,6 +237,8 @@ function WhiteboardPage() {
             } else if (json.type === "user joined") {
                 debug("ws", "user joined", json.name, json.id);
 
+                toast(`${json.name} joined the room!`);
+
                 whiteboard.users.push({ name: json.name, id: json.id, color: json.color, mousePos: Vec2.zero() });
             } else if (json.type === "mousemove") {
                 debug("ws", "mousemove", json.x, json.y);
@@ -252,6 +260,8 @@ function WhiteboardPage() {
                 ws.send(JSON.stringify({ type: "join", roomCode: json.roomCode, name: state.user.username, id: state.user.id }));
             } else if (json.type === "user left") {
                 debug("ws", "user left", json.id);
+
+                toast(`${whiteboard.users.find(user => user.id === json.id)?.name} left the room!`);
 
                 whiteboard.users = whiteboard.users.filter(user => user.id !== json.id);
             }
@@ -296,20 +306,24 @@ function WhiteboardPage() {
             </Dialog>
 
             <Dialog open={state.multiplayerDialogOpen} onClose={() => dispatch({ type: "TOGGLE_MULTIPLAYER_DIALOG" })} title="Multiplayer" className="z-[100]">
+                <p>"Collaborate" with others on a whiteboard!</p>
+                <Divider />
                 <DiscordAuthBarrier onUserChange={user => dispatch({ type: "SET_USER", payload: user })} redirect="stuff/whiteboard" state={btoa("stuff/whiteboard")}>
-                    <Subtext>Multiplayer Whiteboard</Subtext>
-                    <p>"Collaborate" with others on a whiteboard!</p>
-                    <Divider />
                     {state.roomCode && <>
                         <p>Room Code: {state.roomCode}</p>
+                        <a href="#" className="no-style text-primary"
+                            onClick={() => navigator.clipboard.writeText(
+                                (process.env.NEXT_PUBLIC_PRODUCTION ? "https://mrdiamond.is-a.dev/" : "http://localhost:3000/") + "stuff/whiteboard?roomCode=" + state.roomCode
+                            )}
+                        >Copy Link</a>
                         <Button onClick={() => leaveMultiplayer()} className="w-full" disabled={state.loading}>{state.loading ? <Spinner /> : "Leave"}</Button>
                     </>}
                     {!state.roomCode && <>
                         <Input type="text" label="Room Code" placeholder="ABCD" maxLength={4} onChange={e => dispatch({ type: "SET_ROOM_CODE_INPUT", payload: e.target.value.toUpperCase() })} value={state.roomCodeInput} />
                         <Divider />
                         <Button onClick={() => joinMultiplayer()} className="w-full" disabled={state.loading}>{state.loading ? <Spinner /> : "Join"}</Button>
-                        <Divider />
-                        <Button onClick={() => joinMultiplayer(true)} className="w-full mt-2" disabled={state.loading}>{state.loading ? <Spinner /> : "Host"}</Button>
+                        <Button onClick={() => joinMultiplayer(true)} className="w-full my-2" disabled={state.loading}>{state.loading ? <Spinner /> : "Host"}</Button>
+                        <Subtext>Your whiteboard will be cleared when you join or host a room.</Subtext>
                     </>}
                 </DiscordAuthBarrier>
             </Dialog>
@@ -323,8 +337,8 @@ function WhiteboardPage() {
                     <ToolButton icon={BiEraser} onClick={() => dispatch({ type: "SET_TOOL", payload: "eraser" })} selected={state.selectedTool === "eraser"} />
                     <ToolButton icon={LuShapes} onClick={() => dispatch({ type: "SET_TOOL", payload: "shape" })} selected={state.selectedTool === "shape"} />
                     <ToolbarSeparator />
-                    <ToolButton icon={BiUndo} onClick={undo} disabled={state.multiplayer} />
-                    <ToolButton icon={BiRedo} onClick={redo} disabled={state.multiplayer} />
+                    <ToolButton icon={BiUndo} onClick={undo} />
+                    <ToolButton icon={BiRedo} onClick={redo} />
                     <ToolbarSeparator />
                     <ToolButton icon={BiExport} onClick={() => dispatch({ type: "TOGGLE_EXPORT_DIALOG" })} />
                     <ToolButton icon={BiCog} onClick={() => dispatch({ type: "TOGGLE_SETTINGS" })} selected={state.settingsOpen} />

@@ -10,6 +10,7 @@ export type Stroke = {
     color: string;
     size: number;
     eraser?: boolean;
+    owner?: string;
 }
 
 export type ShapeStroke = {
@@ -21,4 +22,5 @@ export type ShapeStroke = {
     size: number;
     shape: Shape;
     fill?: boolean;
+    owner?: string;
 }

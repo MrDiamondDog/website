@@ -1,10 +1,11 @@
 import { APIUser } from "discord-api-types/v10";
-import { useEffect, useRef, useState } from "react";
+import { Suspense, useEffect, useRef, useState } from "react";
 import { FaDiscord } from "react-icons/fa6";
 
 import { authUrl, getUser } from "@/lib/discord";
 
 import Button from "./Button";
+import DiscordOAuth from "./DiscordOAuth";
 import Divider from "./Divider";
 import Spinner from "./Spinner";
 import Subtext from "./Subtext";
@@ -12,6 +13,8 @@ import Subtext from "./Subtext";
 export default function DiscordAuthBarrier({ children, onUserChange, redirect, state }: React.PropsWithChildren & { onUserChange?: (user: APIUser) => void, redirect?: string, state?: string }) {
     const [clientId, setClientId] = useState("");
     const [user, setUser] = useState<APIUser | null>(null);
+
+    const [token, setToken] = useState<string | null>(null);
 
     const requested = useRef(false);
     useEffect(() => {
@@ -26,6 +29,12 @@ export default function DiscordAuthBarrier({ children, onUserChange, redirect, s
             else await getUser(newToken).then(user => setUser(user));
         })();
     }, []);
+
+    useEffect(() => {
+        if (!token) return;
+
+        getUser(token).then(user => setUser(user));
+    }, [token]);
 
     useEffect(() => {
         onUserChange?.(user);
@@ -44,7 +53,7 @@ export default function DiscordAuthBarrier({ children, onUserChange, redirect, s
 
     return (<>
         <div className="flex flex-col gap-4">
-            {clientId && <a href={authUrl(clientId, redirect, state)} className="no-style"><Button className="flex flex-row gap-2"><FaDiscord /> Authorize With Discord</Button></a>}
+            {(clientId && !user) && <a href={authUrl(clientId, redirect, state)} className="no-style"><Button className="flex flex-row gap-2"><FaDiscord /> Authorize With Discord</Button></a>}
             {(!user && !clientId) && <Spinner />}
             {user && <div>
                 <div className="flex flex-row gap-3 items-center bg-bg-lighter p-3 rounded-lg">
@@ -58,6 +67,7 @@ export default function DiscordAuthBarrier({ children, onUserChange, redirect, s
                 <Divider />
                 {children}
             </div>}
+            <Suspense><DiscordOAuth setToken={setToken} /></Suspense>
         </div>
     </>);
 }

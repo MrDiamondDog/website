@@ -5,6 +5,7 @@ import { Stroke } from "./types";
 
 export class StrokeObject extends CanvasObject {
     size = Vec2.zero();
+    owner = "";
 
     constructor(public strokeData: Stroke) {
         super(Vec2.from(strokeData.startX, strokeData.startY));

@@ -2,11 +2,9 @@ import "./globals.css";
 
 import type { Metadata } from "next";
 import { Rethink_Sans } from "next/font/google";
-import { Suspense } from "react";
 import { Toaster } from "sonner";
 
 import Analytics from "@/components/general/Analytics";
-import DiscordOAuth from "@/components/general/DiscordOAuth";
 
 
 // const font = Mukta({
@@ -57,7 +55,6 @@ export default function RootLayout({
         <html lang="en">
             <Analytics />
             <Toaster richColors theme="dark" />
-            <Suspense><DiscordOAuth /></Suspense>
             <body className={"bg-bg " + font.className}>
                 {children}
             </body>
