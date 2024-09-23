@@ -39,7 +39,8 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({ error: "No code" });
 
     const code = req.nextUrl.searchParams.get("code");
-    const json = await accessToken(code);
+    const state = req.nextUrl.searchParams.get("state");
+    const json = await accessToken(code, state ? atob(state) : undefined);
 
     if (json.error)
         return NextResponse.json(json, { status: 400 });

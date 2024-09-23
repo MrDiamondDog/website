@@ -1,7 +1,7 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 export default function DiscordOAuth() {
     const searchParams = useSearchParams();
@@ -9,9 +9,15 @@ export default function DiscordOAuth() {
     const code = searchParams.get("code");
     if (!code) return null;
 
+    const state = searchParams.get("state");
+
+    const sent = useRef(false);
     useEffect(() => {
+        if (sent.current) return;
+        sent.current = true;
+
         (async () => {
-            await fetch(`/api/discord?code=${code}`, {
+            await fetch(`/api/discord?code=${code}${state ? `&state=${state}` : ""}`, {
                 method: "POST",
             });
         })();

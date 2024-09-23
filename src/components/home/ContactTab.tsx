@@ -5,13 +5,12 @@ import { APIUser } from "discord-api-types/v10";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 
-import { authUrl, getUser } from "@/lib/discord";
+import { getUser } from "@/lib/discord";
 
 import Button from "../general/Button";
+import DiscordAuthBarrier from "../general/DiscordUser";
 import Divider from "../general/Divider";
 import Input from "../general/Input";
-import Spinner from "../general/Spinner";
-import Subtext from "../general/Subtext";
 
 export default function ContactTab() {
     const [clientId, setClientId] = useState("");
@@ -75,24 +74,11 @@ export default function ContactTab() {
 
         <Divider />
 
-        <div className="flex flex-col gap-4">
-            {clientId && <a href={authUrl(clientId)} className="no-style"><Button>Authorize With Discord</Button></a>}
-            {(!user && !clientId) && <Spinner />}
-            {user && <div>
-                <div className="flex flex-row gap-3 items-center bg-bg-lighter p-3 rounded-lg">
-                    <img src={`https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png`} alt="Avatar" className="rounded-full w-[50px] md:w-[75px]" />
-                    <div>
-                        <h3 className="text-sm md:text-3xl">{user.global_name}</h3>
-                        <Subtext>@{user.username}</Subtext>
-                        <a href="#" className="text-sm text-red-500" onClick={signOut}>Sign Out</a>
-                    </div>
-                </div>
-                <Divider />
-                <Input type="text" value={subject} onChange={e => setSubject(e.target.value)} placeholder="Just saying hi" label="Subject" required maxLength={256} />
-                <Input type="text" value={message} onChange={e => setMessage(e.target.value)} placeholder="hi" label="Message" multiline="true" required maxLength={2048} />
+        <DiscordAuthBarrier>
+            <Input type="text" value={subject} onChange={e => setSubject(e.target.value)} placeholder="Just saying hi" label="Subject" required maxLength={256} />
+            <Input type="text" value={message} onChange={e => setMessage(e.target.value)} placeholder="hi" label="Message" multiline="true" required maxLength={2048} />
 
-                <Button onClick={submit} className="w-full mt-2">Submit</Button>
-            </div>}
-        </div>
+            <Button onClick={submit} className="w-full mt-2">Submit</Button>
+        </DiscordAuthBarrier>
     </>);
 }

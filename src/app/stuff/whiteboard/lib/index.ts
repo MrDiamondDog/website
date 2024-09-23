@@ -1,5 +1,7 @@
-import { Camera, Mouse, objects, Renderer, Vec2 } from "objective-canvas";
+import { APIUser } from "discord-api-types/v10";
+import { Camera, Debugging, Mouse, objects, Renderer, Vec2 } from "objective-canvas";
 
+import { DebugObject } from "./debugObject";
 import { ShapeObject } from "./shapeObject";
 import { StrokeObject } from "./strokeObject";
 import { Shape, Tool } from "./types";
@@ -19,11 +21,21 @@ export const whiteboard = {
 
     redoStack: [] as (StrokeObject | ShapeObject)[],
 
-    exporting: false
+    exporting: false,
+
+    debug: false,
+    profiler: false,
+
+    ws: null as WebSocket | null,
+    users: [] as { name: string, mousePos: Vec2, color: string, id: string }[],
+    user: null as APIUser | null,
+    roomCode: ""
 };
 
 export function initWhiteboard(canvas: HTMLCanvasElement) {
     whiteboard.canvas = canvas;
+
+    debug("init", "adding listeners");
 
     canvas.addEventListener("contextmenu", e => e.preventDefault());
     window.addEventListener("resize", () => {
@@ -32,6 +44,7 @@ export function initWhiteboard(canvas: HTMLCanvasElement) {
     });
 
     window.addEventListener("keydown", e => {
+        if (whiteboard.ws) return;
         if (e.ctrlKey && e.key === "z") {
             undo();
         } else if (e.ctrlKey && e.key === "y") {
@@ -82,12 +95,33 @@ export function initWhiteboard(canvas: HTMLCanvasElement) {
             (whiteboard.currentStroke as ShapeObject).strokeData.endX = Mouse.worldPos.x;
             (whiteboard.currentStroke as ShapeObject).strokeData.endY = Mouse.worldPos.y;
         }
+
+        if (whiteboard.ws)
+            whiteboard.ws.send(JSON.stringify({
+                type: "mousemove",
+                x: Mouse.worldPos.x,
+                y: Mouse.worldPos.y,
+                roomCode: whiteboard.roomCode,
+                id: whiteboard.user.id
+            }));
     });
 
     Mouse.events.on("up", () => {
-        if (whiteboard.currentStroke)
+        if (whiteboard.currentStroke) {
+            if (whiteboard.ws)
+                whiteboard.ws.send(JSON.stringify({
+                    type: "stroke",
+                    stroke: whiteboard.currentStroke.strokeData,
+                    shape: whiteboard.selectedTool === "shape",
+                    roomCode: whiteboard.roomCode,
+                    id: whiteboard.user.id
+                }));
+
             whiteboard.currentStroke = null;
+        }
     });
+
+    debug("init", "initializing renderer");
 
     Renderer.init({
         canvas,
@@ -96,8 +130,24 @@ export function initWhiteboard(canvas: HTMLCanvasElement) {
             moveButton: () => Mouse.rightDown
         }
     });
+}
 
-    // objects.push(new DebugObject(Vec2.zero()));
+export function setDebug(debug: boolean) {
+    const prevDebug = whiteboard.debug;
+    whiteboard.debug = debug;
+
+    Debugging.debugEnabled = debug;
+
+    if (debug && !prevDebug)
+        objects.unshift(new DebugObject());
+    else if (objects[0] instanceof DebugObject && !debug && prevDebug)
+        objects.shift();
+}
+
+export function setProfiler(profiler: boolean) {
+    whiteboard.profiler = profiler;
+
+    Debugging.profilerEnabled = profiler;
 }
 
 export function undo() {
@@ -152,6 +202,8 @@ export function exportCanvas(transparent?: boolean) {
     exportCanvas.width = Math.round(size.maxX - size.minX) + canvasBuffer;
     exportCanvas.height = Math.round(size.maxY - size.minY) + canvasBuffer;
 
+    debug("export", "exporting canvas with size of", exportCanvas.width, "x", exportCanvas.height);
+
     const ctx = exportCanvas.getContext("2d")!;
     ctx.fillStyle = transparent ? "transparent" : "#0c0c0c";
     ctx.fillRect(0, 0, exportCanvas.width, exportCanvas.height);
@@ -189,5 +241,13 @@ export function exportCanvas(transparent?: boolean) {
     Renderer.ctx = oldCtx;
     Renderer.canvas = oldCanvas;
 
+    whiteboard.exporting = false;
+
+    debug("export", "exported canvas");
+
     return exportCanvas;
+}
+
+export function debug(scope: string, ...args: any[]) {
+    console.log(`%c${scope}%c ${args.map(a => a.toString()).join(" ")}`, "padding: 2px 4px; background-color: #0b6ca8", "");
 }

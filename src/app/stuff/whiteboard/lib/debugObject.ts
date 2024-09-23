@@ -5,6 +5,10 @@ import { ShapeObject } from "./shapeObject";
 import { StrokeObject } from "./strokeObject";
 
 export class DebugObject extends CanvasObject {
+    constructor() {
+        super(Vec2.zero());
+    }
+
     draw() {
         const { ctx } = Renderer;
 

@@ -6,8 +6,8 @@ export const scopes = [
 
 export const redirectUri = (process.env.PRODUCTION || process.env.NEXT_PUBLIC_PRODUCTION) ? "https://mrdiamond.is-a.dev/" : "http://localhost:3000/";
 
-export function authUrl(clientId?: string, redirect?: string) {
-    return `https://discord.com/oauth2/authorize?client_id=${clientId ?? process.env.DISCORD_OAUTH_ID}&response_type=code&redirect_uri=${encodeURIComponent(redirectUri + (redirect ?? ""))}&scope=identify`;
+export function authUrl(clientId?: string, redirect?: string, state?: string) {
+    return `https://discord.com/oauth2/authorize?client_id=${clientId ?? process.env.DISCORD_OAUTH_ID}&response_type=code&redirect_uri=${encodeURIComponent(redirectUri + (redirect ?? ""))}&scope=identify${state ? `&state=${state}` : ""}`;
 }
 
 export async function refreshToken(token: string) {
@@ -28,11 +28,11 @@ export async function refreshToken(token: string) {
     return await res.json();
 }
 
-export async function accessToken(oauthCode: string) {
+export async function accessToken(oauthCode: string, redirect?: string) {
     const body = new URLSearchParams({
         code: oauthCode,
         grant_type: "authorization_code",
-        redirect_uri: redirectUri,
+        redirect_uri: redirectUri + (redirect ?? ""),
     });
 
     const res = await fetch("https://discord.com/api/oauth2/token", {
