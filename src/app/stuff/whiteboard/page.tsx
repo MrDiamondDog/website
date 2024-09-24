@@ -160,6 +160,11 @@ function WhiteboardPage() {
         const ctx = backgroundCanvas.current?.getContext("2d");
         if (!ctx) return;
 
+        window.addEventListener("resize", () => {
+            backgroundCanvas.current!.width = window.innerWidth;
+            backgroundCanvas.current!.height = window.innerHeight;
+        });
+
         const drawBackground = () => {
             dotBackground(ctx);
             requestAnimationFrame(drawBackground);

@@ -64,7 +64,7 @@ export function initWhiteboard(canvas: HTMLCanvasElement) {
                 color: whiteboard.brushColor,
                 size: whiteboard.brushSize,
                 eraser: whiteboard.selectedTool === "eraser",
-                owner: whiteboard.user.id
+                owner: whiteboard.user?.id ?? undefined
             });
 
             whiteboard.currentStroke.strokeData.points.push(Mouse.worldPos);
@@ -80,7 +80,7 @@ export function initWhiteboard(canvas: HTMLCanvasElement) {
                 color: whiteboard.brushColor,
                 size: whiteboard.brushSize,
                 fill: whiteboard.shapeFill,
-                owner: whiteboard.user.id
+                owner: whiteboard.user?.id ?? undefined
             });
 
             whiteboard.currentStroke.addToScene();
