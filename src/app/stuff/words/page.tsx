@@ -3,11 +3,12 @@
 import { useEffect, useRef,useState } from "react";
 
 import Spinner from "@/components/general/Spinner";
+import { wsDevUrl, wsProdUrl } from "@/lib/contants";
 import { getNewState, keyboard, State, uppercaseKeyboard } from "@/lib/words";
 
 const wsUrl = process.env.NEXT_PUBLIC_PRODUCTION
-    ? "wss://server.mrdiamond.is-a.dev"
-    : "ws://localhost:8080";
+    ? wsProdUrl
+    : wsDevUrl;
 
 const ratelimit = 10;
 

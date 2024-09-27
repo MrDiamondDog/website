@@ -27,6 +27,7 @@ import Subtext from "@/components/general/Subtext";
 import ColorSwatchTable from "@/components/stuff/whiteboard/ColorSwatchTable";
 import ToolbarSeparator from "@/components/stuff/whiteboard/ToolbarSeparator";
 import ToolButton from "@/components/stuff/whiteboard/ToolButton";
+import { devUrl, prodUrl, wsDevUrl, wsProdUrl } from "@/lib/contants";
 
 import { combinedSize, debug, exportCanvas, initWhiteboard, redo, setDebug, setProfiler, undo, whiteboard } from "./lib";
 import dotBackground from "./lib/dotBackground";
@@ -35,8 +36,8 @@ import { ShapeObject } from "./lib/shapeObject";
 import { StrokeObject } from "./lib/strokeObject";
 
 const wsUrl = process.env.NEXT_PUBLIC_PRODUCTION
-    ? "wss://server.mrdiamond.is-a.dev"
-    : "ws://localhost:8080";
+    ? wsProdUrl
+    : wsDevUrl;
 
 const initialState = {
     selectedTool: "pen",
@@ -313,7 +314,7 @@ function WhiteboardPage() {
                         <p>Room Code: {state.roomCode}</p>
                         <a href="#" className="no-style text-primary"
                             onClick={() => navigator.clipboard.writeText(
-                                (process.env.NEXT_PUBLIC_PRODUCTION ? "https://mrdiamond.is-a.dev/" : "http://localhost:3000/") + "stuff/whiteboard?roomCode=" + state.roomCode
+                                (process.env.NEXT_PUBLIC_PRODUCTION ? prodUrl : devUrl) + "/stuff/whiteboard?roomCode=" + state.roomCode
                             )}
                         >Copy Link</a>
                         <Button onClick={() => leaveMultiplayer()} className="w-full" disabled={state.loading}>{state.loading ? <Spinner /> : "Leave"}</Button>
@@ -323,7 +324,6 @@ function WhiteboardPage() {
                         <Divider />
                         <Button onClick={() => joinMultiplayer()} className="w-full" disabled={state.loading}>{state.loading ? <Spinner /> : "Join"}</Button>
                         <Button onClick={() => joinMultiplayer(true)} className="w-full my-2" disabled={state.loading}>{state.loading ? <Spinner /> : "Host"}</Button>
-                        <Subtext>Your whiteboard will be cleared when you join or host a room.</Subtext>
                     </>}
                 </DiscordAuthBarrier>
             </Dialog>
