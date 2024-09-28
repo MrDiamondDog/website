@@ -60,6 +60,7 @@ export default function Home() {
                 </Tab>
                 <Tab name="Stuff" className="flex flex-col gap-2">
                     <Route route="/stuff/whiteboard">Whiteboard</Route>
+                    <Route route="/stuff/ytdl">Youtube Downloader</Route>
                     <Route route="/stuff/chat">AI Chat</Route>
                     <Route route="/stuff/chat">Terrible Image Recognition</Route>
                     <Route route="/stuff/jonah">Jonah</Route>
