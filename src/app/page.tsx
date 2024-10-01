@@ -6,6 +6,7 @@ import Background from "@/components/home/Background";
 import ContactTab from "@/components/home/ContactTab";
 import ProjectCard from "@/components/home/ProjectCard";
 import Route from "@/components/home/Route";
+import SendADrawing from "@/components/home/SendADrawing";
 import SocialMediaProfile from "@/components/home/SocialMediaProfile";
 import StackTab from "@/components/home/StackTab";
 import Tab from "@/components/tabs/Tab";
@@ -43,6 +44,10 @@ export default function Home() {
                         Hello! I'm a web/software developer, but I also dabble in other things like modding, Discord bots, microcontrollers, etc.
                         I'm also a total theatre nerd.
                     </p>
+
+                    <Divider />
+
+                    <SendADrawing />
                 </Tab>
                 <Tab name="Stack">
                     <StackTab />
@@ -62,7 +67,7 @@ export default function Home() {
                     <Route route="/stuff/whiteboard">Whiteboard</Route>
                     <Route route="/stuff/ytdl">Youtube Downloader</Route>
                     <Route route="/stuff/chat">AI Chat</Route>
-                    <Route route="/stuff/chat">Terrible Image Recognition</Route>
+                    <Route route="/stuff/terrible-image-recognition">Terrible Image Recognition</Route>
                     <Route route="/stuff/jonah">Jonah</Route>
                     <Route route="/stuff/physics">Physics Game</Route>
                 </Tab>
