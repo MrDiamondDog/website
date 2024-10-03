@@ -64,6 +64,7 @@ export default function Home() {
                     </div>
                 </Tab>
                 <Tab name="Stuff" className="flex flex-col gap-2">
+                    <Route route="/stuff/game-of-life">Game Of Life</Route>
                     <Route route="/stuff/whiteboard">Whiteboard</Route>
                     <Route route="/stuff/ytdl">Youtube Downloader</Route>
                     <Route route="/stuff/chat">AI Chat</Route>
