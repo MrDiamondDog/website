@@ -346,7 +346,7 @@ function drawAll() {
         const endPoint = square.linePoints[square.linePoints.length - 1];
         const endSquare = endPoint ? grid[endPoint.x][endPoint.y] : null;
         if (endSquare?.type === "end")
-            drawSquare(endPoint.x, endPoint.y, images.start[endSquare.color], "start");
+            game.ctx.drawImage(images.start[endSquare.color], endPoint.x * squareSize + (squareSize - imageSize) / 2 + squareGap * endPoint.x, endPoint.y * squareSize + (squareSize - imageSize) / 2 + squareGap * endPoint.y, imageSize, imageSize);
     }
 
     drawQueue.length = 0;
