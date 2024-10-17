@@ -8,7 +8,7 @@ export default function Input(props: React.InputHTMLAttributes<HTMLInputElement>
         {createElement(Component, {
             ...props,
             className: `px-4 py-2 rounded-lg ${props.className ?? ""} bg-bg-lighter border-2 border-transparent
-            text-white items-center outline-none focus:outline-none focus:border-primary`,
+            text-white items-center outline-none focus:outline-none focus:border-primary disabled:text-gray-400`,
         })}
         {(props.label && props.type === "checkbox") && <label className="text-white">{props.label}{props.required && <span className="text-red-500">*</span>}</label>}
     </div>);

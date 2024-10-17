@@ -46,19 +46,20 @@ export const game = {
     editor: {
         selectedColor: "white" as SquareColor,
         selectedTool: "start" as SquareType | "eraser"
+    },
+
+    updateCanvasSize() {
+        game.canvas!.width = game.currentLevel.gridSize.x * squareSize + (game.currentLevel.gridSize.x - 1) * squareGap;
+        game.canvas!.height = game.currentLevel.gridSize.y * squareSize + (game.currentLevel.gridSize.y - 1) * squareGap;
     }
 };
 const images: Record<string, HTMLImageElement | Record<string, HTMLImageElement>> = {};
 
-export async function initGame(canvas: HTMLCanvasElement, bg: HTMLDivElement, isEditor?: boolean, levelData?: string) {
+export async function initGame(canvas: HTMLCanvasElement, bg: HTMLDivElement, isEditor?: boolean) {
     game.canvas = canvas;
     game.bg = bg;
     game.isEditor = isEditor ?? false;
     game.ctx = canvas.getContext("2d")!;
-
-    if (levelData) {
-        game.currentLevel = JSON.parse(atob(decodeURIComponent(levelData)));
-    }
 
     const imagePaths = {
         start: "/images/1-s/{color}/box-start.png",
@@ -115,8 +116,7 @@ export async function initGame(canvas: HTMLCanvasElement, bg: HTMLDivElement, is
         }
     });
 
-    game.canvas.width = game.currentLevel.gridSize.x * squareSize + (game.currentLevel.gridSize.x - 1) * squareGap;
-    game.canvas.height = game.currentLevel.gridSize.y * squareSize + (game.currentLevel.gridSize.y - 1) * squareGap;
+    game.updateCanvasSize();
 
     game.canvas.addEventListener("mousemove", e => {
         game.mousePos = Vec2.from(e.offsetX, e.offsetY);
@@ -175,6 +175,13 @@ export async function initGame(canvas: HTMLCanvasElement, bg: HTMLDivElement, is
 
         if (game.isEditor) return;
 
+        for (let x = 0; x < game.currentLevel.gridSize.x; x++) {
+            for (let y = 0; y < game.currentLevel.gridSize.y; y++) {
+                const square = game.currentLevel.grid[x][y];
+                if (square) square.pos = Vec2.from(x, y);
+            }
+        }
+
         const square = game.currentLevel.grid[game.mouseGridPos.x]?.[game.mouseGridPos.y];
         if (square?.type === "start") {
             game.startPos = game.mouseGridPos;
@@ -182,7 +189,7 @@ export async function initGame(canvas: HTMLCanvasElement, bg: HTMLDivElement, is
         }
     });
 
-    game.canvas.addEventListener("mouseup", () => {
+    window.addEventListener("mouseup", () => {
         game.mouseDown = false;
 
         if (game.isEditor) return;
@@ -190,8 +197,7 @@ export async function initGame(canvas: HTMLCanvasElement, bg: HTMLDivElement, is
         if (game.startPos) {
             const startSquare = game.currentLevel.grid[game.startPos.x]?.[game.startPos.y];
             const endSquare = startSquare.linePoints[startSquare.linePoints.length - 1];
-            if (!endSquare) return;
-            if (game.currentLevel.grid[endSquare.x][endSquare.y]?.type !== "end") {
+            if (endSquare && game.currentLevel.grid[endSquare.x][endSquare.y]?.type !== "end") {
                 startSquare.linePoints = [];
             }
         }
@@ -199,6 +205,7 @@ export async function initGame(canvas: HTMLCanvasElement, bg: HTMLDivElement, is
         game.startPos = null;
 
         const validity = validate();
+        console.log(validity);
         if (validity === "invalid") {
             const startSquares = game.currentLevel.grid.flat().filter(square => square?.type === "start");
             for (const startSquare of startSquares) {
@@ -219,6 +226,18 @@ export async function initGame(canvas: HTMLCanvasElement, bg: HTMLDivElement, is
             });
         } else if (validity === "valid") {
             bg.style.backgroundColor = "#00ff00";
+        } else if (validity === "incomplete") {
+            if (bg.style.backgroundColor !== "rgb(0, 255, 0)") return;
+            let i = 0;
+            const timeout = setInterval(() => {
+                if (i >= 100) {
+                    clearInterval(timeout);
+                    bg.style.backgroundColor = "transparent";
+                }
+
+                bg.style.backgroundColor = interpolateColor("#00ff00", "#000", i);
+                i++;
+            });
         }
     });
 
@@ -235,26 +254,19 @@ function draw() {
     const { gridSize, grid } = game.currentLevel;
 
     if (grid.length !== gridSize.x || grid[0].length !== gridSize.y) {
-        // add nulls to grid
+        // add extra rows/cols if there are more rows/cols than grid size, and vice versa
+        while (grid.length < gridSize.x) {
+            grid.push(new Array(gridSize.y).fill(null));
+        }
+
         for (let x = 0; x < gridSize.x; x++) {
-            if (!grid[x]) grid[x] = [];
-            for (let y = 0; y < gridSize.y; y++) {
-                if (grid[x].length !== gridSize.y) {
-                    grid[x][y] = null;
-                }
+            while (grid[x].length < gridSize.y) {
+                grid[x].push(null);
             }
         }
 
-        game.canvas!.width = gridSize.x * squareSize + (gridSize.x - 1) * squareGap;
-        game.canvas!.height = gridSize.y * squareSize + (gridSize.y - 1) * squareGap;
-    }
-
-
-    for (let x = 0; x < gridSize.x; x++) {
-        for (let y = 0; y < gridSize.y; y++) {
-            if (grid[x][y]?.type === "void") continue;
-            game.ctx.drawImage(images.background as HTMLImageElement, x * squareSize + squareGap * x, y * squareSize + squareGap * y, squareSize, squareSize);
-        }
+        game.updateCanvasSize();
+        game.ctx.imageSmoothingEnabled = false;
     }
 
     for (let x = 0; x < gridSize.x; x++) {
@@ -264,56 +276,83 @@ function draw() {
             if (!square || square?.type === "void") continue;
 
             const img = images[square.type][square.color];
-            drawSquare(x, y, img);
-
-            if (square.type === "start" && square.linePoints?.length) {
-                game.ctx.lineCap = "round";
-                game.ctx.lineJoin = "round";
-
-                game.ctx.strokeStyle = gridColors[square.color];
-                game.ctx.lineWidth = imageSize / 2;
-
-                let prev: Vec2;
-                for (const point of square.linePoints) {
-                    let start = prev ?? Vec2.from(x, y);
-
-                    start = start.scale(squareSize).add(squareSize / 2);
-                    start.x += squareGap * (prev ? prev.x : x);
-                    start.y += squareGap * (prev ? prev.y : y);
-
-                    const end = point.scale(squareSize).add(squareSize / 2);
-                    end.x += squareGap * point.x;
-                    end.y += squareGap * point.y;
-
-                    line(start, end);
-
-                    prev = point;
-                }
-
-                const endPoint = square.linePoints[square.linePoints.length - 1];
-                const endSquare = endPoint ? grid[endPoint.x][endPoint.y] : null;
-                if (endSquare?.type === "end") {
-                    drawSquare(endPoint.x, endPoint.y, images.start[endSquare.color]);
-                }
-            }
+            drawSquare(x, y, img, square.type);
         }
     }
+
+    drawAll();
 
     requestAnimationFrame(draw);
 }
 
-function drawSquare(x: number, y: number, img: HTMLImageElement) {
-    game.ctx.drawImage(img, x * squareSize + (squareSize - imageSize) / 2 + squareGap * x, y * squareSize + (squareSize - imageSize) / 2 + squareGap * y, imageSize, imageSize);
+const drawQueue: { x: number, y: number, img: HTMLImageElement, type: SquareType }[] = [];
+
+function drawSquare(x: number, y: number, img: HTMLImageElement, type: SquareType) {
+    drawQueue.push({ x: x * squareSize + (squareSize - imageSize) / 2 + squareGap * x, y: y * squareSize + (squareSize - imageSize) / 2 + squareGap * y, img, type });
 }
 
-function validate(): "invalid" | "valid" | "incomplete" {
-    for (let x = 0; x < game.currentLevel.gridSize.x; x++) {
-        for (let y = 0; y < game.currentLevel.gridSize.y; y++) {
-            const square = game.currentLevel.grid[x][y];
-            if (square) square.pos = Vec2.from(x, y);
+function drawAll() {
+    const { gridSize, grid } = game.currentLevel;
+
+    for (let x = 0; x < gridSize.x; x++) {
+        for (let y = 0; y < gridSize.y; y++) {
+            if (grid[x][y]?.type === "void") continue;
+            game.ctx.drawImage(images.background as HTMLImageElement, x * squareSize + squareGap * x, y * squareSize + squareGap * y, squareSize, squareSize);
         }
     }
 
+    for (const square of drawQueue) {
+        if (square.type === "dot" || square.type === "pit") {
+            game.ctx?.drawImage(square.img, square.x, square.y, imageSize, imageSize);
+        }
+    }
+
+    for (const square of drawQueue) {
+        if (square.type !== "dot" && square.type !== "pit") {
+            game.ctx?.drawImage(square.img, square.x, square.y, imageSize, imageSize);
+        }
+    }
+
+    const startSquares = grid.flat().filter(square => square?.type === "start");
+
+    for (const square of startSquares) {
+        if (!square.linePoints?.length) continue;
+
+        const { x, y } = (square.pos!);
+
+        game.ctx.lineCap = "round";
+        game.ctx.lineJoin = "round";
+
+        game.ctx.strokeStyle = gridColors[square.color];
+        game.ctx.lineWidth = imageSize / 2;
+
+        let prev: Vec2;
+        for (const point of square.linePoints) {
+            let start = prev ?? Vec2.from(x, y);
+
+            start = start.scale(squareSize).add(squareSize / 2);
+            start.x += squareGap * (prev ? prev.x : x);
+            start.y += squareGap * (prev ? prev.y : y);
+
+            const end = point.scale(squareSize).add(squareSize / 2);
+            end.x += squareGap * point.x;
+            end.y += squareGap * point.y;
+
+            line(start, end);
+
+            prev = point;
+        }
+
+        const endPoint = square.linePoints[square.linePoints.length - 1];
+        const endSquare = endPoint ? grid[endPoint.x][endPoint.y] : null;
+        if (endSquare?.type === "end")
+            drawSquare(endPoint.x, endPoint.y, images.start[endSquare.color], "start");
+    }
+
+    drawQueue.length = 0;
+}
+
+function validate(): "invalid" | "valid" | "incomplete" {
     let verdict: "invalid" | "valid" | "incomplete" = "valid";
 
     const startSquares = game.currentLevel.grid.flat().filter(square => square?.type === "start");
@@ -401,8 +440,6 @@ function validate(): "invalid" | "valid" | "incomplete" {
             verdict = "invalid";
         }
     }
-
-    console.log(verdict);
 
     return verdict;
 }

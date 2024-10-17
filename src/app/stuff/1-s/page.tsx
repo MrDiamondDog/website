@@ -1,12 +1,15 @@
 "use client";
 
 import dynamic from "next/dynamic";
+import { useRouter } from "next/navigation";
 import { Vec2 } from "objective-canvas";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 
+import Button from "@/components/general/Button";
+import Dialog from "@/components/general/Dialog";
+import Input from "@/components/general/Input";
 import ToolbarButton from "@/components/stuff/1-s/ToolbarButton";
-import { devUrl, prodUrl } from "@/lib/contants";
 
 import { game, gridColors, initGame, SquareColor, SquareType } from "./lib";
 import { exportLevel } from "./lib/levels";
@@ -15,7 +18,11 @@ function Ultrakill1SPage() {
     const canvas = useRef<HTMLCanvasElement>(null);
     const bg = useRef<HTMLDivElement>(null);
 
-    const levelData = location.search?.slice(1);
+    const router = useRouter();
+
+    const [levelData, setLevelData] = useState<string>("");
+    const [shareDialogOpen, setShareDialogOpen] = useState(false);
+
     const [isEditor, setEditor] = useState(!levelData ? true : location.hash.includes("editor"));
 
     const [color, setColor] = useState<SquareColor>("white");
@@ -27,7 +34,7 @@ function Ultrakill1SPage() {
         if (!canvas.current || init.current) return;
         init.current = true;
 
-        initGame(canvas.current, bg.current, isEditor, levelData);
+        initGame(canvas.current, bg.current, isEditor);
     }, [canvas.current]);
 
     useEffect(() => {
@@ -54,21 +61,65 @@ function Ultrakill1SPage() {
     }, [color, tool, isEditor, gridSize]);
 
     function reset() {
-        location.search = "";
+        router.push("/stuff/1-s");
         location.reload();
     }
 
-    function exportBoard() {
-        const data = exportLevel(game.currentLevel);
-
-        navigator.clipboard.writeText((process.env.NEXT_PUBLIC_PRODUCTION ? prodUrl : devUrl) + "/stuff/1-s?" + encodeURIComponent(data));
-
-        toast("Share link copied to clipboard!");
+    function openExportMenu() {
+        setShareDialogOpen(true);
+        setLevelData(exportLevel(game.currentLevel));
     }
 
-    return (
+    function saveLevel() {
+        const a = document.createElement("a");
+        a.href = `data:text/plain,${levelData}`;
+        a.download = "level.txt";
+        a.click();
+    }
+
+    function loadFromFile() {
+        const input = document.createElement("input");
+        input.type = "file";
+        input.accept = ".txt";
+        input.onchange = () => {
+            const file = input.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = () => {
+                setLevelData(reader.result as string);
+                importBoard(reader.result as string);
+
+                toast.success("Level loaded successfully!");
+            };
+            reader.readAsText(file);
+        };
+        input.click();
+    }
+
+    function importBoard(data?: string) {
+        game.currentLevel = JSON.parse(atob(data ?? levelData));
+        setGridSize({ x: game.currentLevel.gridSize.x, y: game.currentLevel.gridSize.y });
+        game.updateCanvasSize();
+    }
+
+    return (<>
+        <Dialog open={shareDialogOpen} onClose={() => setShareDialogOpen(false)} title="Export/Import Level" className="z-20">
+            <Input label="Level Data" multiline="true" value={levelData} onChange={e => setLevelData(e.target.value)} className="w-[500px] h-[150px]" />
+            <Button className="mt-2 w-full" onClick={() => { navigator.clipboard.writeText(levelData); toast.success("Copied!"); }}>Copy</Button>
+            <Button className="mt-2 w-full" onClick={() => importBoard()}>Import from String</Button>
+            <Button className="mt-2 w-full" onClick={saveLevel}>Save to File</Button>
+            <Button className="mt-2 w-full" onClick={loadFromFile}>Load from File</Button>
+        </Dialog>
+
         <div className="absolute-center p-5 flex flex-col gap-2 justify-center items-center">
-            <p><a href="#" onClick={reset}>New Level</a> | {isEditor ? <a href="#" onClick={() => setEditor(false)}>Play</a> : <a href="#" onClick={() => setEditor(true)}>Edit</a>} | <a href="#" onClick={exportBoard}>Export</a></p>
+            <div className="flex flex-row gap-2">
+                <a href="#" onClick={reset}>New Level</a>
+                |
+                {isEditor ? <a href="#" onClick={() => setEditor(false)}>Play</a> : <a href="#" onClick={() => setEditor(true)}>Edit</a>}
+                |
+                <a href="#" onClick={openExportMenu}>Import/Export</a>
+            </div>
             <div className="p-5 bg-black" ref={bg}>
                 <canvas ref={canvas} className="z-10" />
             </div>
@@ -93,7 +144,7 @@ function Ultrakill1SPage() {
                 </div>
             </div>}
         </div>
-    );
+    </>);
 }
 
 export default dynamic(() => Promise.resolve(Ultrakill1SPage), { ssr: false });
