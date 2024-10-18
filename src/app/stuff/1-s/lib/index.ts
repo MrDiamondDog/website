@@ -51,6 +51,13 @@ export const game = {
     updateCanvasSize() {
         game.canvas!.width = game.currentLevel.gridSize.x * squareSize + (game.currentLevel.gridSize.x - 1) * squareGap;
         game.canvas!.height = game.currentLevel.gridSize.y * squareSize + (game.currentLevel.gridSize.y - 1) * squareGap;
+    },
+
+    setLevel(level: Level) {
+        game.currentLevel = level;
+        game.updateCanvasSize();
+
+        game.bg.style.backgroundColor = "#000";
     }
 };
 const images: Record<string, HTMLImageElement | Record<string, HTMLImageElement>> = {};
@@ -218,7 +225,7 @@ export async function initGame(canvas: HTMLCanvasElement, bg: HTMLDivElement, is
             const timeout = setInterval(() => {
                 if (i >= 100) {
                     clearInterval(timeout);
-                    bg.style.backgroundColor = "transparent";
+                    bg.style.backgroundColor = "#000";
                 }
 
                 bg.style.backgroundColor = interpolateColor("#ff0000", "#000", i);
@@ -232,7 +239,7 @@ export async function initGame(canvas: HTMLCanvasElement, bg: HTMLDivElement, is
             const timeout = setInterval(() => {
                 if (i >= 100) {
                     clearInterval(timeout);
-                    bg.style.backgroundColor = "transparent";
+                    bg.style.backgroundColor = "#000";
                 }
 
                 bg.style.backgroundColor = interpolateColor("#00ff00", "#000", i);

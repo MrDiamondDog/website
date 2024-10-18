@@ -25,5 +25,8 @@ export function exportLevel(level: Level) {
         }
     }
 
+    // remove excess grid data if outside gridSize
+    level.grid = level.grid.slice(0, level.gridSize.x).map(row => row.slice(0, level.gridSize.y));
+
     return btoa(JSON.stringify(level));
 }

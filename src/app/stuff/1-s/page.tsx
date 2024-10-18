@@ -8,10 +8,12 @@ import { toast } from "sonner";
 
 import Button from "@/components/general/Button";
 import Dialog from "@/components/general/Dialog";
+import Divider from "@/components/general/Divider";
 import Input from "@/components/general/Input";
+import Subtext from "@/components/general/Subtext";
 import ToolbarButton from "@/components/stuff/1-s/ToolbarButton";
 
-import { game, gridColors, initGame, SquareColor, SquareType } from "./lib";
+import { game, gridColors, initGame, Level, SquareColor, SquareType } from "./lib";
 import { exportLevel } from "./lib/levels";
 
 function Ultrakill1SPage() {
@@ -22,6 +24,9 @@ function Ultrakill1SPage() {
 
     const [levelData, setLevelData] = useState<string>("");
     const [shareDialogOpen, setShareDialogOpen] = useState(false);
+    const [levelsDialogOpen, setLevelsDialogOpen] = useState(false);
+
+    const [ultrakillLevels, setUltrakillLevels] = useState<Record<string, Level[]>>({});
 
     const [isEditor, setEditor] = useState(!levelData ? true : location.hash.includes("editor"));
 
@@ -35,6 +40,23 @@ function Ultrakill1SPage() {
         init.current = true;
 
         initGame(canvas.current, bg.current, isEditor);
+
+        fetch("/assets/1-s/ultrakill-levels.json")
+            .then(res => res.json())
+            .then((data: Record<string, string[]>) => {
+                const levels: Record<string, Level[]> = {};
+
+                for (const [name, levelDatas] of Object.entries(data)) {
+                    for (const levelData of levelDatas) {
+                        const level = JSON.parse(atob(levelData));
+                        levels[name] = levels[name] ?? [];
+                        levels[name].push(level);
+                    }
+                }
+
+                console.log(levels);
+                setUltrakillLevels(levels);
+            });
     }, [canvas.current]);
 
     useEffect(() => {
@@ -98,7 +120,7 @@ function Ultrakill1SPage() {
     }
 
     function importBoard(data?: string) {
-        game.currentLevel = JSON.parse(atob(data ?? levelData));
+        game.setLevel(JSON.parse(atob(data ?? levelData)));
         setGridSize({ x: game.currentLevel.gridSize.x, y: game.currentLevel.gridSize.y });
         game.updateCanvasSize();
     }
@@ -112,11 +134,30 @@ function Ultrakill1SPage() {
             <Button className="mt-2 w-full" onClick={loadFromFile}>Load from File</Button>
         </Dialog>
 
+        <Dialog open={levelsDialogOpen} onClose={() => setLevelsDialogOpen(false)} title="ULTRAKILL Levels" className="z-20">
+            <Subtext>Choose a level from the original 1-S</Subtext>
+            <Divider />
+            {Object.entries(ultrakillLevels).map(([name, levels]) => <>
+                <h3>{name}</h3>
+                <div className="flex flex-row gap-1 mb-2">
+                    {levels.map((level, i) => <Button key={i} className="p-2" onClick={() => {
+                        game.setLevel(level);
+                        setGridSize({ x: level.gridSize.x, y: level.gridSize.y });
+                        game.updateCanvasSize();
+                        setLevelsDialogOpen(false);
+                        setEditor(false);
+                    }}>{i + 1}</Button>)}
+                </div>
+            </>)}
+        </Dialog>
+
         <div className="absolute-center p-5 flex flex-col gap-2 justify-center items-center">
             <div className="flex flex-row gap-2">
+                {isEditor ? <a href="#" onClick={() => setEditor(false)}>Play</a> : <a href="#" onClick={() => setEditor(true)}>Edit</a>}
+                |
                 <a href="#" onClick={reset}>New Level</a>
                 |
-                {isEditor ? <a href="#" onClick={() => setEditor(false)}>Play</a> : <a href="#" onClick={() => setEditor(true)}>Edit</a>}
+                <a href="#" onClick={() => setLevelsDialogOpen(true)}>Levels</a>
                 |
                 <a href="#" onClick={openExportMenu}>Import/Export</a>
             </div>
@@ -139,8 +180,8 @@ function Ultrakill1SPage() {
                     <ToolbarButton selected={color === "green"} onClick={() => setColor("green")}><div style={{ backgroundColor: gridColors.green }} className="rounded-lg size-10" /></ToolbarButton>
                 </div>
                 <div className="flex flex-row gap-2">
-                    <input type="range" className="w-[120px]" min={2} max={8} placeholder="Width" value={gridSize.x} onChange={e => setGridSize({ ...gridSize, x: parseInt(e.target.value) })} />
-                    <input type="range" className="w-[120px]" min={2} max={8} placeholder="Height" value={gridSize.y} onChange={e => setGridSize({ ...gridSize, y: parseInt(e.target.value) })} />
+                    <input type="range" className="w-[120px]" step={1} min={1} max={8} placeholder="Width" value={gridSize.x} onChange={e => setGridSize({ ...gridSize, x: parseInt(e.target.value) })} />
+                    <input type="range" className="w-[120px]" step={1} min={1} max={8} placeholder="Height" value={gridSize.y} onChange={e => setGridSize({ ...gridSize, y: parseInt(e.target.value) })} />
                 </div>
             </div>}
         </div>
