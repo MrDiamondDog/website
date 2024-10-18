@@ -17,9 +17,9 @@ export type Level = {
     grid: GridSquare[][];
 }
 
-const squareSize = 100;
-const imageSize = 70;
-const squareGap = 7;
+let squareSize = 100;
+let imageSize = 70;
+let squareGap = 7;
 
 export const gridColors = {
     red: "#ff0000",
@@ -49,6 +49,12 @@ export const game = {
     },
 
     updateCanvasSize() {
+        // both width and height of grid should affect square size
+        // max of 100 at around 3x3 grid
+        squareSize = Math.min(100, 1500 / (game.currentLevel.gridSize.x + game.currentLevel.gridSize.y));
+        imageSize = squareSize * 0.7;
+        squareGap = squareSize * 0.07;
+
         game.canvas!.width = game.currentLevel.gridSize.x * squareSize + (game.currentLevel.gridSize.x - 1) * squareGap;
         game.canvas!.height = game.currentLevel.gridSize.y * squareSize + (game.currentLevel.gridSize.y - 1) * squareGap;
     },
@@ -139,7 +145,21 @@ export async function initGame(canvas: HTMLCanvasElement, bg: HTMLDivElement, is
             if (game.mouseGridPos.x >= game.currentLevel.gridSize.x || game.mouseGridPos.y >= game.currentLevel.gridSize.y) return;
 
             const startSquare = game.currentLevel.grid[game.startPos.x][game.startPos.y];
-            const prevSquare = startSquare.linePoints[startSquare.linePoints.length - 1];
+            const lastSquare = startSquare.linePoints[startSquare.linePoints.length - 1];
+            const prevSquare = startSquare.linePoints[startSquare.linePoints.length - 2];
+            const currentSquare = game.currentLevel.grid[game.mouseGridPos.x][game.mouseGridPos.y];
+
+            // remove last point if mouse goes back a point
+            if (prevSquare?.x === game.mouseGridPos.x && prevSquare?.y === game.mouseGridPos.y) {
+                startSquare.linePoints.pop();
+                return;
+            }
+
+            // if only one point exists and mouse is on start square
+            if (startSquare.linePoints.length === 1 && game.startPos.x === game.mouseGridPos.x && game.startPos.y === game.mouseGridPos.y) {
+                startSquare.linePoints = [];
+                return;
+            }
 
             // if mouse is on start square
             if (game.startPos.x === game.mouseGridPos.x && game.startPos.y === game.mouseGridPos.y) return;
@@ -147,7 +167,7 @@ export async function initGame(canvas: HTMLCanvasElement, bg: HTMLDivElement, is
             if (startSquare.linePoints.find(point => point.x === game.mouseGridPos.x && point.y === game.mouseGridPos.y)) return;
 
             // if mouse is in void
-            if (game.currentLevel.grid[game.mouseGridPos.x][game.mouseGridPos.y]?.type === "void") return;
+            if (currentSquare?.type === "void") return;
 
             // if mouse is on a different line
             const allStartSquares = game.currentLevel.grid.flat().filter(square => square?.type === "start");
@@ -156,7 +176,7 @@ export async function initGame(canvas: HTMLCanvasElement, bg: HTMLDivElement, is
             }
 
             // if mouse is not adjacent to last point
-            if (!isAdjacent(prevSquare ?? game.startPos, game.mouseGridPos))
+            if (!isAdjacent(lastSquare ?? game.startPos, game.mouseGridPos))
                 return;
 
             startSquare.linePoints.push(game.mouseGridPos);

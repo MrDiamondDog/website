@@ -123,6 +123,9 @@ function Ultrakill1SPage() {
         game.setLevel(JSON.parse(atob(data ?? levelData)));
         setGridSize({ x: game.currentLevel.gridSize.x, y: game.currentLevel.gridSize.y });
         game.updateCanvasSize();
+
+        setEditor(false);
+        setShareDialogOpen(false);
     }
 
     return (<>
@@ -180,8 +183,8 @@ function Ultrakill1SPage() {
                     <ToolbarButton selected={color === "green"} onClick={() => setColor("green")}><div style={{ backgroundColor: gridColors.green }} className="rounded-lg size-10" /></ToolbarButton>
                 </div>
                 <div className="flex flex-row gap-2">
-                    <input type="range" className="w-[120px]" step={1} min={1} max={8} placeholder="Width" value={gridSize.x} onChange={e => setGridSize({ ...gridSize, x: parseInt(e.target.value) })} />
-                    <input type="range" className="w-[120px]" step={1} min={1} max={8} placeholder="Height" value={gridSize.y} onChange={e => setGridSize({ ...gridSize, y: parseInt(e.target.value) })} />
+                    <input type="range" className="w-[120px]" step={1} min={1} max={20} placeholder="Width" value={gridSize.x} onChange={e => setGridSize({ ...gridSize, x: parseInt(e.target.value) })} />
+                    <input type="range" className="w-[120px]" step={1} min={1} max={20} placeholder="Height" value={gridSize.y} onChange={e => setGridSize({ ...gridSize, y: parseInt(e.target.value) })} />
                 </div>
             </div>}
         </div>
