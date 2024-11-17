@@ -28,7 +28,7 @@ export default async function ProjectCard(props: Props) {
                 </div>
                 <BsBoxArrowUpRight className="text-gray-400" />
             </div>
-            <h3 className="font-bold font-">{repo.name}</h3>
+            <h3 className="font-bold">{repo.name}</h3>
             <Subtext>{repo.description}</Subtext>
             <div className="flex flex-row gap-2 items-center absolute bottom-3">
                 {repoLanguage && <>

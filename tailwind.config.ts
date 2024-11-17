@@ -32,6 +32,7 @@ const config = {
                 bg: "var(--background)",
                 "bg-light": "var(--background-light)",
                 "bg-lighter": "var(--background-lighter)",
+                "bg-lightest": "var(--background-lightest)",
                 "bg-light-transparent": "var(--background-light-transparent)",
                 primary: "var(--primary)",
                 secondary: "var(--secondary)",
@@ -41,6 +42,9 @@ const config = {
                 "accordion-down": "accordion-down 0.2s ease-out",
                 "accordion-up": "accordion-up 0.2s ease-out",
             },
+            borderRadius: {
+                "lg": "0.25rem"
+            }
         },
     },
     plugins: [require("tailwindcss-animate")],

@@ -6,7 +6,7 @@ import { Vec2 } from "objective-canvas";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 
-import Button from "@/components/general/Button";
+import Button, { ButtonStyles } from "@/components/general/Button";
 import Dialog from "@/components/general/Dialog";
 import Divider from "@/components/general/Divider";
 import Input from "@/components/general/Input";
@@ -131,10 +131,10 @@ function Ultrakill1SPage() {
     return (<>
         <Dialog open={shareDialogOpen} onClose={() => setShareDialogOpen(false)} title="Export/Import Level" className="z-20">
             <Input label="Level Data" multiline="true" value={levelData} onChange={e => setLevelData(e.target.value)} className="w-[500px] h-[150px]" />
-            <Button className="mt-2 w-full" onClick={() => { navigator.clipboard.writeText(levelData); toast.success("Copied!"); }}>Copy</Button>
-            <Button className="mt-2 w-full" onClick={() => importBoard()}>Import from String</Button>
-            <Button className="mt-2 w-full" onClick={saveLevel}>Save to File</Button>
-            <Button className="mt-2 w-full" onClick={loadFromFile}>Load from File</Button>
+            <Button look={ButtonStyles.secondary} className="mt-2 w-full" onClick={() => { navigator.clipboard.writeText(levelData); toast.success("Copied!"); }}>Copy</Button>
+            <Button look={ButtonStyles.secondary} className="mt-2 w-full" onClick={() => importBoard()}>Import from String</Button>
+            <Button look={ButtonStyles.secondary} className="mt-2 w-full" onClick={saveLevel}>Save to File</Button>
+            <Button look={ButtonStyles.secondary} className="mt-2 w-full" onClick={loadFromFile}>Load from File</Button>
         </Dialog>
 
         <Dialog open={levelsDialogOpen} onClose={() => setLevelsDialogOpen(false)} title="ULTRAKILL Levels" className="z-20">
@@ -143,7 +143,7 @@ function Ultrakill1SPage() {
             {Object.entries(ultrakillLevels).map(([name, levels]) => <>
                 <h3>{name}</h3>
                 <div className="flex flex-row gap-1 mb-2">
-                    {levels.map((level, i) => <Button key={i} className="p-2" onClick={() => {
+                    {levels.map((level, i) => <Button look={ButtonStyles.secondary} key={i} className="p-2" onClick={() => {
                         game.setLevel(level);
                         setGridSize({ x: level.gridSize.x, y: level.gridSize.y });
                         game.updateCanvasSize();
