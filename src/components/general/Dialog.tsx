@@ -1,5 +1,7 @@
 "use client";
 
+import { FaX } from "react-icons/fa6";
+
 interface Props {
     open?: boolean;
     onClose: () => void;
@@ -10,11 +12,11 @@ interface Props {
 
 export default function Dialog(props: Props) {
     return (
-        <div className={`fixed inset-0 bg-black bg-opacity-50 ${props.open ? "" : "hidden"} ${props.className ?? ""}`}>
-            <div className="absolute-center bg-bg-light min-w-1/4 p-4 rounded-lg">
-                <div className="flex flex-row justify-between">
+        <div className={`z-20 fixed inset-0 bg-black bg-opacity-75 ${props.open ? "" : "hidden"} ${props.className ?? ""}`}>
+            <div className="absolute-center bg-bg-light min-w-[500px] p-4 rounded-lg">
+                <div className="flex flex-row justify-between items-center gap-5">
                     <h2>{props.title}</h2>
-                    <button onClick={props.onClose}>X</button>
+                    <button onClick={props.onClose} className="size-8 flex items-center justify-center rounded-lg hover:bg-bg-lighter transition-all"><FaX /></button>
                 </div>
                 <div>{props.children}</div>
             </div>

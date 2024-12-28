@@ -2,6 +2,12 @@ import StuffItem from "@/components/home/StuffItem";
 
 const pages = [
     {
+        name: "Download RAM",
+        description: "Computer slow? Running out of RAM? Just download more!",
+        href: "download-ram",
+        tags: "tool"
+    },
+    {
         name: "ULTRAKILL 1-S",
         description: "Recreation of the game from ULTRAKILL 1-S",
         href: "1-s",

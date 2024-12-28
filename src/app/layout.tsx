@@ -6,32 +6,6 @@ import { Toaster } from "sonner";
 
 import Analytics from "@/components/general/Analytics";
 
-
-// const font = Mukta({
-//   weight: "400",
-//   display: "swap",
-//   subsets: ["latin-ext"],
-// });
-// const font = Dosis({
-//   weight: "400",
-//   display: "swap",
-//   subsets: ["latin-ext"],
-// });
-// const font = Oxygen({
-//   weight: "400",
-//   display: "swap",
-//   subsets: ["latin-ext"],
-// });
-// const font = Red_Hat_Display({
-//   weight: "400",
-//   display: "swap",
-//   subsets: ["latin-ext"],
-// });
-// const font = Schibsted_Grotesk({
-//   weight: "400",
-//   display: "swap",
-//   subsets: ["latin-ext"],
-// });
 const font = Rethink_Sans({
     weight: "400",
     display: "swap",
@@ -53,6 +27,7 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en">
+            {/* <script src="https://unpkg.com/react-scan/dist/auto.global.js" async /> */}
             <Analytics />
             <Toaster richColors theme="dark" />
             <body className={"bg-bg " + font.className}>

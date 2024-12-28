@@ -52,7 +52,7 @@ export function initWhiteboard(canvas: HTMLCanvasElement) {
         }
     });
 
-    Mouse.events.on("down", () => {
+    function onMouseDown() {
         if (!Mouse.leftDown) return;
         if (whiteboard.currentStroke) return;
 
@@ -85,6 +85,18 @@ export function initWhiteboard(canvas: HTMLCanvasElement) {
 
             whiteboard.currentStroke.addToScene();
         }
+    }
+    Mouse.events.on("down", onMouseDown);
+    window.addEventListener("touchstart", () => {
+        onMouseDown();
+        Mouse.leftDown = true;
+    });
+    window.addEventListener("touchend", () => Mouse.leftDown = false);
+    window.addEventListener("touchmove", e => {
+        if (whiteboard.selectedTool === "pen" || whiteboard.selectedTool === "eraser")
+            (whiteboard.currentStroke as StrokeObject)?.strokeData.points.push(Mouse.worldPos);
+
+        // TODO: multiplayer with touchpad
     });
 
     let lastMove = 0;
@@ -211,7 +223,7 @@ export function combinedSize(bounds?: boolean) {
 export function exportCanvas(transparent?: boolean) {
     const exportCanvas = document.createElement("canvas");
 
-    whiteboard.exporting = !transparent ?? true;
+    whiteboard.exporting = true;
 
     const size = combinedSize(true) as { minX: number, minY: number, maxX: number, maxY: number };
     exportCanvas.width = Math.round(size.maxX - size.minX) + canvasBuffer;
