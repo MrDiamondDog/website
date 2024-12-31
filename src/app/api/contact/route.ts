@@ -28,7 +28,7 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({ body: "Fields are too long." }, { status: 400 });
 
 
-    const accessToken = cookies().get("access_token")?.value;
+    const accessToken = (await cookies()).get("access_token")?.value;
 
     if (!accessToken)
         return NextResponse.json({ body: "Unauthorized" }, { status: 403 });

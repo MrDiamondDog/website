@@ -7,7 +7,7 @@ import { accessToken, deleteToken, refreshToken } from "@/lib/discord";
 export const runtime = 'edge';
 
 export async function GET(req: NextRequest) {
-    const cookie = cookies();
+    const cookie = await cookies();
 
     if (req.nextUrl.searchParams.has("clientId"))
         return NextResponse.json({ clientId: process.env.DISCORD_OAUTH_ID });
@@ -56,7 +56,7 @@ export async function POST(req: NextRequest) {
 }
 
 export async function DELETE(req: NextRequest) {
-    const cookie = cookies();
+    const cookie = await cookies();
 
     if (!cookie.has("access_token") && !cookie.has("refresh_token"))
         return NextResponse.json({}, { status: 403 });
