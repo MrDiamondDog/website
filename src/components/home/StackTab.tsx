@@ -1,5 +1,7 @@
 import { DiJava } from "react-icons/di";
-import { SiCplusplus, SiCsharp, SiIntellijidea, SiKotlin, SiNextdotjs, SiNodedotjs, SiOracle, SiPostgresql, SiPrisma, SiRider, SiTailwindcss, SiTypescript, SiUnity, SiVercel, SiVisualstudiocode } from "react-icons/si";
+import { PiFileCSharp } from "react-icons/pi";
+import { SiCplusplus, SiIntellijidea, SiKotlin, SiNextdotjs, SiNodedotjs, SiOracle, SiPostgresql, SiPrisma, SiRider, SiTailwindcss, SiTypescript, SiUnity, SiVercel } from "react-icons/si";
+import { VscVscode } from "react-icons/vsc";
 
 import Divider from "../general/Divider";
 import StackItem from "./StackItem";
@@ -48,7 +50,7 @@ export default function StackTab() {
 
             <Divider />
 
-            <StackItem title="VSCode" icon={SiVisualstudiocode} link="https://code.visualstudio.com/">
+            <StackItem title="VSCode" icon={VscVscode} link="https://code.visualstudio.com/">
                 VSCode is my go-to code editor. It's fast and really simple.
             </StackItem>
 
@@ -76,7 +78,7 @@ export default function StackTab() {
                 I have used Unity for making games. It's a simple and powerful engine that I enjoy using.
             </StackItem>
 
-            <StackItem title="C#" icon={SiCsharp} link="https://dotnet.microsoft.com/en-us/languages/csharp">
+            <StackItem title="C#" icon={PiFileCSharp} link="https://dotnet.microsoft.com/en-us/languages/csharp">
                 I use C# for Unity projects, obviously.
             </StackItem>
 
