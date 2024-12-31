@@ -43,7 +43,7 @@ const config = {
                 "accordion-up": "accordion-up 0.2s ease-out",
             },
             borderRadius: {
-                "lg": "0.25rem"
+                "lg": "1rem"
             }
         },
     },

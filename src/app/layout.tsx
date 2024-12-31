@@ -29,9 +29,9 @@ export default function RootLayout({
         <html lang="en">
             {/* <script src="https://unpkg.com/react-scan/dist/auto.global.js" async /> */}
             <Analytics />
-            <Toaster richColors theme="dark" />
             <body className={"bg-bg " + font.className}>
                 {children}
+                <Toaster richColors theme="dark" />
             </body>
         </html>
     );
