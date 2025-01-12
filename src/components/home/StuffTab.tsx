@@ -4,7 +4,7 @@ const pages = [
     {
         name: "Download RAM",
         description: "Computer slow? Running out of RAM? Just download more!",
-        href: "download-ram",
+        href: "generators/download-ram",
         tags: "tool"
     },
     {

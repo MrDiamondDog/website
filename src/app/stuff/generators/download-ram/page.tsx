@@ -1,17 +1,16 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { FaArrowUpRightFromSquare } from "react-icons/fa6";
 import { RiRam2Line } from "react-icons/ri";
-import { toast } from "sonner";
 
 import Button from "@/components/general/Button";
-import Dialog from "@/components/general/Dialog";
 import Divider from "@/components/general/Divider";
-import Input from "@/components/general/Input";
 import Spinner from "@/components/general/Spinner";
 import StepProgress from "@/components/general/StepProgress";
 import Subtext from "@/components/general/Subtext";
+import HumanVerificationDialog from "@/components/generators/HumanVerification";
+
+import { useUserFeed } from "../utils";
 
 function RAMSelector({ amount, tier, onClick }: { amount: number, tier: number, onClick: () => void }) {
     return (<div className="bg-bg-lighter p-2 rounded-lg w-full cursor-pointer hover:bg-primary transition-all max-w-[150px]" onClick={onClick}>
@@ -27,107 +26,28 @@ function RAMSelector({ amount, tier, onClick }: { amount: number, tier: number, 
     </div>);
 }
 
-type Question = {
-    question: string;
-    min?: number;
-    max?: number;
-    type?: "text" | "number";
-    regex?: RegExp;
-}
-
-// username
-// email
-// phone number
-// all address info
-// credit card info
-// common security questions
-const questions: Question[][] = [
-    [
-        {
-            question: "Username"
-        }
-    ],
-    [
-        {
-            question: "Email",
-            regex: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/gi
-        }
-    ],
-    [
-        {
-            question: "Phone Number",
-            regex: /^(\+\d{1,2}\s?)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/gi
-        }
-    ],
-    [
-        {
-            question: "Address Line 1"
-        },
-        {
-            question: "Address Line 2"
-        },
-        {
-            question: "City"
-        },
-        {
-            question: "Country"
-        },
-        {
-            question: "Zip Code",
-            regex: /^\d{5}(-\d{4})?$/gi
-        }
-    ],
-    [
-        {
-            question: "Credit Card Number",
-            regex: /^\d{16}$/gi
-        },
-        {
-            question: "Expiration Date",
-            regex: /^(0[1-9]|1[0-2])\/\d{2}$/gi
-        },
-        {
-            question: "CVV",
-            regex: /^\d{3}$/gi
-        }
-    ],
-    [
-        {
-            question: "What is your mother's maiden name?"
-        },
-        {
-            question: "What is the name of your first pet?"
-        },
-        {
-            question: "What is the name of your first school?"
-        }
-    ],
-];
-
 export default function DownloadRamPage() {
     const [step, setStep] = useState(0);
     const [selectedRam, setSelectedRam] = useState<number[]>([0, 0]);
 
-    const [humanVerificationDialog, setHumanVerificationDialog] = useState(false);
-    const [question, setQuestion] = useState(0);
-    const [questionValues, setQuestionValues] = useState<string[]>([]);
-
     const [downloadProgress, setDownloadProgress] = useState(0);
     const [installing, setInstalling] = useState(false);
 
+    useUserFeed(u => `${u} has downloaded ${[8, 16, 32, 64][Math.floor(Math.random() * 4)]}gb of RAM for free!`);
+
     useEffect(() => {
-        const interval = setInterval(async () => {
-            if (Math.random() < 0.75) return;
+        if (installing) {
+            const interval = setInterval(() => {
+                if (Math.random() > 0.6) {
+                    setInstalling(false);
+                    setStep(5);
+                    clearInterval(interval);
+                }
+            }, 5000);
 
-            await fetch("https://usernameapiv1.vercel.app/api/random-usernames")
-                .then(res => res.json())
-                .then(data => {
-                    toast.success(`${data.usernames[0]} has downloaded ${[8, 16, 32, 64][Math.floor(Math.random() * 4)]}gb of RAM for free!`);
-                });
-        }, 1000);
-
-        return () => clearInterval(interval);
-    }, []);
+            return () => clearInterval(interval);
+        }
+    }, [installing]);
 
     useEffect(() => {
         if (step === 3) {
@@ -146,50 +66,7 @@ export default function DownloadRamPage() {
         }
     }, [step]);
 
-    useEffect(() => {
-        if (installing) {
-            const interval = setInterval(() => {
-                if (Math.random() > 0.6) {
-                    setInstalling(false);
-                    setStep(5);
-                    clearInterval(interval);
-                }
-            }, 5000);
-
-            return () => clearInterval(interval);
-        }
-    }, [installing]);
-
     return (<>
-        <Dialog open={humanVerificationDialog} onClose={() => setHumanVerificationDialog(false)} title="Verification">
-            <StepProgress progress={question} maxProgress={questions.length} />
-            <div className="flex flex-col gap-1">
-                {questions[question].map((q, i) => <>
-                    <h3>{q.question}</h3>
-                    <Input key={q.question} value={questionValues[i]} type={q.type ?? "text"} onChange={e => setQuestionValues([...questionValues.slice(0, i), e.target.value, ...questionValues.slice(i + 1)])} />
-                </>)}
-            </div>
-            <Divider />
-            <Button onClick={() => {
-                if (questions[question].every((q, i) => {
-                    if (q.regex) {
-                        return q.regex.test(questionValues[i]);
-                    }
-                    return questionValues[i].length > 0;
-                })) {
-                    setQuestionValues([]);
-                    if (question === questions.length - 1) {
-                        setHumanVerificationDialog(false);
-                        setStep(3);
-                    } else {
-                        setQuestion(question + 1);
-                    }
-                } else {
-                    toast.error("Please fill out all fields correctly");
-                }
-            }} className="w-full">Next</Button>
-        </Dialog>
-
         <div className="absolute-center bg-bg-light rounded-lg p-4 transition-all min-w-[500px] max-w-[700px]">
             <StepProgress progress={step} maxProgress={5} />
 
@@ -215,7 +92,7 @@ export default function DownloadRamPage() {
                     <h2>Human Verification</h2>
                     <p>Please verify that you are a human before proceeding.</p>
                     <Divider />
-                    <Button onClick={() => setHumanVerificationDialog(true)} className="w-full flex flex-row gap-1">Verify<FaArrowUpRightFromSquare /></Button>
+                    <HumanVerificationDialog onFinish={() => setStep(3)} />
                 </>}
 
                 {step === 3 && <>
@@ -239,10 +116,10 @@ export default function DownloadRamPage() {
                     <h2>RAM Installed</h2>
                     <p>Your RAM has been installed!</p>
                     <Divider />
-                    <Button onClick={() => { setStep(0); setDownloadProgress(0); }} className="w-full">Download More RAM</Button>
+                    <Button onClick={() => location.reload()} className="w-full">Download More RAM</Button>
                 </>}
                 <p className="text-xs text-gray-500 mt-2 whitespace-pre-wrap">
-                    This is fake, you will not get any RAM. Please do not enter any real personal information.{"\n"}
+                    This is fake, you will not get any RAM. No information will be shared.{"\n"}
                     Source code is available on <a href="https://github.com/mrdiamonddog/website" className="text-blue-400 no-style">GitHub</a>.
                 </p>
             </div>

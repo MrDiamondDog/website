@@ -8,11 +8,11 @@
   font-size: 20px;
   color: white;
 
-  --background: #17181a;
-  --background-light: #1f2124;
-  --background-lighter: #242930;
+  --background: #0d0e10;
+  --background-light: #16191d;
+  --background-lighter: #1b222a;
   --background-lightest: #2b2e37;
-  --background-light-transparent: rgba(31, 33, 36, 0.5);
+  --background-light-transparent: rgba(22, 25, 29, 0.5);
 
   --primary: #3181bf;
   --secondary: #1e5178;
@@ -232,7 +232,8 @@ select, option {
   }
 
   input[type=number] {
-      -moz-appearance:textfield; /* Firefox */
+      -moz-appearance: textfield; /* Firefox */
+      appearance: textfield; /* Chrome */
   }
 }
 
@@ -291,9 +292,19 @@ select, option {
     padding-bottom: 0.25rem;
   }
 
+  & a {
+    color: var(--primary);
+  }
+
+  & hr {
+    border: none;
+    height: 3px;
+    background-color: var(--background-lighter);
+    border-radius: 999px;
+  }
 
   & ul li {
-    padding: 0.25rem 1rem;
+    padding: 0.05rem 1rem;
   }
 
   & ul li::before {
@@ -303,6 +314,31 @@ select, option {
     width: 1em;
     font-size: 1rem;
     margin-left: -1em;
+  }
+
+  & ol {
+    counter-reset: list;
+  }
+
+  & ol li {
+    counter-increment: list;
+    padding: 0.05rem 1rem;
+    /* add number */
+    &::before {
+      content: counter(list) ".";
+      color: var(--primary);
+      display: inline-block;
+      width: 1em;
+      font-size: 1rem;
+      margin-left: -1em;
+    }
+  }
+
+  & blockquote {
+    background-color: var(--background-lightest);
+    padding: 0.5rem 1rem;
+    border-left: 0.25rem solid var(--primary);
+    border-radius: 0.5rem;
   }
 }
 

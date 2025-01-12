@@ -26,7 +26,6 @@ export default async function ProjectCard(props: Props) {
                     <img src={repo.owner.avatar_url} alt={`${props.owner}'s avatar`} className="rounded-full w-6" />
                     <p>{props.owner}</p>
                 </div>
-                <BsBoxArrowUpRight className="text-gray-400" />
             </div>
             <h3 className="font-bold">{repo.name}</h3>
             <Subtext>{repo.description}</Subtext>

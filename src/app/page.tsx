@@ -3,6 +3,7 @@ import { FaDiscord, FaGithub } from "react-icons/fa6";
 import Divider from "@/components/general/Divider";
 import Subtext from "@/components/general/Subtext";
 import Background from "@/components/home/Background";
+import BlogPost from "@/components/home/BlogPost";
 import ContactTab from "@/components/home/ContactTab";
 import ProjectCard from "@/components/home/ProjectCard";
 import SendADrawing from "@/components/home/SendADrawing";
@@ -11,15 +12,18 @@ import StackTab from "@/components/home/StackTab";
 import StuffTab from "@/components/home/StuffTab";
 import Tab from "@/components/tabs/Tab";
 import Tablist from "@/components/tabs/Tablist";
+import { getPosts } from "@/lib/blog";
 
-export default function Home() {
+export default async function Home() {
+    const blogPosts = await getPosts();
+
     return (<>
         <Background />
         <main
-            className="absolute-center lg:w-[45%] md:w-2/3 w-full max-h-[75%] transition-[height] p-5 rounded-lg border-[3px] border-primary bg-bg-light-transparent backdrop-blur-sm drop-shadow-xl overflow-scroll"
+            className="absolute-center lg:w-[45%] md:w-2/3 w-full max-h-[75%] transition-[width] p-5 rounded-lg border-[3px] border-primary bg-bg-light-transparent backdrop-blur-sm drop-shadow-xl overflow-scroll"
         >
             <Tablist
-                tabs={["Profile", "Stack", "Projects", "Stuff", "Contact"]}
+                tabs={["Profile", "Projects", "Stuff", "Stack", "Blog", "Contact"]}
                 activeTab="Profile"
             >
                 <Tab name="Profile">
@@ -66,10 +70,20 @@ export default function Home() {
                 <Tab name="Stuff" className="flex flex-col gap-2">
                     <StuffTab />
                 </Tab>
+                <Tab name="Blog">
+                    <div className="grid grid-cols-2 gap-2">
+                        {blogPosts.map(post => (
+                            <BlogPost post={post} key={post.slug} />
+                        ))}
+                    </div>
+                </Tab>
                 <Tab name="Contact">
                     <ContactTab />
                 </Tab>
             </Tablist>
+
+            <Divider />
+            <Subtext>Source code available on <a href="https://github.com/mrdiamonddog/website" className="no-style text-primary">GitHub</a>.</Subtext>
         </main>
     </>);
 }

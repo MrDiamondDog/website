@@ -8,7 +8,7 @@ import StackItem from "./StackItem";
 
 export default function StackTab() {
     return (
-        <div className="flex flex-col gap-5">
+        <div className="flex flex-col gap-5 mb-5">
             <StackItem title="TypeScript" icon={SiTypescript} link="https://www.typescriptlang.org/">
                 My main language for basically everything. I often use TypeScript over JavaScript for its type safety.
                 Type safety is extremely important to me and I can't live without it.
