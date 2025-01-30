@@ -14,11 +14,13 @@ function JonahPage() {
     jonahImage.src = "/images/jonah.webp";
 
     useEffect(() => {
-        (async () => {
+        (async() => {
             const canvasElement = canvas.current as HTMLCanvasElement;
-            if (!canvasElement) return;
+            if (!canvasElement)
+                return;
             const ctx = canvasElement.getContext("2d") as CanvasRenderingContext2D;
-            if (!ctx) return;
+            if (!ctx)
+                return;
 
             canvasElement.width = canvasElement.clientWidth;
             canvasElement.height = canvasElement.clientHeight;
@@ -30,7 +32,8 @@ function JonahPage() {
             function drawJonahParticles() {
                 ctx.globalAlpha = 0.7;
                 jonahParticles.forEach(particle => {
-                    if (particle.dead) return;
+                    if (particle.dead)
+                        return;
                     drawJonah(particle.pos, 25);
                 });
                 ctx.globalAlpha = 1;
@@ -75,10 +78,15 @@ function JonahPage() {
             canvasElement.addEventListener("click", e => {
                 const mousePos = {
                     x: e.clientX - canvasElement.getBoundingClientRect().left,
-                    y: e.clientY - canvasElement.getBoundingClientRect().top
+                    y: e.clientY - canvasElement.getBoundingClientRect().top,
                 };
 
-                if (mousePos.x >= jonahPos.x && mousePos.x <= jonahPos.x + 200 && mousePos.y >= jonahPos.y && mousePos.y <= jonahPos.y + 200) {
+                if (
+                    mousePos.x >= jonahPos.x &&
+                    mousePos.x <= jonahPos.x + 200 &&
+                    mousePos.y >= jonahPos.y &&
+                    mousePos.y <= jonahPos.y + 200
+                ) {
                     for (const i of Array(10))
                         jonahParticles.push({
                             pos: { x: jonahPos.x + 100, y: jonahPos.y + 100 },
