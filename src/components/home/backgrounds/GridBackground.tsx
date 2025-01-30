@@ -13,12 +13,15 @@ export default function GridBackground() {
     const started = useRef(false);
 
     useEffect(() => {
-        if (started.current) return;
+        if (started.current)
+            return;
         started.current = true;
-        if (!canvas.current) return;
+        if (!canvas.current)
+            return;
 
         const ctx = canvas.current.getContext("2d");
-        if (!ctx) return;
+        if (!ctx)
+            return;
 
         canvas.current.width = window.innerWidth;
         canvas.current.height = window.innerHeight;
@@ -65,6 +68,10 @@ export default function GridBackground() {
 
     return (<>
         <canvas className="absolute inset-0 motion-reduce:hidden" ref={canvas} />
-        <Subtext className="absolute-center !top-5 hidden motion-reduce:block">There's usually a cool background here, but it has been hidden based on your preferences.</Subtext>
+        <Subtext
+            className="absolute-center !top-5 hidden motion-reduce:block"
+        >
+            There's usually a cool background here, but it has been hidden based on your preferences.
+        </Subtext>
     </>);
 }

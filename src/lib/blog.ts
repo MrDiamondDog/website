@@ -9,7 +9,7 @@ export type BlogPost = {
 const endpoint = "https://server.mrdiamond.is-a.dev/blogs";
 
 export async function getPosts(): Promise<BlogPost[]> {
-    const res = await fetch(endpoint + "/index.json");
+    const res = await fetch(`${endpoint}/index.json`);
     return await res.json();
 }
 
@@ -18,6 +18,6 @@ export async function getPost(slug: string): Promise<BlogPost | null> {
 }
 
 export async function getContent(slug: string): Promise<string> {
-    const res = await fetch(endpoint + "/" + slug + ".md");
+    const res = await fetch(`${endpoint}/${slug}.md`);
     return await res.text();
 }

@@ -1,4 +1,5 @@
-import Matter, { Bodies, Bounds, Composite, Constraint, Engine, Events, Mouse, MouseConstraint, Render, Runner, Vector } from "matter-js";
+import Matter,
+{ Bodies, Bounds, Composite, Constraint, Engine, Events, Mouse, MouseConstraint, Render, Runner, Vector } from "matter-js";
 
 import { canvas } from ".";
 
@@ -14,16 +15,15 @@ export function initMatter() {
     engine = Engine.create();
     render = Render.create({
         canvas,
-        engine: engine,
+        engine,
         options: {
             width: canvas.clientWidth,
             height: canvas.clientHeight,
             wireframes: false,
             background: "transparent",
             hasBounds: true,
-        }
+        },
     });
-
 
     Render.run(render);
 
@@ -36,7 +36,7 @@ export function initMatter() {
     // add all of the bodies to the world
     addBody(ground);
 
-    Events.on(engine, "afterUpdate", function() {
+    Events.on(engine, "afterUpdate", () => {
         Composite.allBodies(engine.world).forEach(body => {
             if (body.position.y > 2000) {
                 Matter.Composite.remove(engine.world, body);
@@ -49,15 +49,15 @@ export function initMatter() {
 }
 
 export function initMouse() {
-    var mouse = Mouse.create(render.canvas);
+    let mouse = Mouse.create(render.canvas);
     mouseConstraint = MouseConstraint.create(engine, {
         mouse,
         constraint: {
             damping: 0.2,
             render: {
-                visible: false
-            }
-        }
+                visible: false,
+            },
+        },
     });
 
     render.mouse = mouse;
@@ -79,19 +79,19 @@ export function screenToWorld(pos: Vector) {
 }
 
 export function initCamera() {
-    var boundsScaleTarget = 1,
-        boundsScale = {
-            x: 1,
-            y: 1
-        };
+    let boundsScaleTarget = 1;
+    let boundsScale = {
+        x: 1,
+        y: 1,
+    };
 
-    Events.on(render, "beforeRender", function() {
-        var { world } = engine,
-            { mouse } = render,
-            translate;
+    Events.on(render, "beforeRender", () => {
+        let { world } = engine;
+        let { mouse } = render;
+        let translate;
 
         // mouse wheel controls zoom
-        var scaleFactor = mouse.wheelDelta * -0.1;
+        let scaleFactor = mouse.wheelDelta * -0.1;
         if (scaleFactor !== 0) {
             if ((scaleFactor < 0 && boundsScale.x >= 0.5) || (scaleFactor > 0 && boundsScale.x <= 10)) {
                 boundsScaleTarget += scaleFactor;
@@ -112,7 +112,7 @@ export function initCamera() {
             // translate so zoom is from centre of view
             translate = {
                 x: render.options.width * scaleFactor * -0.5,
-                y: render.options.height * scaleFactor * -0.5
+                y: render.options.height * scaleFactor * -0.5,
             };
 
             Bounds.translate(render.bounds, translate);
@@ -126,7 +126,7 @@ export function initCamera() {
         if (mouse.button === 2) {
             translate = {
                 x: (mouse.mousedownPosition.x - mouse.position.x) * 1,
-                y: (mouse.mousedownPosition.y - mouse.position.y) * 1
+                y: (mouse.mousedownPosition.y - mouse.position.y) * 1,
             };
 
             Bounds.translate(render.bounds, translate);
@@ -136,6 +136,7 @@ export function initCamera() {
     });
 }
 
-export function addBody(body: Matter.Body | Composite | Constraint | MouseConstraint | Array<Matter.Body | Composite | Constraint | MouseConstraint>) {
+export function addBody(body:
+    Matter.Body | Composite | Constraint | MouseConstraint | Array<Matter.Body | Composite | Constraint | MouseConstraint>) {
     Composite.add(engine.world, body);
 }

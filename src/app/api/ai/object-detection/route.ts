@@ -9,14 +9,17 @@ export async function POST(req: NextRequest) {
 
     const blob = await req.blob();
 
-    const res = await fetch(`https://api.cloudflare.com/client/v4/accounts/${process.env.CF_ACCOUNT_ID}/ai/run/@cf/facebook/detr-resnet-50`, {
-        method: "POST",
-        headers: {
-            "Authorization": `Bearer ${process.env.CF_AI_TOKEN}`,
-            "Content-Type": "application/json",
-        },
-        body: blob
-    });
+    const res = await fetch(
+        `https://api.cloudflare.com/client/v4/accounts/${process.env.CF_ACCOUNT_ID}/ai/run/@cf/facebook/detr-resnet-50`,
+        {
+            method: "POST",
+            headers: {
+                Authorization: `Bearer ${process.env.CF_AI_TOKEN}`,
+                "Content-Type": "application/json",
+            },
+            body: blob,
+        }
+    );
 
     if (!res.ok) {
         console.error(await res.json());

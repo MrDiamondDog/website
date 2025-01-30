@@ -13,30 +13,34 @@ export default function DotsBackground() {
     const started = useRef(false);
 
     useEffect(() => {
-        if (started.current) return;
+        if (started.current)
+            return;
         started.current = true;
-        if (!canvas.current) return;
+        if (!canvas.current)
+            return;
 
         const ctx = canvas.current.getContext("2d");
-        if (!ctx) return;
+        if (!ctx)
+            return;
 
         canvas.current.width = window.innerWidth;
         canvas.current.height = window.innerHeight;
 
         let numDots = 100;
-        if (window.innerWidth < 768) numDots = 50;
+        if (window.innerWidth < 768)
+            numDots = 50;
 
         for (let i = 0; i < numDots; i++) {
             dots.push({
                 pos: {
                     x: Math.random() * window.innerWidth,
-                    y: Math.random() * window.innerHeight
+                    y: Math.random() * window.innerHeight,
                 },
                 vel: {
                     x: Math.random() * 2 - 1,
-                    y: Math.random() * 2 - 1
+                    y: Math.random() * 2 - 1,
                 },
-                connections: 0
+                connections: 0,
             });
         }
 
@@ -55,8 +59,10 @@ export default function DotsBackground() {
             dot.connections = 0;
 
             for (const other of dots) {
-                if (dot === other) continue;
-                if (other.connections > 3) continue;
+                if (dot === other)
+                    continue;
+                if (other.connections > 3)
+                    continue;
 
                 const dx = other.pos.x - dot.pos.x;
                 const dy = other.pos.y - dot.pos.y;
@@ -72,7 +78,8 @@ export default function DotsBackground() {
                     dot.connections++;
                 }
 
-                if (dot.connections > 3) break;
+                if (dot.connections > 3)
+                    break;
             }
 
             dot.pos.x += dot.vel.x;
@@ -93,6 +100,10 @@ export default function DotsBackground() {
 
     return (<>
         <canvas className="absolute inset-0 motion-reduce:hidden" ref={canvas} />
-        <Subtext className="absolute-center !top-5 hidden motion-reduce:block">There's usually a cool background here, but it has been hidden based on your preferences.</Subtext>
+        <Subtext
+            className="absolute-center !top-5 hidden motion-reduce:block"
+        >
+            There's usually a cool background here, but it has been hidden based on your preferences.
+        </Subtext>
     </>);
 }

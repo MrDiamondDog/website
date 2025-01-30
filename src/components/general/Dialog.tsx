@@ -16,7 +16,12 @@ export default function Dialog(props: Props) {
             <div className="absolute-center bg-bg-light min-w-[500px] p-4 rounded-lg">
                 <div className="flex flex-row justify-between items-center gap-5">
                     <h2>{props.title}</h2>
-                    <button onClick={props.onClose} className="size-8 flex items-center justify-center rounded-lg hover:bg-bg-lighter transition-all"><FaX /></button>
+                    <button
+                        onClick={props.onClose}
+                        className="size-8 flex items-center justify-center rounded-lg hover:bg-bg-lighter transition-all"
+                    >
+                        <FaX />
+                    </button>
                 </div>
                 <div>{props.children}</div>
             </div>

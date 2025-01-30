@@ -35,7 +35,8 @@ export default function SpawnableObject(props: SpawnableObjectProps) {
                 title={props.name}
             >
                 {Object.entries(props.options).map(([key, settings]) => {
-                    if (!settings.value) settings.value = settings.default;
+                    if (!settings.value)
+                        settings.value = settings.default;
                     const [value, setValue] = useState(settings.value);
 
                     useEffect(() => {
@@ -54,8 +55,10 @@ export default function SpawnableObject(props: SpawnableObjectProps) {
                     />;
                 })}
                 <ToolbarButton
-                    onMouseDown={e =>
-                        spawn(e, Object.fromEntries(Object.entries(props.options).map(([key, option]) => [key, option.value])))}
+                    onMouseDown={e => spawn(
+                        e,
+                        Object.fromEntries(Object.entries(props.options).map(([key, option]) => [key, option.value]))
+                    )}
                 >
                     Spawn
                 </ToolbarButton>

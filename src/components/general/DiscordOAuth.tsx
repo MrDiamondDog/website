@@ -13,10 +13,11 @@ export default function DiscordOAuth({ setToken }: { setToken?: (token: string) 
 
     const sent = useRef(false);
     useEffect(() => {
-        if (!code || sent.current) return;
+        if (!code || sent.current)
+            return;
         sent.current = true;
 
-        (async () => {
+        (async() => {
             const res = await fetch(`/api/discord?code=${code}${state ? `&state=${state}` : ""}`, {
                 method: "POST",
             });

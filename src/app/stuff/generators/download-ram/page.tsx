@@ -13,7 +13,9 @@ import HumanVerificationDialog from "@/components/generators/HumanVerification";
 import { useUserFeed } from "../utils";
 
 function RAMSelector({ amount, tier, onClick }: { amount: number, tier: number, onClick: () => void }) {
-    return (<div className="bg-bg-lighter p-2 rounded-lg w-full cursor-pointer hover:bg-primary transition-all max-w-[150px]" onClick={onClick}>
+    return (<div className="bg-bg-lighter p-2 rounded-lg w-full cursor-pointer hover:bg-primary transition-all max-w-[150px]"
+        onClick={onClick}
+    >
         <div className="grid grid-cols-2 grid-rows-2 gap-1 place-items-stretch">
             {tier >= 1 && <RiRam2Line size={64} />}
             {tier >= 2 && <RiRam2Line size={64} />}
@@ -82,10 +84,18 @@ export default function DownloadRamPage() {
                     <p>Choose how much RAM you would like to download</p>
                     <Divider />
                     <div className="flex flex-row gap-2">
-                        <RAMSelector onClick={() => { setSelectedRam([8, 1]); setStep(2); }} amount={8} tier={1} />
-                        <RAMSelector onClick={() => { setSelectedRam([16, 2]); setStep(2); }} amount={16} tier={2} />
-                        <RAMSelector onClick={() => { setSelectedRam([32, 3]); setStep(2); }} amount={32} tier={3} />
-                        <RAMSelector onClick={() => { setSelectedRam([64, 4]); setStep(2); }} amount={64} tier={4} />
+                        <RAMSelector onClick={() => {
+                            setSelectedRam([8, 1]); setStep(2);
+                        }} amount={8} tier={1} />
+                        <RAMSelector onClick={() => {
+                            setSelectedRam([16, 2]); setStep(2);
+                        }} amount={16} tier={2} />
+                        <RAMSelector onClick={() => {
+                            setSelectedRam([32, 3]); setStep(2);
+                        }} amount={32} tier={3} />
+                        <RAMSelector onClick={() => {
+                            setSelectedRam([64, 4]); setStep(2);
+                        }} amount={64} tier={4} />
                     </div>
                 </>}
                 {step === 2 && <>
@@ -102,7 +112,10 @@ export default function DownloadRamPage() {
                     <div className="flex flex-col items-center gap-2">
                         <p>Progress: {downloadProgress.toFixed(1)}gb / {selectedRam[0]}gb</p>
                         <div className="w-full bg-bg-lighter h-[5px] rounded-full relative">
-                            <div className="bg-primary h-full rounded-full transition-all" style={{ width: `${(downloadProgress / selectedRam[0]) * 100}%` }} />
+                            <div
+                                className="bg-primary h-full rounded-full transition-all"
+                                style={{ width: `${(downloadProgress / selectedRam[0]) * 100}%` }}
+                            />
                         </div>
                     </div>
                 </>}
@@ -110,7 +123,11 @@ export default function DownloadRamPage() {
                     <h2>Download Complete</h2>
                     <p>Your download is complete! Click the button below to install the RAM! (this also might take a while)</p>
                     <Divider />
-                    <Button onClick={() => setInstalling(true)} disabled={installing} className="w-full">{installing ? <Spinner /> : "Install RAM"}</Button>
+                    <Button
+                        onClick={() => setInstalling(true)}
+                        disabled={installing}
+                        className="w-full"
+                    >{installing ? <Spinner /> : "Install RAM"}</Button>
                 </>}
                 {step === 5 && <>
                     <h2>RAM Installed</h2>
@@ -120,7 +137,8 @@ export default function DownloadRamPage() {
                 </>}
                 <p className="text-xs text-gray-500 mt-2 whitespace-pre-wrap">
                     This is fake, you will not get any RAM. No information will be shared.{"\n"}
-                    Source code is available on <a href="https://github.com/mrdiamonddog/website" className="text-blue-400 no-style">GitHub</a>.
+                    Source code is available on
+                    <a href="https://github.com/mrdiamonddog/website" className="text-blue-400 no-style">GitHub</a>.
                 </p>
             </div>
         </div>

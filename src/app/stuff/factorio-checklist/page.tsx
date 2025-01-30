@@ -9,7 +9,17 @@ type ChecklistItem = {
     checked: boolean;
 };
 
-function Checkbox({ children, onChecked, checked, onRightClick }: { children: React.ReactNode, onChecked: (checked: boolean) => void, checked: boolean, onRightClick?: (e: React.MouseEvent) => void }) {
+function Checkbox({
+    children,
+    onChecked,
+    checked,
+    onRightClick,
+}: {
+    children: React.ReactNode,
+    onChecked: (checked: boolean) => void,
+    checked: boolean,
+    onRightClick?: (e: React.MouseEvent) => void
+}) {
     return (
         <label className="checkbox-label px-2" onContextMenu={onRightClick}>
             <input type="checkbox" checked={checked} onChange={e => onChecked(e.target.checked)} />
@@ -21,7 +31,7 @@ function Checkbox({ children, onChecked, checked, onRightClick }: { children: Re
 
 function Panel({ children, className }: { children: React.ReactNode, className?: string }) {
     return (
-        <div className={"panel " + (className ?? "")}>
+        <div className={`panel ${className ?? ""}`}>
             {children}
         </div>
     );
@@ -29,7 +39,7 @@ function Panel({ children, className }: { children: React.ReactNode, className?:
 
 function Button({ children, onClick, className }: { children: React.ReactNode, onClick?: () => void, className?: string }) {
     return (
-        <button className={"button " + (className ?? "")} onClick={onClick}>
+        <button className={`button ${className ?? ""}`} onClick={onClick}>
             {children}
         </button>
     );
@@ -37,7 +47,7 @@ function Button({ children, onClick, className }: { children: React.ReactNode, o
 
 function GreenButton({ children, onClick, className }: { children: React.ReactNode, onClick?: () => void, className?: string }) {
     return (
-        <a className={"button-green no-style " + (className ?? "")} onClick={onClick}>
+        <a className={`button-green no-style ${className ?? ""}`} onClick={onClick}>
             {children}
         </a>
     );
@@ -45,7 +55,7 @@ function GreenButton({ children, onClick, className }: { children: React.ReactNo
 
 function RedButton({ children, onClick, className }: { children: React.ReactNode, onClick?: () => void, className?: string }) {
     return (
-        <a className={"button-red no-style " + (className ?? "")} onClick={onClick}>
+        <a className={`button-red no-style ${className ?? ""}`} onClick={onClick}>
             {children}
         </a>
     );
@@ -98,7 +108,7 @@ export default function FactorioChecklistPage() {
 
         setCheckboxes([...checkboxes, {
             name: newItemName,
-            checked: false
+            checked: false,
         }]);
 
         setNewItemPanel(false);
@@ -129,10 +139,18 @@ export default function FactorioChecklistPage() {
         {newItemPanel && <Panel className="p-5 mt-5">
             <div className="flex flex-row justify-between w-full">
                 <h1>New Item</h1>
-                <RedButton onClick={() => { setNewItemPanel(false); setNewItemName(""); }} className="py-0">X</RedButton>
+                <RedButton onClick={() => {
+                    setNewItemPanel(false); setNewItemName("");
+                }} className="py-0">X</RedButton>
             </div>
             <div className="panel-inset flex flex-col p-2">
-                <input type="text" placeholder="Title" className="input" value={newItemName} onChange={e => setNewItemName(e.target.value)} />
+                <input
+                    type="text"
+                    placeholder="Title"
+                    className="input"
+                    value={newItemName}
+                    onChange={e => setNewItemName(e.target.value)}
+                />
             </div>
             <GreenButton onClick={newItem} className="w-full mt-2">Create</GreenButton>
         </Panel>}

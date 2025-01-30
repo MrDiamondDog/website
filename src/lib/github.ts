@@ -7,6 +7,6 @@ export const octokit = new Octokit({
 export async function getRepository(owner: string, repo: string) {
     return await octokit.request("GET /repos/{owner}/{repo}", {
         owner,
-        repo
+        repo,
     });
 }

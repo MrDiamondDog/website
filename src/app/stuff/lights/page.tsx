@@ -9,7 +9,7 @@ import Input from "@/components/general/Input";
 import Subtext from "@/components/general/Subtext";
 
 function hsvToRgb(h: number, s: number, v: number) {
-    let r, g, b;
+    let r; let g; let b;
 
     const i = Math.floor(h * 6);
     const f = h * 6 - i;
@@ -18,12 +18,12 @@ function hsvToRgb(h: number, s: number, v: number) {
     const t = v * (1 - (1 - f) * s);
 
     switch (i % 6) {
-        case 0: r = v, g = t, b = p; break;
-        case 1: r = q, g = v, b = p; break;
-        case 2: r = p, g = v, b = t; break;
-        case 3: r = p, g = q, b = v; break;
-        case 4: r = t, g = p, b = v; break;
-        case 5: r = v, g = p, b = q; break;
+    case 0: r = v, g = t, b = p; break;
+    case 1: r = q, g = v, b = p; break;
+    case 2: r = p, g = v, b = t; break;
+    case 3: r = p, g = q, b = v; break;
+    case 4: r = t, g = p, b = v; break;
+    case 5: r = v, g = p, b = q; break;
     }
 
     return [r * 255, g * 255, b * 255];
@@ -41,25 +41,27 @@ export default function LightsPage() {
     function sendRequest() {
         const query = new URLSearchParams();
 
-        query.set("state", state + "");
-        query.set("h", hue + "");
-        query.set("s", saturation + "");
-        query.set("v", value + "");
+        query.set("state", `${state}`);
+        query.set("h", `${hue}`);
+        query.set("s", `${saturation}`);
+        query.set("v", `${value}`);
 
-        fetch("https://server.mrdiamond.is-a.dev/lights?" + query.toString(), {
+        fetch(`https://server.mrdiamond.is-a.dev/lights?${query.toString()}`, {
             method: "GET",
             headers: {
-                "Authorization": authKey,
+                Authorization: authKey,
             },
-        }).catch(e => toast.error("Failed to send request: " + e));
+        }).catch(e => toast.error(`Failed to send request: ${e}`));
     }
 
     function handleMouseUp() {
-        if (connected) sendRequest();
+        if (connected)
+            sendRequest();
     }
 
     useEffect(() => {
-        if (connected) sendRequest();
+        if (connected)
+            sendRequest();
     }, [state]);
 
     return (<div className="bg-bg-light rounded-lg p-4 absolute-center">
@@ -74,17 +76,40 @@ export default function LightsPage() {
             {connected && <>
                 <div className="flex justify-between items-center">
                     <Subtext>Hue:</Subtext>
-                    <Input type="range" min={0} max={360} value={hue} onChange={e => setHue(parseInt(e.target.value))} onMouseUp={handleMouseUp} />
+                    <Input
+                        type="range"
+                        min={0}
+                        max={360}
+                        value={hue}
+                        onChange={e => setHue(parseInt(e.target.value))} onMouseUp={handleMouseUp}
+                    />
                 </div>
                 <div className="flex justify-between items-center">
                     <Subtext>Saturation:</Subtext>
-                    <Input type="range" min={0} max={1000} value={saturation} onChange={e => setSaturation(parseInt(e.target.value))} onMouseUp={handleMouseUp} />
+                    <Input
+                        type="range"
+                        min={0}
+                        max={1000}
+                        value={saturation}
+                        onChange={e => setSaturation(parseInt(e.target.value))}
+                        onMouseUp={handleMouseUp}
+                    />
                 </div>
                 <div className="flex justify-between items-center">
                     <Subtext>Value:</Subtext>
-                    <Input type="range" min={0} max={1000} value={value} onChange={e => setValue(parseInt(e.target.value))} onMouseUp={handleMouseUp} />
+                    <Input
+                        type="range"
+                        min={0}
+                        max={1000}
+                        value={value}
+                        onChange={e => setValue(parseInt(e.target.value))}
+                        onMouseUp={handleMouseUp}
+                    />
                 </div>
-                <div style={{ backgroundColor: `rgb(${hsvToRgb(hue / 360, saturation / 1000, value / 1000).join(", ")})` }} className="w-full h-8 rounded-lg" />
+                <div
+                    style={{ backgroundColor: `rgb(${hsvToRgb(hue / 360, saturation / 1000, value / 1000).join(", ")})` }}
+                    className="w-full h-8 rounded-lg"
+                />
                 <div className="flex flex-row gap-2 *:w-full">
                     <Button onClick={() => setState(false)}>Turn off</Button>
                     <Button onClick={() => setState(true)}>Turn on</Button>

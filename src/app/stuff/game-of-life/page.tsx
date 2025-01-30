@@ -20,12 +20,15 @@ export default function GameOfLifeBackground() {
     const isPlaying = useRef(false);
 
     useEffect(() => {
-        if (!canvas.current) return;
-        if (started.current) return;
+        if (!canvas.current)
+            return;
+        if (started.current)
+            return;
         started.current = true;
 
         window.addEventListener("resize", () => {
-            if (!canvas.current) return;
+            if (!canvas.current)
+                return;
             canvas.current.width = window.innerWidth;
             canvas.current.height = window.innerHeight;
         });
@@ -46,7 +49,8 @@ export default function GameOfLifeBackground() {
         });
 
         window.addEventListener("mousemove", e => {
-            if (!mousedown) return;
+            if (!mousedown)
+                return;
 
             const mousePos = { x: e.clientX, y: e.clientY };
 
@@ -57,7 +61,8 @@ export default function GameOfLifeBackground() {
         });
 
         const ctx = canvas.current.getContext("2d");
-        if (!ctx) return;
+        if (!ctx)
+            return;
 
         canvas.current.width = window.innerWidth;
         canvas.current.height = window.innerHeight;
@@ -87,18 +92,29 @@ export default function GameOfLifeBackground() {
                 for (let y = 0; y < tempGrid[x].length; y++) {
                     let aliveNeighbors = 0;
 
-                    if (grid[x - 1]?.[y - 1]) aliveNeighbors++;
-                    if (grid[x - 1]?.[y]) aliveNeighbors++;
-                    if (grid[x][y - 1]) aliveNeighbors++;
-                    if (grid[x + 1]?.[y - 1]) aliveNeighbors++;
-                    if (grid[x - 1]?.[y + 1]) aliveNeighbors++;
-                    if (grid[x][y + 1]) aliveNeighbors++;
-                    if (grid[x + 1]?.[y + 1]) aliveNeighbors++;
-                    if (grid[x + 1]?.[y]) aliveNeighbors++;
+                    if (grid[x - 1]?.[y - 1])
+                        aliveNeighbors++;
+                    if (grid[x - 1]?.[y])
+                        aliveNeighbors++;
+                    if (grid[x][y - 1])
+                        aliveNeighbors++;
+                    if (grid[x + 1]?.[y - 1])
+                        aliveNeighbors++;
+                    if (grid[x - 1]?.[y + 1])
+                        aliveNeighbors++;
+                    if (grid[x][y + 1])
+                        aliveNeighbors++;
+                    if (grid[x + 1]?.[y + 1])
+                        aliveNeighbors++;
+                    if (grid[x + 1]?.[y])
+                        aliveNeighbors++;
 
-                    if (aliveNeighbors < 2) tempGrid[x][y] = false;
-                    if (aliveNeighbors > 3) tempGrid[x][y] = false;
-                    if (aliveNeighbors === 3) tempGrid[x][y] = true;
+                    if (aliveNeighbors < 2)
+                        tempGrid[x][y] = false;
+                    if (aliveNeighbors > 3)
+                        tempGrid[x][y] = false;
+                    if (aliveNeighbors === 3)
+                        tempGrid[x][y] = true;
                 }
             }
 
@@ -108,7 +124,8 @@ export default function GameOfLifeBackground() {
         ctx.fillStyle = colors.tertiary;
         for (let x = 0; x < grid.length; x++) {
             for (let y = 0; y < grid[x].length; y++) {
-                if (grid[x][y]) ctx.fillRect(x * gridSquareSize, y * gridSquareSize, gridSquareSize, gridSquareSize);
+                if (grid[x][y])
+                    ctx.fillRect(x * gridSquareSize, y * gridSquareSize, gridSquareSize, gridSquareSize);
             }
         }
 

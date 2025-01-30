@@ -3,28 +3,33 @@ import { APIUser } from "discord-api-types/v10";
 import { devUrl, prodUrl } from "./contants";
 
 export const scopes = [
-    "identify"
+    "identify",
 ];
 
-export const redirectUri = ((process.env.PRODUCTION || process.env.NEXT_PUBLIC_PRODUCTION) ? prodUrl : devUrl) + "/";
+export const redirectUri = `${(process.env.PRODUCTION || process.env.NEXT_PUBLIC_PRODUCTION) ? prodUrl : devUrl}/`;
 
 export function authUrl(clientId?: string, redirect?: string, state?: string) {
-    return `https://discord.com/oauth2/authorize?client_id=${clientId ?? process.env.DISCORD_OAUTH_ID}&response_type=code&redirect_uri=${encodeURIComponent(redirectUri + (redirect ?? ""))}&scope=identify${state ? `&state=${state}` : ""}`;
+    return "https://discord.com/oauth2/authorize" +
+    `?client_id=${clientId ?? process.env.DISCORD_OAUTH_ID}` +
+    "&response_type=code" +
+    `&redirect_uri=${encodeURIComponent(redirectUri + (redirect ?? ""))}` +
+    "&scope=identify" +
+    `${state ? `&state=${state}` : ""}`;
 }
 
 export async function refreshToken(token: string) {
     const body = new URLSearchParams({
         grant_type: "refresh_token",
-        refresh_token: token
+        refresh_token: token,
     });
 
     const res = await fetch("https://discord.com/api/v10/oauth2/token", {
         method: "POST",
         headers: {
             "Content-Type": "application/x-www-form-urlencoded",
-            "Authorization": "Basic " + btoa(process.env.DISCORD_OAUTH_ID + ":" + process.env.DISCORD_OAUTH_SECRET)
+            Authorization: `Basic ${btoa(`${process.env.DISCORD_OAUTH_ID}:${process.env.DISCORD_OAUTH_SECRET}`)}`,
         },
-        body
+        body,
     });
 
     return await res.json();
@@ -41,9 +46,9 @@ export async function accessToken(oauthCode: string, redirect?: string) {
         method: "POST",
         headers: {
             "Content-Type": "application/x-www-form-urlencoded",
-            "Authorization": "Basic " + btoa(process.env.DISCORD_OAUTH_ID + ":" + process.env.DISCORD_OAUTH_SECRET)
+            Authorization: `Basic ${btoa(`${process.env.DISCORD_OAUTH_ID}:${process.env.DISCORD_OAUTH_SECRET}`)}`,
         },
-        body
+        body,
     });
 
     return await res.json();
@@ -52,16 +57,16 @@ export async function accessToken(oauthCode: string, redirect?: string) {
 export async function deleteToken(token: string, hint?: "access_token" | "refresh_token") {
     const body = new URLSearchParams({
         token,
-        token_type_hint: hint
+        token_type_hint: hint,
     });
 
     const res = await fetch("https://discord.com/api/oauth2/token/revoke", {
         method: "POST",
         headers: {
             "Content-Type": "application/x-www-form-urlencoded",
-            "Authorization": "Basic " + btoa(process.env.DISCORD_OAUTH_ID + ":" + process.env.DISCORD_OAUTH_SECRET)
+            Authorization: `Basic ${btoa(`${process.env.DISCORD_OAUTH_ID}:${process.env.DISCORD_OAUTH_SECRET}`)}`,
         },
-        body
+        body,
     });
 
     return await res.json();
@@ -70,7 +75,7 @@ export async function deleteToken(token: string, hint?: "access_token" | "refres
 export async function getUser(token: string): Promise<APIUser> {
     return await fetch("https://discord.com/api/v10/users/@me", {
         headers: {
-            "Authorization": "Bearer " + token
-        }
+            Authorization: `Bearer ${token}`,
+        },
     }).then(res => res.json());
 }

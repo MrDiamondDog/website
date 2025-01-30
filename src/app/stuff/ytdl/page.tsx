@@ -25,7 +25,8 @@ export default function YoutubeDownloaderPage() {
     const [downloading, setDownloading] = useState(false);
 
     async function download() {
-        if (downloading || !url || !videoId) return;
+        if (downloading || !url || !videoId)
+            return;
         if (format === "any" && !video && !audio)
             return toast.error("You have to select something");
 
@@ -51,7 +52,8 @@ export default function YoutubeDownloaderPage() {
     }
 
     useEffect(() => {
-        if (!url) return setValidUrl(false);
+        if (!url)
+            return setValidUrl(false);
         const valid = isValidYTUrl(url);
         setValidUrl(valid);
 
@@ -67,7 +69,12 @@ export default function YoutubeDownloaderPage() {
 
     return (
         <main className="absolute-center p-5 rounded-lg border-2 border-primary bg-bg-light w-1/2">
-            <Input label="URL" placeholder="https://www.youtube.com/watch?v=oiIOPefKho0" value={url} onChange={e => setUrl(e.target.value)} />
+            <Input
+                label="URL"
+                placeholder="https://www.youtube.com/watch?v=oiIOPefKho0"
+                value={url}
+                onChange={e => setUrl(e.target.value)}
+            />
             <Divider />
             <p>File Format</p>
             <Select className="w-full mb-2" value={format} onChange={e => setFormat(e.target.value)}>
@@ -78,10 +85,28 @@ export default function YoutubeDownloaderPage() {
                 <option value="ogg">ogg</option>
                 <option value="wav">wav</option>
             </Select>
-            <Input label="Video" type="checkbox" checked={video} onChange={e => setVideo(e.target.checked)} disabled={format !== "any"} />
-            <Input label="Audio" type="checkbox" checked={audio} onChange={e => setAudio(e.target.checked)} disabled={format !== "any"} />
+            <Input
+                label="Video"
+                type="checkbox"
+                checked={video}
+                onChange={e => setVideo(e.target.checked)}
+                disabled={format !== "any"}
+            />
+            <Input
+                label="Audio"
+                type="checkbox"
+                checked={audio}
+                onChange={e => setAudio(e.target.checked)}
+                disabled={format !== "any"}
+            />
             <Divider />
-            <Button className="w-full" onClick={download} disabled={!url || !validUrl || !videoId || downloading}>{downloading ? <Spinner /> : "Download"}</Button>
+            <Button
+                className="w-full"
+                onClick={download}
+                disabled={!url || !validUrl || !videoId || downloading}
+            >
+                {downloading ? <Spinner /> : "Download"}
+            </Button>
         </main>
     );
 }

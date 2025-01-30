@@ -8,17 +8,17 @@ export const levels: Level[] = [
         grid: [
             [null, null, null],
             [null, null, null],
-            [null, null, null]
-        ]
-    }
+            [null, null, null],
+        ],
+    },
 ];
-
 
 export function exportLevel(level: Level) {
     for (let y = 0; y < level.gridSize.y; y++) {
         for (let x = 0; x < level.gridSize.x; x++) {
             const square = level.grid[x][y];
-            if (!square) continue;
+            if (!square)
+                continue;
 
             delete square.pos;
             delete square.linePoints;

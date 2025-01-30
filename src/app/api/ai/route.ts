@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 
-
 // eslint-disable-next-line quotes
 export const runtime = 'edge';
 
@@ -27,7 +26,8 @@ there are the following routes on this website:
 
 
 # COMMANDS
-commands are not shown to the user, and are used to make things happen in the website. simply type it somewhere in your message to use it.
+commands are not shown to the user, and are used to make things happen in the website. 
+simply type it somewhere in your message to use it.
 you should always have a message to go with the command, never just put the command itself in the message.
 make sure you don't include it as part of a sentence, as it won't be shown to the user and will look weird.
 
@@ -58,22 +58,25 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({ body: "No messages provided." }, { status: 400 });
     }
 
-    const res = await fetch(`https://api.cloudflare.com/client/v4/accounts/${process.env.CF_ACCOUNT_ID}/ai/run/@cf/meta/llama-3-8b-instruct`, {
-        method: "POST",
-        headers: {
-            "Authorization": `Bearer ${process.env.CF_AI_TOKEN}`,
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-            messages: [
-                {
-                    "role": "system",
-                    "content": systemPrompt
-                },
-                ...body.messages
-            ]
-        })
-    });
+    const res = await fetch(
+        `https://api.cloudflare.com/client/v4/accounts/${process.env.CF_ACCOUNT_ID}/ai/run/@cf/meta/llama-3-8b-instruct`,
+        {
+            method: "POST",
+            headers: {
+                Authorization: `Bearer ${process.env.CF_AI_TOKEN}`,
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                messages: [
+                    {
+                        role: "system",
+                        content: systemPrompt,
+                    },
+                    ...body.messages,
+                ],
+            }),
+        }
+    );
 
     if (!res.ok) {
         console.error(await res.json());

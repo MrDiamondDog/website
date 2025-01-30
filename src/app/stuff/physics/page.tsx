@@ -32,8 +32,8 @@ const spawnableObjects: SpawnableObjectProps[] = [
                 max: 30,
                 step: 1,
             },
-        }
-    }
+        },
+    },
 ];
 
 function StackSpawnDropdown() {
@@ -49,18 +49,36 @@ function StackSpawnDropdown() {
                     <option key={obj.name} value={obj.name}>{obj.name}</option>
                 ))}
             </Select>
-            <Input type="range" min="2" max="20" step="1" label={`Width (${width})`} value={width} onChange={e => setWidth(parseInt(e.target.value))} />
-            <Input type="range" min="2" max="20" step="1" label={`Height (${height})`} value={height} onChange={e => setHeight(parseInt(e.target.value))} />
+            <Input
+                type="range"
+                min="2"
+                max="20"
+                step="1"
+                label={`Width (${width})`}
+                value={width}
+                onChange={e => setWidth(parseInt(e.target.value))}
+            />
+            <Input
+                type="range"
+                min="2"
+                max="20"
+                step="1"
+                label={`Height (${height})`}
+                value={height}
+                onChange={e => setHeight(parseInt(e.target.value))}
+            />
             <ToolbarButton disabled={shape === "Shape"} onClick={() => {
-                const spawn = () => {
-                    if (render.mouse.button !== 0) return;
+                function spawn() {
+                    if (render.mouse.button !== 0)
+                        return;
 
                     const pos = render.mouse.position;
 
                     for (let i = 0; i < width; i++) {
                         for (let j = 0; j < height; j++) {
                             const obj = spawnableObjects.find(obj => obj.name === shape);
-                            if (!obj) return;
+                            if (!obj)
+                                return;
 
                             const body = obj.spawn({
                                 x: pos.x + i * 80,
@@ -84,7 +102,8 @@ export default function PhysicsGame() {
     const loaded = useRef(false);
 
     useEffect(() => {
-        if (!canvasRef.current || loaded.current) return;
+        if (!canvasRef.current || loaded.current)
+            return;
         loaded.current = true;
 
         const canvas = canvasRef.current;
@@ -98,18 +117,20 @@ export default function PhysicsGame() {
 
                 addBody(clearBlock);
 
-                const collisionCb = e => {
+                function collisionCb(e) {
                     e.pairs.forEach(pair => {
                         if (pair.bodyA === clearBlock || pair.bodyB === clearBlock) {
-                            if (pair.bodyA !== clearBlock) Composite.remove(engine.world, pair.bodyA);
-                            if (pair.bodyB !== clearBlock) Composite.remove(engine.world, pair.bodyB);
+                            if (pair.bodyA !== clearBlock)
+                                Composite.remove(engine.world, pair.bodyA);
+                            if (pair.bodyB !== clearBlock)
+                                Composite.remove(engine.world, pair.bodyB);
                         }
                     });
                 };
 
                 Events.on(engine, "collisionStart", collisionCb);
 
-                const cb = e => {
+                function cb(e) {
                     const timeScale = (e.delta || (1000 / 60)) / 1000;
 
                     Body.translate(clearBlock, { x: 10000 * timeScale, y: 0 });

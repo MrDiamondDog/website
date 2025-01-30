@@ -1,6 +1,9 @@
 import { DiJava } from "react-icons/di";
 import { PiFileCSharp } from "react-icons/pi";
-import { SiCplusplus, SiIntellijidea, SiKotlin, SiNextdotjs, SiNodedotjs, SiOracle, SiPostgresql, SiPrisma, SiRider, SiTailwindcss, SiTypescript, SiUnity, SiVercel } from "react-icons/si";
+import {
+    SiCplusplus, SiIntellijidea, SiKotlin, SiNextdotjs, SiNodedotjs, SiOracle, SiPostgresql,
+    SiPrisma, SiRider, SiTailwindcss, SiTypescript, SiUnity, SiVercel,
+} from "react-icons/si";
 import { VscVscode } from "react-icons/vsc";
 
 import Divider from "../general/Divider";
@@ -55,11 +58,13 @@ export default function StackTab() {
             </StackItem>
 
             <StackItem title="IntelliJ IDEA" icon={SiIntellijidea} link="https://www.jetbrains.com/idea/">
-                I use IntelliJ IDEA for Java and Kotlin projects. It's a very powerful IDE, and simplifies building and running Java projects.
+                I use IntelliJ IDEA for Java and Kotlin projects.
+                It's a very powerful IDE, and simplifies building and running Java projects.
             </StackItem>
 
             <StackItem title="JetBrains Rider" icon={SiRider} link="https://www.jetbrains.com/rider/">
-                I use Rider for Unity projects, as it has better support for C# than VSCode, and I like it much better over Visual Studio.
+                I use Rider for Unity projects, as it has better support for C# than VSCode,
+                and I like it much better over Visual Studio.
             </StackItem>
 
             <Divider />
@@ -69,7 +74,8 @@ export default function StackTab() {
             </StackItem>
 
             <StackItem title="Kotlin" icon={SiKotlin} link="https://kotlinlang.org/">
-                I have also used Kotlin for Minecraft plugins, and it is very enjoyable to work with, but there are some things I still don't understand about it.
+                I have also used Kotlin for Minecraft plugins, and it is very enjoyable to work with,
+                but there are some things I still don't understand about it.
             </StackItem>
 
             <Divider />

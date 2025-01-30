@@ -27,7 +27,6 @@ export async function POST(req: NextRequest) {
     if (body.subject.length > 256 || body.message.length > 2048)
         return NextResponse.json({ body: "Fields are too long." }, { status: 400 });
 
-
     const accessToken = (await cookies()).get("access_token")?.value;
 
     if (!accessToken)
@@ -49,16 +48,16 @@ export async function POST(req: NextRequest) {
                 color: 0x3181bf,
                 author: {
                     name: user.username,
-                    icon_url: `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png`
+                    icon_url: `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png`,
                 },
                 timestamp: new Date().toISOString(),
-            }]
+            }],
         }),
     }).then(res => {
-        if (!res.ok) throw new Error("Failed to send message.");
-    }).catch(() => {
-        return NextResponse.json({ body: "Failed to send message." }, { status: 500 });
-    });
+        if (!res.ok)
+            throw new Error("Failed to send message.");
+    })
+        .catch(() => NextResponse.json({ body: "Failed to send message." }, { status: 500 }));
 
     return NextResponse.json({ body: "Message sent. Expect a response... eventually." }, { status: 200 });
 }

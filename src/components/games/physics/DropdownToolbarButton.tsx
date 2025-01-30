@@ -14,10 +14,11 @@ export default function DropdownToolbarButton(props: Props) {
     const [open, setOpen] = useState(false);
 
     return (<>
-        <div className={"relative " + (props.className ?? "")}>
+        <div className={`relative ${props.className ?? ""}`}>
             <ToolbarButton onClick={() => {
                 setOpen(!open);
-                if (!open && props.onClose) props.onClose();
+                if (!open && props.onClose)
+                    props.onClose();
             }} className="flex flex-row items-center pr-3" >
                 {props.title} <MdArrowDropDown size={24} className={open ? "rotate-180" : "rotate-0"} />
             </ToolbarButton>

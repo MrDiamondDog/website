@@ -23,9 +23,11 @@ function Page() {
 
     useEffect(() => {
         const canvasElement = canvas.current as HTMLCanvasElement;
-        if (!canvasElement) return;
+        if (!canvasElement)
+            return;
         const ctx = canvasElement.getContext("2d") as CanvasRenderingContext2D;
-        if (!ctx) return;
+        if (!ctx)
+            return;
 
         canvasElement.width = canvasElement.clientWidth;
         canvasElement.height = canvasElement.clientHeight;
@@ -37,7 +39,8 @@ function Page() {
         function drawPandyParticles() {
             ctx.globalAlpha = 0.7;
             pandyParticles.forEach(particle => {
-                if (particle.dead) return;
+                if (particle.dead)
+                    return;
                 drawPandy(particle.pos, 25);
             });
             ctx.globalAlpha = 1;
@@ -71,13 +74,17 @@ function Page() {
             pandyDir.y += Math.sign(pandyDir.y) * 0.0025;
 
             energy--;
-            energyBar.current.style.width = energy + "px";
+            energyBar.current.style.width = `${energy}px`;
 
-            if (energy === 0) router.push("/");
-            if (energy >= 200) energy = 200;
+            if (energy === 0)
+                router.push("/");
+            if (energy >= 200)
+                energy = 200;
 
-            if (energy < 75) energyBar.current.style.backgroundColor = "red";
-            else energyBar.current.style.backgroundColor = "white";
+            if (energy < 75)
+                energyBar.current.style.backgroundColor = "red";
+            else
+                energyBar.current.style.backgroundColor = "white";
 
             if (pandyPos.x < 0 || pandyPos.x > canvasElement.width - 200) {
                 pandyDir.x *= -1;
@@ -96,10 +103,14 @@ function Page() {
             setAudio(true);
             const mousePos = {
                 x: e.clientX - canvasElement.getBoundingClientRect().left,
-                y: e.clientY - canvasElement.getBoundingClientRect().top
+                y: e.clientY - canvasElement.getBoundingClientRect().top,
             };
 
-            if (mousePos.x >= pandyPos.x && mousePos.x <= pandyPos.x + 200 && mousePos.y >= pandyPos.y && mousePos.y <= pandyPos.y + 200) {
+            if (mousePos.x >= pandyPos.x &&
+                mousePos.x <= pandyPos.x + 200 &&
+                mousePos.y >= pandyPos.y &&
+                mousePos.y <= pandyPos.y + 200
+            ) {
                 energy += 15;
                 for (const i of Array(10))
                     pandyParticles.push({

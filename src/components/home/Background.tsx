@@ -26,14 +26,20 @@ export default function Background() {
     }
 
     useEffect(() => {
-        if (started.current) return;
+        if (started.current)
+            return;
         started.current = true;
 
         setInterval(cycle, 7500);
     }, []);
 
     return (<>
-        <div className="absolute top-2 right-2 text-gray-500 cursor-pointer z-10" onClick={() => setVisible(!visible)}><FaEye size={24} /></div>
+        <div
+            className="absolute top-2 right-2 text-gray-500 cursor-pointer z-10"
+            onClick={() => setVisible(!visible)}
+        >
+            <FaEye size={24} />
+        </div>
         {visible && backgrounds[index]?.()}
     </>);
 }

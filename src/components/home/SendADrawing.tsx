@@ -15,7 +15,8 @@ export default function SendADrawing() {
     const canvas = useRef<HTMLCanvasElement>(null);
 
     useEffect(() => {
-        if (!canvas.current) return;
+        if (!canvas.current)
+            return;
 
         const ctx = canvas.current.getContext("2d")!;
         ctx.lineCap = "round";
@@ -33,7 +34,8 @@ export default function SendADrawing() {
         });
 
         canvas.current.addEventListener("mousemove", e => {
-            if (!isDrawing) return;
+            if (!isDrawing)
+                return;
 
             ctx.beginPath();
             ctx.moveTo(prevPos.x, prevPos.y);
@@ -50,14 +52,16 @@ export default function SendADrawing() {
     }, [canvas.current]);
 
     useEffect(() => {
-        if (!canvas.current) return;
+        if (!canvas.current)
+            return;
 
         const ctx = canvas.current.getContext("2d")!;
         ctx.strokeStyle = selectedColor;
     }, [selectedColor]);
 
     function clearCanvas() {
-        if (!canvas.current) return;
+        if (!canvas.current)
+            return;
 
         const ctx = canvas.current.getContext("2d")!;
         ctx.fillStyle = "white";
@@ -66,24 +70,27 @@ export default function SendADrawing() {
     }
 
     async function sendCanvas() {
-        if (!canvas.current) return;
+        if (!canvas.current)
+            return;
 
         canvas.current.toBlob(async blob => {
             const res = await fetch("/api/drawing", {
                 method: "POST",
-                body: blob
+                body: blob,
             });
 
             if (!res.ok)
                 return void toast.error("Failed to send drawing");
-            else
-                return void toast.success("Drawing sent!");
+            return void toast.success("Drawing sent!");
         });
     }
 
     return (
         <div className="rounded-lg bg-bg p-2 w-fit">
-            <p onClick={() => setMinimized(!minimized)} className="flex flex-row gap-2 cursor-pointer justify-center items-center">Send me a drawing! {minimized ? <IoIosArrowDown /> : <IoIosArrowUp />}</p>
+            <p
+                onClick={() => setMinimized(!minimized)}
+                className="flex flex-row gap-2 cursor-pointer justify-center items-center"
+            >Send me a drawing! {minimized ? <IoIosArrowDown /> : <IoIosArrowUp />}</p>
             {!minimized && <>
                 <canvas className="border-[3px] my-2 border-bg-light rounded-lg bg-white" width="350" height="350" ref={canvas} />
                 <div className="flex flex-row gap-1 justify-center items-center">

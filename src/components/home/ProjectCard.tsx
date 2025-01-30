@@ -16,11 +16,16 @@ export default async function ProjectCard(props: Props) {
     const repoLanguage = repo.language ?
         await fetch("https://raw.githubusercontent.com/ozh/github-colors/master/colors.json")
             .then(res => res.json())
-            .then(json => json[repo.language])
-        : null;
+            .then(json => json[repo.language]) :
+        null;
 
     return (
-        <a href={`https://github.com/${props.owner}/${props.repo}`} target="_blank" className="no-style rounded-lg bg-bg-lighter p-3 pb-8 relative transition-all border-[2px] border-transparent hover:border-primary">
+        <a
+            href={`https://github.com/${props.owner}/${props.repo}`}
+            target="_blank"
+            className={`no-style rounded-lg bg-bg-lighter p-3 pb-8 relative 
+                transition-all border-[2px] border-transparent hover:border-primary`}
+        >
             <div className="flex flex-row justify-between">
                 <div className="flex flex-row gap-2 items-center">
                     <img src={repo.owner.avatar_url} alt={`${props.owner}'s avatar`} className="rounded-full w-6" />

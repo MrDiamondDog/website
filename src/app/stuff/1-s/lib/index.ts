@@ -25,7 +25,7 @@ export const gridColors = {
     red: "#ff0000",
     green: "#00ff00",
     blue: "#0026FF",
-    white: "#ffffff"
+    white: "#ffffff",
 };
 
 export const game = {
@@ -45,7 +45,7 @@ export const game = {
     isEditor: false,
     editor: {
         selectedColor: "white" as SquareColor,
-        selectedTool: "start" as SquareType | "eraser"
+        selectedTool: "start" as SquareType | "eraser",
     },
 
     updateCanvasSize() {
@@ -64,7 +64,7 @@ export const game = {
         game.updateCanvasSize();
 
         game.bg.style.backgroundColor = "#000";
-    }
+    },
 };
 const images: Record<string, HTMLImageElement | Record<string, HTMLImageElement>> = {};
 
@@ -79,7 +79,7 @@ export async function initGame(canvas: HTMLCanvasElement, bg: HTMLDivElement, is
         end: "/images/1-s/{color}/box-end.png",
         dot: "/images/1-s/{color}/dot.png",
         pit: "/images/1-s/{color}/pit.png",
-        background: "/images/1-s/background.png"
+        background: "/images/1-s/background.png",
     };
 
     const imageSrcs = {
@@ -107,7 +107,7 @@ export async function initGame(canvas: HTMLCanvasElement, bg: HTMLDivElement, is
             green: imagePaths.pit.replace("{color}", "green"),
             blue: imagePaths.pit.replace("{color}", "blue"),
             white: imagePaths.pit.replace("{color}", "white"),
-        }
+        },
     };
 
     await new Promise(resolve => {
@@ -118,7 +118,8 @@ export async function initGame(canvas: HTMLCanvasElement, bg: HTMLDivElement, is
                 images[type].src = src;
             } else {
                 for (const color in src) {
-                    if (!images[type]) images[type] = {};
+                    if (!images[type])
+                        images[type] = {};
 
                     images[type][color] = new Image();
                     images[type][color].src = src[color];
@@ -139,10 +140,12 @@ export async function initGame(canvas: HTMLCanvasElement, bg: HTMLDivElement, is
         );
 
         if (game.mouseDown) {
-            if (!game.startPos) return;
+            if (!game.startPos)
+                return;
 
             // if mouse is outside grid
-            if (game.mouseGridPos.x >= game.currentLevel.gridSize.x || game.mouseGridPos.y >= game.currentLevel.gridSize.y) return;
+            if (game.mouseGridPos.x >= game.currentLevel.gridSize.x || game.mouseGridPos.y >= game.currentLevel.gridSize.y)
+                return;
 
             const startSquare = game.currentLevel.grid[game.startPos.x][game.startPos.y];
             const lastSquare = startSquare.linePoints[startSquare.linePoints.length - 1];
@@ -156,23 +159,30 @@ export async function initGame(canvas: HTMLCanvasElement, bg: HTMLDivElement, is
             }
 
             // if only one point exists and mouse is on start square
-            if (startSquare.linePoints.length === 1 && game.startPos.x === game.mouseGridPos.x && game.startPos.y === game.mouseGridPos.y) {
+            if (startSquare.linePoints.length === 1 &&
+                game.startPos.x === game.mouseGridPos.x &&
+                game.startPos.y === game.mouseGridPos.y
+            ) {
                 startSquare.linePoints = [];
                 return;
             }
 
             // if mouse is on start square
-            if (game.startPos.x === game.mouseGridPos.x && game.startPos.y === game.mouseGridPos.y) return;
+            if (game.startPos.x === game.mouseGridPos.x && game.startPos.y === game.mouseGridPos.y)
+                return;
             // if mouse is on a point that already exists
-            if (startSquare.linePoints.find(point => point.x === game.mouseGridPos.x && point.y === game.mouseGridPos.y)) return;
+            if (startSquare.linePoints.find(point => point.x === game.mouseGridPos.x && point.y === game.mouseGridPos.y))
+                return;
 
             // if mouse is in void
-            if (currentSquare?.type === "void") return;
+            if (currentSquare?.type === "void")
+                return;
 
             // if mouse is on a different line
             const allStartSquares = game.currentLevel.grid.flat().filter(square => square?.type === "start");
             for (const startSquare of allStartSquares) {
-                if (startSquare.linePoints?.find(point => point.x === game.mouseGridPos.x && point.y === game.mouseGridPos.y)) return;
+                if (startSquare.linePoints?.find(point => point.x === game.mouseGridPos.x && point.y === game.mouseGridPos.y))
+                    return;
             }
 
             // if mouse is not adjacent to last point
@@ -189,23 +199,26 @@ export async function initGame(canvas: HTMLCanvasElement, bg: HTMLDivElement, is
         if (game.isEditor && game.mouseDown) {
             const square = game.currentLevel.grid[game.mouseGridPos.x]?.[game.mouseGridPos.y];
 
-            if (square === undefined) return;
+            if (square === undefined)
+                return;
 
             if (game.editor.selectedTool === "eraser")
                 return void (game.currentLevel.grid[game.mouseGridPos.x][game.mouseGridPos.y] = null);
 
             game.currentLevel.grid[game.mouseGridPos.x][game.mouseGridPos.y] = {
                 type: game.editor.selectedTool,
-                color: game.editor.selectedColor
+                color: game.editor.selectedColor,
             };
         }
 
-        if (game.isEditor) return;
+        if (game.isEditor)
+            return;
 
         for (let x = 0; x < game.currentLevel.gridSize.x; x++) {
             for (let y = 0; y < game.currentLevel.gridSize.y; y++) {
                 const square = game.currentLevel.grid[x][y];
-                if (square) square.pos = Vec2.from(x, y);
+                if (square)
+                    square.pos = Vec2.from(x, y);
             }
         }
 
@@ -219,7 +232,8 @@ export async function initGame(canvas: HTMLCanvasElement, bg: HTMLDivElement, is
     window.addEventListener("mouseup", () => {
         game.mouseDown = false;
 
-        if (game.isEditor) return;
+        if (game.isEditor)
+            return;
 
         if (game.startPos) {
             const startSquare = game.currentLevel.grid[game.startPos.x]?.[game.startPos.y];
@@ -254,7 +268,8 @@ export async function initGame(canvas: HTMLCanvasElement, bg: HTMLDivElement, is
         } else if (validity === "valid") {
             bg.style.backgroundColor = "#00ff00";
         } else if (validity === "incomplete") {
-            if (bg.style.backgroundColor !== "rgb(0, 255, 0)") return;
+            if (bg.style.backgroundColor !== "rgb(0, 255, 0)")
+                return;
             let i = 0;
             const timeout = setInterval(() => {
                 if (i >= 100) {
@@ -273,7 +288,8 @@ export async function initGame(canvas: HTMLCanvasElement, bg: HTMLDivElement, is
 }
 
 function draw() {
-    if (!game.ctx) return;
+    if (!game.ctx)
+        return;
 
     game.ctx.clearRect(0, 0, game.canvas!.width, game.canvas!.height);
     game.ctx.imageSmoothingEnabled = false;
@@ -300,7 +316,8 @@ function draw() {
         for (let y = 0; y < gridSize.y; y++) {
             const square = grid[x][y];
 
-            if (!square || square?.type === "void") continue;
+            if (!square || square?.type === "void")
+                continue;
 
             const img = images[square.type][square.color];
             drawSquare(x, y, img, square.type);
@@ -315,7 +332,10 @@ function draw() {
 const drawQueue: { x: number, y: number, img: HTMLImageElement, type: SquareType }[] = [];
 
 function drawSquare(x: number, y: number, img: HTMLImageElement, type: SquareType) {
-    drawQueue.push({ x: x * squareSize + (squareSize - imageSize) / 2 + squareGap * x, y: y * squareSize + (squareSize - imageSize) / 2 + squareGap * y, img, type });
+    drawQueue.push({
+        x: x * squareSize + (squareSize - imageSize) / 2 + squareGap * x,
+        y: y * squareSize + (squareSize - imageSize) / 2 + squareGap * y, img, type,
+    });
 }
 
 function drawAll() {
@@ -323,8 +343,14 @@ function drawAll() {
 
     for (let x = 0; x < gridSize.x; x++) {
         for (let y = 0; y < gridSize.y; y++) {
-            if (grid[x][y]?.type === "void") continue;
-            game.ctx.drawImage(images.background as HTMLImageElement, x * squareSize + squareGap * x, y * squareSize + squareGap * y, squareSize, squareSize);
+            if (grid[x][y]?.type === "void")
+                continue;
+            game.ctx.drawImage(
+                images.background as HTMLImageElement,
+                x * squareSize + squareGap * x,
+                y * squareSize + squareGap * y,
+                squareSize, squareSize
+            );
         }
     }
 
@@ -343,7 +369,8 @@ function drawAll() {
     const startSquares = grid.flat().filter(square => square?.type === "start");
 
     for (const square of startSquares) {
-        if (!square.linePoints?.length) continue;
+        if (!square.linePoints?.length)
+            continue;
 
         const { x, y } = (square.pos!);
 
@@ -373,7 +400,12 @@ function drawAll() {
         const endPoint = square.linePoints[square.linePoints.length - 1];
         const endSquare = endPoint ? grid[endPoint.x][endPoint.y] : null;
         if (endSquare?.type === "end")
-            game.ctx.drawImage(images.start[endSquare.color], endPoint.x * squareSize + (squareSize - imageSize) / 2 + squareGap * endPoint.x, endPoint.y * squareSize + (squareSize - imageSize) / 2 + squareGap * endPoint.y, imageSize, imageSize);
+            game.ctx.drawImage(
+                images.start[endSquare.color],
+                endPoint.x * squareSize + (squareSize - imageSize) / 2 + squareGap * endPoint.x,
+                endPoint.y * squareSize + (squareSize - imageSize) / 2 + squareGap * endPoint.y,
+                imageSize, imageSize
+            );
     }
 
     drawQueue.length = 0;
@@ -383,7 +415,8 @@ function validate(): "invalid" | "valid" | "incomplete" {
     let verdict: "invalid" | "valid" | "incomplete" = "valid";
 
     const startSquares = game.currentLevel.grid.flat().filter(square => square?.type === "start");
-    const dots = game.currentLevel.grid.flat().filter(square => square?.type === "dot").map(square => square!.pos!);
+    const dots = game.currentLevel.grid.flat().filter(square => square?.type === "dot")
+        .map(square => square!.pos!);
     const capturedDots: { pos: Vec2, color: string }[] = [];
 
     for (const startSquare of startSquares) {
@@ -430,7 +463,8 @@ function validate(): "invalid" | "valid" | "incomplete" {
 
         for (const point of startSquare.linePoints) {
             const dotPos = dots.find(dot => dot.x === point.x && dot.y === point.y);
-            if (!dotPos) continue;
+            if (!dotPos)
+                continue;
             const dot = game.currentLevel.grid[dotPos.x][dotPos.y];
 
             if (dot.color !== startSquare.color && dot.color !== "white") {
@@ -440,7 +474,8 @@ function validate(): "invalid" | "valid" | "incomplete" {
 
             capturedDots.push({ pos: point, color: dot.color });
         }
-        if (verdict !== "valid") break;
+        if (verdict !== "valid")
+            break;
     }
 
     if (verdict === "valid") {
@@ -487,18 +522,19 @@ function interpolateColor(hex1: string, hex2: string, t: number) {
     t = Math.max(0, Math.min(100, t)) / 100;
 
     // Convert hex color to RGB values
-    const hexToRgb = (hex: string) => {
+    function hexToRgb(hex: string) {
         const bigint = parseInt(hex.slice(1), 16);
         return {
             r: (bigint >> 16) & 255,
             g: (bigint >> 8) & 255,
-            b: bigint & 255
+            b: bigint & 255,
         };
     };
 
     // Convert RGB values back to hex
-    const rgbToHex = (r: number, g: number, b: number) => {
-        return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1).toUpperCase();
+    function rgbToHex(r: number, g: number, b: number) {
+        return `#${((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1)
+            .toUpperCase()}`;
     };
 
     // Get the RGB values of both hex colors

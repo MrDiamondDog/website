@@ -20,7 +20,8 @@ export default async function Home() {
     return (<>
         <Background />
         <main
-            className="absolute-center lg:w-[45%] md:w-2/3 w-full max-h-[75%] transition-[width] p-5 rounded-lg border-[3px] border-primary bg-bg-light-transparent backdrop-blur-sm drop-shadow-xl overflow-scroll"
+            className="absolute-center lg:w-[45%] md:w-2/3 w-full max-h-[75%] transition-[width]
+            p-5 rounded-lg border-[3px] border-primary bg-bg-light-transparent backdrop-blur-sm drop-shadow-xl overflow-scroll"
         >
             <Tablist
                 tabs={["Profile", "Projects", "Stuff", "Stack", "Blog", "Contact"]}
@@ -37,15 +38,20 @@ export default async function Home() {
                         </div>
 
                         <div className="flex flex-col gap-2 pt-2">
-                            <SocialMediaProfile icon={FaDiscord} copy="mrdiamonddog">@mrdiamonddog</SocialMediaProfile>
-                            <SocialMediaProfile icon={FaGithub} link="https://github.com/MrDiamondDog">MrDiamondDog</SocialMediaProfile>
+                            <SocialMediaProfile icon={FaDiscord} copy="mrdiamonddog">
+                                @mrdiamonddog
+                            </SocialMediaProfile>
+                            <SocialMediaProfile icon={FaGithub} link="https://github.com/MrDiamondDog">
+                                MrDiamondDog
+                            </SocialMediaProfile>
                         </div>
                     </div>
 
                     <Divider />
 
                     <p>
-                        Hello! I'm a web/software developer, but I also dabble in other things like modding, Discord bots, microcontrollers, etc.
+                        Hello! I'm a web/software developer, but I also dabble in other things
+                        like modding, Discord bots, microcontrollers, etc.
                         I'm also a total theatre nerd.
                     </p>
 
@@ -83,7 +89,10 @@ export default async function Home() {
             </Tablist>
 
             <Divider />
-            <Subtext>Source code available on <a href="https://github.com/mrdiamonddog/website" className="no-style text-primary">GitHub</a>.</Subtext>
+            <Subtext>
+                Source code available on
+                <a href="https://github.com/mrdiamonddog/website" className="no-style text-primary">GitHub</a>.
+            </Subtext>
         </main>
     </>);
 }

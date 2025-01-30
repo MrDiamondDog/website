@@ -7,7 +7,7 @@ export default function DVDLogo(props: React.PropsWithChildren) {
     const [direction, setDirection] = useState({ x: randomRange(-5, 5), y: randomRange(-5, 5) });
 
     useEffect(() => {
-        const moveLogo = () => {
+        function moveLogo() {
             setPosition(prev => {
                 const newTop = prev.top + direction.y;
                 const newLeft = prev.left + direction.x;
@@ -39,7 +39,7 @@ export default function DVDLogo(props: React.PropsWithChildren) {
         left: position.left,
         transition: "top 0.01s linear, left 0.01s linear",
         maxHeight: "300px",
-        maxWidth: "300px"
+        maxWidth: "300px",
     };
 
     return <div style={style}>{props.children}</div>;

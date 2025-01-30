@@ -46,7 +46,8 @@ export class StrokeObject extends CanvasObject {
             ctx.globalCompositeOperation = "source-over";
 
         ctx.strokeStyle = this.strokeData.color;
-        if (this.strokeData.eraser && whiteboard.exporting) ctx.strokeStyle = "#0c0c0c";
+        if (this.strokeData.eraser && whiteboard.exporting)
+            ctx.strokeStyle = "#0c0c0c";
         ctx.lineWidth = this.strokeData.size;
         ctx.lineCap = "round";
         ctx.lineJoin = "round";

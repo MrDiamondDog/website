@@ -13,12 +13,15 @@ export default function GameOfLifeBackground() {
     const started = useRef(false);
 
     useEffect(() => {
-        if (started.current) return;
+        if (started.current)
+            return;
         started.current = true;
-        if (!canvas.current) return;
+        if (!canvas.current)
+            return;
 
         const ctx = canvas.current.getContext("2d");
-        if (!ctx) return;
+        if (!ctx)
+            return;
 
         canvas.current.width = window.innerWidth;
         canvas.current.height = window.innerHeight;
@@ -42,18 +45,29 @@ export default function GameOfLifeBackground() {
             for (let y = 0; y < tempGrid[x].length; y++) {
                 let aliveNeighbors = 0;
 
-                if (grid[x - 1]?.[y - 1]) aliveNeighbors++;
-                if (grid[x - 1]?.[y]) aliveNeighbors++;
-                if (grid[x][y - 1]) aliveNeighbors++;
-                if (grid[x + 1]?.[y - 1]) aliveNeighbors++;
-                if (grid[x - 1]?.[y + 1]) aliveNeighbors++;
-                if (grid[x][y + 1]) aliveNeighbors++;
-                if (grid[x + 1]?.[y + 1]) aliveNeighbors++;
-                if (grid[x + 1]?.[y]) aliveNeighbors++;
+                if (grid[x - 1]?.[y - 1])
+                    aliveNeighbors++;
+                if (grid[x - 1]?.[y])
+                    aliveNeighbors++;
+                if (grid[x][y - 1])
+                    aliveNeighbors++;
+                if (grid[x + 1]?.[y - 1])
+                    aliveNeighbors++;
+                if (grid[x - 1]?.[y + 1])
+                    aliveNeighbors++;
+                if (grid[x][y + 1])
+                    aliveNeighbors++;
+                if (grid[x + 1]?.[y + 1])
+                    aliveNeighbors++;
+                if (grid[x + 1]?.[y])
+                    aliveNeighbors++;
 
-                if (aliveNeighbors < 2) tempGrid[x][y] = false;
-                if (aliveNeighbors > 3) tempGrid[x][y] = false;
-                if (aliveNeighbors === 3) tempGrid[x][y] = true;
+                if (aliveNeighbors < 2)
+                    tempGrid[x][y] = false;
+                if (aliveNeighbors > 3)
+                    tempGrid[x][y] = false;
+                if (aliveNeighbors === 3)
+                    tempGrid[x][y] = true;
             }
         }
 
@@ -62,13 +76,18 @@ export default function GameOfLifeBackground() {
         ctx.fillStyle = colors.tertiary;
         for (let x = 0; x < grid.length; x++) {
             for (let y = 0; y < grid[x].length; y++) {
-                if (grid[x][y]) ctx.fillRect(x * gridSquareSize, y * gridSquareSize, gridSquareSize, gridSquareSize);
+                if (grid[x][y])
+                    ctx.fillRect(x * gridSquareSize, y * gridSquareSize, gridSquareSize, gridSquareSize);
             }
         }
     }
 
     return (<>
         <canvas className="absolute inset-0 motion-reduce:hidden" ref={canvas} />
-        <Subtext className="absolute-center !top-5 hidden motion-reduce:block">There's usually a cool background here, but it has been hidden based on your preferences.</Subtext>
+        <Subtext
+            className="absolute-center !top-5 hidden motion-reduce:block"
+        >
+            There's usually a cool background here, but it has been hidden based on your preferences.
+        </Subtext>
     </>);
 }

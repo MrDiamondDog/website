@@ -11,7 +11,8 @@ export default function CatPage() {
     const [loading, setLoading] = useState(false);
 
     async function getNewCat() {
-        if (loading) return;
+        if (loading)
+            return;
 
         setCat(null);
         setLoading(true);
@@ -20,7 +21,7 @@ export default function CatPage() {
 
         if (!response.ok) {
             setLoading(false);
-            toast.error("Failed to fetch cat image: " + response.statusText);
+            toast.error(`Failed to fetch cat image: ${response.statusText}`);
             return;
         }
 

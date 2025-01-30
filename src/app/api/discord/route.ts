@@ -18,7 +18,7 @@ export async function GET(req: NextRequest) {
 
             const headers = new Headers([
                 ["Set-Cookie", `access_token=${json.access_token}; Max-Age=${json.expires_in}; SameSite=Strict; Path=/`],
-                ["Set-Cookie", `refresh_token=${json.refresh_token}; Max-Age=${1000 * 60 * 60 * 24 * 7}; SameSite=Strict; Path=/`]
+                ["Set-Cookie", `refresh_token=${json.refresh_token}; Max-Age=${1000 * 60 * 60 * 24 * 7}; SameSite=Strict; Path=/`],
             ]);
 
             if (json.error || json.message) {
@@ -47,11 +47,11 @@ export async function POST(req: NextRequest) {
 
     const headers = new Headers([
         ["Set-Cookie", `access_token=${json.access_token}; Max-Age=${json.expires_in}; SameSite=Strict; Path=/`],
-        ["Set-Cookie", `refresh_token=${json.refresh_token}; Max-Age=${1000 * 60 * 60 * 24 * 7}; SameSite=Strict; Path=/`]
+        ["Set-Cookie", `refresh_token=${json.refresh_token}; Max-Age=${1000 * 60 * 60 * 24 * 7}; SameSite=Strict; Path=/`],
     ]);
 
     return NextResponse.json(json, {
-        headers
+        headers,
     });
 }
 
@@ -63,11 +63,13 @@ export async function DELETE(req: NextRequest) {
 
     const headers = new Headers([
         ["Set-Cookie", "access_token=; Max-Age=0; SameSite=Strict; Path=/"],
-        ["Set-Cookie", "refresh_token=; Max-Age=0; SameSite=Strict; Path=/"]
+        ["Set-Cookie", "refresh_token=; Max-Age=0; SameSite=Strict; Path=/"],
     ]);
 
-    if (cookie.has("access_token")) await deleteToken(cookie.get("access_token").value, "access_token");
-    if (cookie.has("refresh_token")) await deleteToken(cookie.get("refresh_token").value, "refresh_token");
+    if (cookie.has("access_token"))
+        await deleteToken(cookie.get("access_token").value, "access_token");
+    if (cookie.has("refresh_token"))
+        await deleteToken(cookie.get("refresh_token").value, "refresh_token");
 
     return NextResponse.json({ message: "OK" }, { headers });
 }

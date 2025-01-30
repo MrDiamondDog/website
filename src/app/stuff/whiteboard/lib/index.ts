@@ -29,7 +29,7 @@ export const whiteboard = {
     ws: null as WebSocket | null,
     users: [] as { name: string, mousePos: Vec2, color: string, id: string }[],
     user: null as APIUser | null,
-    roomCode: ""
+    roomCode: "",
 };
 
 export function initWhiteboard(canvas: HTMLCanvasElement) {
@@ -44,7 +44,8 @@ export function initWhiteboard(canvas: HTMLCanvasElement) {
     });
 
     window.addEventListener("keydown", e => {
-        if (whiteboard.ws) return;
+        if (whiteboard.ws)
+            return;
         if (e.ctrlKey && e.key === "z") {
             undo();
         } else if (e.ctrlKey && e.key === "y") {
@@ -53,8 +54,10 @@ export function initWhiteboard(canvas: HTMLCanvasElement) {
     });
 
     function onMouseDown() {
-        if (!Mouse.leftDown) return;
-        if (whiteboard.currentStroke) return;
+        if (!Mouse.leftDown)
+            return;
+        if (whiteboard.currentStroke)
+            return;
 
         if (whiteboard.selectedTool === "pen" || whiteboard.selectedTool === "eraser") {
             whiteboard.currentStroke = new StrokeObject({
@@ -64,7 +67,7 @@ export function initWhiteboard(canvas: HTMLCanvasElement) {
                 color: whiteboard.brushColor,
                 size: whiteboard.brushSize,
                 eraser: whiteboard.selectedTool === "eraser",
-                owner: whiteboard.user?.id ?? undefined
+                owner: whiteboard.user?.id ?? undefined,
             });
 
             whiteboard.currentStroke.strokeData.points.push(Mouse.worldPos);
@@ -80,7 +83,7 @@ export function initWhiteboard(canvas: HTMLCanvasElement) {
                 color: whiteboard.brushColor,
                 size: whiteboard.brushSize,
                 fill: whiteboard.shapeFill,
-                owner: whiteboard.user?.id ?? undefined
+                owner: whiteboard.user?.id ?? undefined,
             });
 
             whiteboard.currentStroke.addToScene();
@@ -105,7 +108,8 @@ export function initWhiteboard(canvas: HTMLCanvasElement) {
             (whiteboard.currentStroke as StrokeObject)?.strokeData.points.push(Mouse.worldPos);
 
         else if (whiteboard.selectedTool === "shape") {
-            if (!whiteboard.currentStroke) return;
+            if (!whiteboard.currentStroke)
+                return;
 
             (whiteboard.currentStroke as ShapeObject).strokeData.endX = Mouse.worldPos.x;
             (whiteboard.currentStroke as ShapeObject).strokeData.endY = Mouse.worldPos.y;
@@ -113,14 +117,15 @@ export function initWhiteboard(canvas: HTMLCanvasElement) {
 
         if (whiteboard.ws) {
             // if last move event was less than 50ms ago, don't send another one
-            if (Date.now() - lastMove < 50) return;
+            if (Date.now() - lastMove < 50)
+                return;
 
             whiteboard.ws.send(JSON.stringify({
                 type: "mousemove",
                 x: Mouse.worldPos.x,
                 y: Mouse.worldPos.y,
                 roomCode: whiteboard.roomCode,
-                id: whiteboard.user.id
+                id: whiteboard.user.id,
             }));
         }
 
@@ -135,7 +140,7 @@ export function initWhiteboard(canvas: HTMLCanvasElement) {
                     stroke: whiteboard.currentStroke.strokeData,
                     shape: whiteboard.selectedTool === "shape",
                     roomCode: whiteboard.roomCode,
-                    id: whiteboard.user.id
+                    id: whiteboard.user.id,
                 }));
 
             whiteboard.currentStroke = null;
@@ -148,8 +153,8 @@ export function initWhiteboard(canvas: HTMLCanvasElement) {
         canvas,
 
         cameraControls: {
-            moveButton: () => Mouse.rightDown
-        }
+            moveButton: () => Mouse.rightDown,
+        },
     });
 }
 
@@ -172,11 +177,14 @@ export function setProfiler(profiler: boolean) {
 }
 
 export function undo() {
-    if (!objects.length) return;
+    if (!objects.length)
+        return;
 
-    const toRemove = objects.findLastIndex(object => (object instanceof StrokeObject || object instanceof ShapeObject) && (!whiteboard.ws || object.owner === whiteboard.user.id));
+    const toRemove = objects.findLastIndex(object => (object instanceof StrokeObject || object instanceof ShapeObject) &&
+        (!whiteboard.ws || object.owner === whiteboard.user.id));
 
-    if (toRemove === -1) return;
+    if (toRemove === -1)
+        return;
 
     whiteboard.redoStack.push({ obj: objects[toRemove] as StrokeObject | ShapeObject, index: toRemove });
 
@@ -184,7 +192,8 @@ export function undo() {
 }
 
 export function redo() {
-    if (!whiteboard.redoStack.length) return;
+    if (!whiteboard.redoStack.length)
+        return;
 
     const object = whiteboard.redoStack.pop();
 
@@ -194,7 +203,8 @@ export function redo() {
 export const canvasBuffer = 100;
 
 export function combinedSize(bounds?: boolean) {
-    // a bounding box that contains all of the strokes and shapes (if bounds = false, return the vector that represents the size instead)
+    // a bounding box that contains all of the strokes and shapes
+    // (if bounds = false, return the vector that represents the size instead)
     let minX = Infinity;
     let minY = Infinity;
     let maxX = -Infinity;
@@ -216,7 +226,8 @@ export function combinedSize(bounds?: boolean) {
         }
     }
 
-    if (bounds) return { minX, minY, maxX, maxY };
+    if (bounds)
+        return { minX, minY, maxX, maxY };
     return Vec2.from(Math.round(maxX - minX) + canvasBuffer, Math.round(maxY - minY) + canvasBuffer);
 }
 

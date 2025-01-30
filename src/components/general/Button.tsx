@@ -10,7 +10,8 @@ export default function Button(props: React.ButtonHTMLAttributes<HTMLButtonEleme
     return (
         <button
             {...props}
-            className={`px-4 py-2 rounded-lg ${props.className} ${props.look ?? ButtonStyles.primary} transition-all flex justify-center items-center disabled:bg-secondary`}
+            className={`px-4 py-2 rounded-lg ${props.className} ${props.look ?? ButtonStyles.primary} 
+            transition-all flex justify-center items-center disabled:bg-secondary`}
         />
     );
 }

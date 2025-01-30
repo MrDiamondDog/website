@@ -16,8 +16,8 @@ export const metadata: Metadata = {
     title: "mrdiamond.is-a.dev",
     description: "you should go to this website",
     icons: [
-        "/images/avatar.webp"
-    ]
+        "/images/avatar.webp",
+    ],
 };
 
 export default function RootLayout({
@@ -29,7 +29,7 @@ export default function RootLayout({
         <html lang="en">
             {/* <script src="https://unpkg.com/react-scan/dist/auto.global.js" async /> */}
             <Analytics />
-            <body className={"bg-bg " + font.className}>
+            <body className={`bg-bg ${font.className}`}>
                 {children}
                 <Toaster richColors theme="dark" />
             </body>

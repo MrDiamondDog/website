@@ -13,12 +13,12 @@ export async function generateMetadata({ params }: { params: { slug: string }}):
     if (!post)
         return {
             title: "404",
-            description: "This post does not exist"
+            description: "This post does not exist",
         };
 
     return {
         title: post.title,
-        description: post.description
+        description: post.description,
     };
 }
 
@@ -36,7 +36,9 @@ export default async function BlogPage({ params }: { params: { slug: string } })
         .process(postContent);
     const contentHtml = processedContent.toString();
 
-    return (<main className="absolute-center w-full md:w-2/3 p-4 md:p-10 max-h-[95%] bg-bg-light rounded-lg drop-shadow-xl h-full relative">
+    return (<main
+        className="absolute-center w-full md:w-2/3 p-4 md:p-10 max-h-[95%] bg-bg-light rounded-lg drop-shadow-xl h-full relative"
+    >
         <div className="h-full text-wrap overflow-scroll markdown">
             <a href="/">&lt; Go back</a>
             <h1 className="text-4xl font-bold pt-4 pb-3">{post.title}</h1>

@@ -36,7 +36,8 @@ function Ultrakill1SPage() {
 
     const init = useRef(false);
     useEffect(() => {
-        if (!canvas.current || init.current) return;
+        if (!canvas.current || init.current)
+            return;
         init.current = true;
 
         initGame(canvas.current, bg.current, isEditor);
@@ -60,7 +61,8 @@ function Ultrakill1SPage() {
     }, [canvas.current]);
 
     useEffect(() => {
-        if (!canvas.current) return;
+        if (!canvas.current)
+            return;
 
         game.editor.selectedColor = color;
         game.editor.selectedTool = tool;
@@ -70,7 +72,8 @@ function Ultrakill1SPage() {
             for (let x = 0; x < game.currentLevel.gridSize.x; x++) {
                 for (let y = 0; y < game.currentLevel.gridSize.y; y++) {
                     const square = game.currentLevel.grid[x][y];
-                    if (!square) continue;
+                    if (!square)
+                        continue;
 
                     delete square.linePoints;
                 }
@@ -105,7 +108,8 @@ function Ultrakill1SPage() {
         input.accept = ".txt";
         input.onchange = () => {
             const file = input.files[0];
-            if (!file) return;
+            if (!file)
+                return;
 
             const reader = new FileReader();
             reader.onload = () => {
@@ -130,8 +134,16 @@ function Ultrakill1SPage() {
 
     return (<>
         <Dialog open={shareDialogOpen} onClose={() => setShareDialogOpen(false)} title="Export/Import Level" className="z-20">
-            <Input label="Level Data" multiline="true" value={levelData} onChange={e => setLevelData(e.target.value)} className="w-[500px] h-[150px]" />
-            <Button look={ButtonStyles.secondary} className="mt-2 w-full" onClick={() => { navigator.clipboard.writeText(levelData); toast.success("Copied!"); }}>Copy</Button>
+            <Input
+                label="Level Data"
+                multiline="true"
+                value={levelData}
+                onChange={e => setLevelData(e.target.value)}
+                className="w-[500px] h-[150px]"
+            />
+            <Button look={ButtonStyles.secondary} className="mt-2 w-full" onClick={() => {
+                navigator.clipboard.writeText(levelData); toast.success("Copied!");
+            }}>Copy</Button>
             <Button look={ButtonStyles.secondary} className="mt-2 w-full" onClick={() => importBoard()}>Import from String</Button>
             <Button look={ButtonStyles.secondary} className="mt-2 w-full" onClick={saveLevel}>Save to File</Button>
             <Button look={ButtonStyles.secondary} className="mt-2 w-full" onClick={loadFromFile}>Load from File</Button>
@@ -156,7 +168,9 @@ function Ultrakill1SPage() {
 
         <div className="absolute-center p-5 flex flex-col gap-2 justify-center items-center">
             <div className="flex flex-row gap-2">
-                {isEditor ? <a href="#" onClick={() => setEditor(false)}>Play</a> : <a href="#" onClick={() => setEditor(true)}>Edit</a>}
+                {isEditor ?
+                    <a href="#" onClick={() => setEditor(false)}>Play</a> : <a href="#" onClick={() => setEditor(true)}>Edit</a>
+                }
                 |
                 <a href="#" onClick={reset}>New Level</a>
                 |
@@ -169,7 +183,8 @@ function Ultrakill1SPage() {
             </div>
             {isEditor && <div className="flex flex-col gap-2 justify-center items-center">
                 <div className="flex flex-row gap-2">
-                    <ToolbarButton onClick={() => setTool("start")} src={`/images/1-s/${color}/box-start.png`} selected={tool === "start"} />
+                    <ToolbarButton
+                        onClick={() => setTool("start")} src={`/images/1-s/${color}/box-start.png`} selected={tool === "start"} />
                     <ToolbarButton onClick={() => setTool("end")} src={`/images/1-s/${color}/box-end.png`} selected={tool === "end"} />
                     <ToolbarButton onClick={() => setTool("dot")} src={`/images/1-s/${color}/dot.png`} selected={tool === "dot"} />
                     <ToolbarButton onClick={() => setTool("pit")} src={`/images/1-s/${color}/pit.png`} selected={tool === "pit"} />
@@ -177,14 +192,52 @@ function Ultrakill1SPage() {
                     <ToolbarButton onClick={() => setTool("eraser")} src="/images/1-s/eraser-icon.png" selected={tool === "eraser"} />
                 </div>
                 <div className="flex flex-row gap-2">
-                    <ToolbarButton selected={color === "white"} onClick={() => setColor("white")}><div style={{ backgroundColor: gridColors.white }} className="rounded-lg size-10" /></ToolbarButton>
-                    <ToolbarButton selected={color === "red"} onClick={() => setColor("red")}><div style={{ backgroundColor: gridColors.red }} className="rounded-lg size-10" /></ToolbarButton>
-                    <ToolbarButton selected={color === "blue"} onClick={() => setColor("blue")}><div style={{ backgroundColor: gridColors.blue }} className="rounded-lg size-10" /></ToolbarButton>
-                    <ToolbarButton selected={color === "green"} onClick={() => setColor("green")}><div style={{ backgroundColor: gridColors.green }} className="rounded-lg size-10" /></ToolbarButton>
+                    <ToolbarButton
+                        selected={color === "white"}
+                        onClick={() => setColor("white")}
+                    >
+                        <div style={{ backgroundColor: gridColors.white }} className="rounded-lg size-10" />
+                    </ToolbarButton>
+                    <ToolbarButton
+                        selected={color === "red"}
+                        onClick={() => setColor("red")}
+                    >
+                        <div style={{ backgroundColor: gridColors.red }} className="rounded-lg size-10" />
+                    </ToolbarButton>
+                    <ToolbarButton
+                        selected={color === "blue"}
+                        onClick={() => setColor("blue")}
+                    >
+                        <div style={{ backgroundColor: gridColors.blue }} className="rounded-lg size-10" />
+                    </ToolbarButton>
+                    <ToolbarButton
+                        selected={color === "green"}
+                        onClick={() => setColor("green")}
+                    >
+                        <div style={{ backgroundColor: gridColors.green }} className="rounded-lg size-10" />
+                    </ToolbarButton>
                 </div>
                 <div className="flex flex-row gap-2">
-                    <input type="range" className="w-[120px]" step={1} min={1} max={20} placeholder="Width" value={gridSize.x} onChange={e => setGridSize({ ...gridSize, x: parseInt(e.target.value) })} />
-                    <input type="range" className="w-[120px]" step={1} min={1} max={20} placeholder="Height" value={gridSize.y} onChange={e => setGridSize({ ...gridSize, y: parseInt(e.target.value) })} />
+                    <input
+                        type="range"
+                        className="w-[120px]"
+                        step={1}
+                        min={1}
+                        max={20}
+                        placeholder="Width"
+                        value={gridSize.x}
+                        onChange={e => setGridSize({ ...gridSize, x: parseInt(e.target.value) })}
+                    />
+                    <input
+                        type="range"
+                        className="w-[120px]"
+                        step={1}
+                        min={1}
+                        max={20}
+                        placeholder="Height"
+                        value={gridSize.y}
+                        onChange={e => setGridSize({ ...gridSize, y: parseInt(e.target.value) })}
+                    />
                 </div>
             </div>}
         </div>

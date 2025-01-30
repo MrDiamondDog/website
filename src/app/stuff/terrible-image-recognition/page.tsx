@@ -31,10 +31,12 @@ export default function ImageRecognitionPage() {
     const canvas = useRef<HTMLCanvasElement>(null);
 
     useEffect(() => {
-        if (!canvas.current || !image) return;
+        if (!canvas.current || !image)
+            return;
 
         const ctx = canvas.current.getContext("2d");
-        if (!ctx) return;
+        if (!ctx)
+            return;
 
         img.current = new Image();
         img.current.onload = () => {
@@ -48,14 +50,16 @@ export default function ImageRecognitionPage() {
     }, [image]);
 
     useEffect(() => {
-        if (!canvas.current || !img.current) return;
+        if (!canvas.current || !img.current)
+            return;
 
         rerender();
     }, [results, selectedResult]);
 
     function rerender() {
         const ctx = canvas.current.getContext("2d");
-        if (!ctx) return;
+        if (!ctx)
+            return;
 
         ctx.clearRect(0, 0, canvasWidth, img.current.height * (canvasWidth / img.current.width));
 
@@ -67,13 +71,20 @@ export default function ImageRecognitionPage() {
         ctx.fillStyle = "red";
 
         for (const result of results.filter(r => r.score >= 0.01).slice(0, 10)) {
-            if (selectedResult && selectedResult !== result) continue;
+            if (selectedResult && selectedResult !== result)
+                continue;
 
             // map the coordinates to the canvas size (input coords are from 0 to the original image size, NOT 0-1)
             const x = map(result.box.xmin, 0, img.current.width, 0, canvasWidth);
             const y = map(result.box.ymin, 0, img.current.height, 0, img.current.height * (canvasWidth / img.current.width));
             const width = map(result.box.xmax - result.box.xmin, 0, img.current.width, 0, canvasWidth);
-            const height = map(result.box.ymax - result.box.ymin, 0, img.current.height, 0, img.current.height * (canvasWidth / img.current.width));
+            const height = map(
+                result.box.ymax - result.box.ymin,
+                0,
+                img.current.height,
+                0,
+                img.current.height * (canvasWidth / img.current.width)
+            );
 
             ctx.strokeRect(x, y, width, height);
             ctx.fillText(`${result.label} (${(result.score * 100).toFixed(2)}%)`, x, y <= 20 ? y + 20 : y - 5);
@@ -81,7 +92,8 @@ export default function ImageRecognitionPage() {
     }
 
     async function submit() {
-        if (!canvas.current) return;
+        if (!canvas.current)
+            return;
 
         setLoading(true);
         setResults([]);
@@ -107,7 +119,10 @@ export default function ImageRecognitionPage() {
     }
 
     return (
-        <div className="absolute-center border-[2px] border-primary rounded-lg bg-bg-light p-10 flex flex-row justify-between gap-5 items-center">
+        <div
+            className={`absolute-center border-[2px] border-primary rounded-lg 
+                bg-bg-light p-10 flex flex-row justify-between gap-5 items-center`}
+        >
             <div>
                 <h1>Terrible Image Recognition</h1>
                 <Divider />
@@ -115,11 +130,14 @@ export default function ImageRecognitionPage() {
                 <Button className="w-full mt-3" onClick={submit} disabled={loading}>Recognize</Button>
                 <Divider />
                 {loading && <Spinner />}
-                {results.filter(r => r.score >= 0.01).slice(0, 10).map((result, i) => (
-                    <div key={i} onMouseOver={() => setSelectedResult(result)} onMouseLeave={() => setSelectedResult(null)}>
-                        <p className={selectedResult !== result && result !== null ? "text-gray-500" : ""}>{result.label} - {(result.score * 100).toFixed(2)}%</p>
-                    </div>
-                ))}
+                {results.filter(r => r.score >= 0.01).slice(0, 10)
+                    .map((result, i) => (
+                        <div key={i} onMouseOver={() => setSelectedResult(result)} onMouseLeave={() => setSelectedResult(null)}>
+                            <p className={selectedResult !== result && result !== null ? "text-gray-500" : ""}>
+                                {result.label} - {(result.score * 100).toFixed(2)}%
+                            </p>
+                        </div>
+                    ))}
             </div>
             <div>
                 <canvas width={canvasWidth} height="300" ref={canvas} className="bg-bg rounded-lg" />

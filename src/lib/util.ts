@@ -34,7 +34,8 @@ export type AnalyticsEntry = {
 };
 
 export const cloudflareKVUrl =
-`https://api.cloudflare.com/client/v4/accounts/${process.env.CF_ACCOUNT_ID}/storage/kv/namespaces/c0f7a6c2f8474ba1bbc9bdb55b5567d6/values/events`;
+`https://api.cloudflare.com/client/v4/accounts/${process.env.CF_ACCOUNT_ID}` +
+"/storage/kv/namespaces/c0f7a6c2f8474ba1bbc9bdb55b5567d6/values/events";
 
 export async function getAnalyticsEntries() {
     if (!process.env.CF_ACCOUNT_ID || !process.env.CF_ACCOUNT_TOKEN) {
@@ -47,10 +48,11 @@ export async function getAnalyticsEntries() {
         },
     }).then(async res => {
         if (!res.ok) {
-            throw new Error("Failed to fetch events; " + await res.text());
+            throw new Error(`Failed to fetch events; ${await res.text()}`);
         }
         return res.text();
-    }).then(JSON.parse);
+    })
+        .then(JSON.parse);
 
     for (const entry of data) {
         // fallback for old data
@@ -61,7 +63,6 @@ export async function getAnalyticsEntries() {
 
     return data;
 }
-
 
 // like Math.random() but with a seed
 export function seededRandom(seed: string | number) {
@@ -94,7 +95,7 @@ const rainbow = [
     "hsl(240, 100%, 50%)", // Indigo
     "hsl(260, 100%, 50%)", // Indigo-Violet
     "hsl(280, 100%, 50%)", // Violet
-    "hsl(300, 100%, 50%)" // Magenta
+    "hsl(300, 100%, 50%)", // Magenta
 ];
 
 export function color(i: number) {

@@ -5,25 +5,25 @@ const pages = [
         name: "Download RAM",
         description: "Computer slow? Running out of RAM? Just download more!",
         href: "generators/download-ram",
-        tags: "tool"
+        tags: "tool",
     },
     {
         name: "ULTRAKILL 1-S",
         description: "Recreation of the game from ULTRAKILL 1-S",
         href: "1-s",
-        tags: "game"
+        tags: "game",
     },
     {
         name: "Game Of Life",
         description: "Conway's Game of Life",
         href: "game-of-life",
-        tags: "game"
+        tags: "game",
     },
     {
         name: "Whiteboard",
         description: "A super-simple whiteboard app.",
         href: "whiteboard",
-        tags: "tool"
+        tags: "tool",
     },
     // {
     //     name: "Youtube Downloader",
@@ -35,42 +35,48 @@ const pages = [
         name: "AI Chat",
         description: "A really terrible chatbot",
         href: "chat",
-        tags: "ai"
+        tags: "ai",
     },
     {
         name: "Terrible Image Recognition",
         description: "A really terrible image recognition AI",
         href: "terrible-image-recognition",
-        tags: "ai"
+        tags: "ai",
     },
     {
         name: "Jonah",
         description: "click that mf jonah",
         href: "jonah",
-        tags: "random"
+        tags: "random",
     },
     {
         name: "Physics Game",
         description: "A simple physics game made with Matter.js",
         href: "physics",
-        tags: "game"
+        tags: "game",
     },
     {
         name: "Cats",
         description: "Get free cats!",
         href: "cat",
-        tags: "random"
+        tags: "random",
     },
     {
         name: "Factorio Checklist",
         description: "A simple checklist app for factorio, like the mod but on a website.",
         href: "factorio-checklist",
-        tags: "tool"
+        tags: "tool",
     },
 ];
 
 export default function StuffTab() {
     return (<div className="grid grid-cols-2 gap-2">
-        {pages.map((page, index) => <StuffItem key={index} title={page.name} description={page.description} href={page.href} tags={[page.tags]} />)}
+        {pages.map((page, index) => <StuffItem
+            key={index}
+            title={page.name}
+            description={page.description}
+            href={page.href}
+            tags={[page.tags]}
+        />)}
     </div>);
 }

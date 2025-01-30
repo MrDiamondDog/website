@@ -8,11 +8,13 @@ export class MultiplayerObject extends CanvasObject {
     }
 
     draw(): void {
-        if (!whiteboard.ws) return;
+        if (!whiteboard.ws)
+            return;
         const { ctx } = Renderer;
 
         for (const user of whiteboard.users) {
-            if (user.id === whiteboard.user.id) continue;
+            if (user.id === whiteboard.user.id)
+                continue;
 
             ctx.fillStyle = user.color;
             ctx.strokeStyle = user.color;
