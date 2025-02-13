@@ -6,7 +6,7 @@ import Divider from "@/components/general/Divider";
 import Subtext from "@/components/general/Subtext";
 import { getContent, getPost } from "@/lib/blog";
 
-export async function generateMetadata({ params }: { params: { slug: string }}): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
     const { slug } = await params;
 
     const post = await getPost(slug);
@@ -22,7 +22,7 @@ export async function generateMetadata({ params }: { params: { slug: string }}):
     };
 }
 
-export default async function BlogPage({ params }: { params: { slug: string } }) {
+export default async function BlogPage({ params }: { params: Promise<{ slug: string }> }) {
     const { slug } = await params;
 
     const post = await getPost(slug);
