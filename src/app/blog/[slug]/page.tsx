@@ -6,6 +6,8 @@ import Divider from "@/components/general/Divider";
 import Subtext from "@/components/general/Subtext";
 import { getContent, getPost } from "@/lib/blog";
 
+export const runtime = "edge";
+
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
     const { slug } = await params;
 
