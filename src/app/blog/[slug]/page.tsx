@@ -1,28 +1,9 @@
-import { Metadata } from "next";
 import { remark } from "remark";
 import html from "remark-html";
 
 import Divider from "@/components/general/Divider";
 import Subtext from "@/components/general/Subtext";
 import { getContent, getPost } from "@/lib/blog";
-
-export const runtime = "edge";
-
-export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
-    const { slug } = await params;
-
-    const post = await getPost(slug);
-    if (!post)
-        return {
-            title: "404",
-            description: "This post does not exist",
-        };
-
-    return {
-        title: post.title,
-        description: post.description,
-    };
-}
 
 export default async function BlogPage({ params }: { params: Promise<{ slug: string }> }) {
     const { slug } = await params;
