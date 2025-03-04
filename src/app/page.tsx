@@ -24,7 +24,7 @@ export default async function Home() {
             p-5 rounded-lg border-[3px] border-primary bg-bg-light-transparent backdrop-blur-sm drop-shadow-xl overflow-scroll"
         >
             <Tablist
-                tabs={["Profile", "Projects", "Stuff", "Stack", "Blog", "Contact"]}
+                tabs={["Profile", "Projects", "Stuff", "Stack", "Contact"]}
                 activeTab="Profile"
             >
                 <Tab name="Profile">
@@ -75,13 +75,6 @@ export default async function Home() {
                 </Tab>
                 <Tab name="Stuff" className="flex flex-col gap-2">
                     <StuffTab />
-                </Tab>
-                <Tab name="Blog">
-                    <div className="grid grid-cols-2 gap-2">
-                        {blogPosts.map(post => (
-                            <BlogPost post={post} key={post.slug} />
-                        ))}
-                    </div>
                 </Tab>
                 <Tab name="Contact">
                     <ContactTab />
