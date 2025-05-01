@@ -83,7 +83,7 @@ export default async function Home() {
 
             <Divider />
             <Subtext>
-                Source code available on
+                Source code available on{" "}
                 <a href="https://github.com/mrdiamonddog/website" className="no-style text-primary">GitHub</a>.
             </Subtext>
         </main>
