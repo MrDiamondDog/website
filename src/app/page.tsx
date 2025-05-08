@@ -47,10 +47,15 @@ export default async function Home() {
 
                     <Divider />
 
-                    <p>
+                    <p className="whitespace-pre-wrap">
                         Hello! I'm a web/software developer, but I also dabble in other things
                         like modding, Discord bots, microcontrollers, etc.
-                        I'm also a total theatre nerd.
+                        I'm also a total theatre nerd.{"\n"}{"\n"}
+
+                        I'm currently working on Balatrools, a collection of tools & resources for Balatro!{"\n"}{"\n"}
+
+                        If you would like to support my work, please visit my{" "}
+                        <a href="/support" className="text-primary">Support</a> page!
                     </p>
 
                     <Divider />
