@@ -137,7 +137,7 @@ export default function DownloadRamPage() {
                 </>}
                 <p className="text-xs text-gray-500 mt-2 whitespace-pre-wrap">
                     This is fake, you will not get any RAM. No information will be shared.{"\n"}
-                    Source code is available on
+                    Source code is available on{" "}
                     <a href="https://github.com/mrdiamonddog/website" className="text-blue-400 no-style">GitHub</a>.
                 </p>
             </div>
