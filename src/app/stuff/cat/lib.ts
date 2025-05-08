@@ -1,9 +1,3 @@
-export async function getTotalCats() {
-    return await fetch("https://cataas.com/api/count").then(res => res.json())
-        .then(data => data.count)
-        .catch(() => 0);
-}
-
 export type CollectionCat = {
     count: number;
 } & APICat;
@@ -23,6 +17,12 @@ export function getCatCollection(): CollectionCat[] {
     return JSON.parse(atob(window.localStorage.getItem("cat-collection"))) || [];
 }
 
+export async function getTotalCats() {
+    return await fetch("https://cataas.com/api/count").then(res => res.json())
+        .then(data => data.count)
+        .catch(() => 0);
+}
+
 export function getCollectedCatsCount() {
     return getCatCollection().length;
 }
@@ -40,4 +40,19 @@ export function addCatToCollection(cat: APICat) {
     }
 
     window.localStorage.setItem("cat-collection", btoa(JSON.stringify(collection)));
+}
+
+export async function cacheAllCats() {
+    const totalCats = await getTotalCats();
+
+    if (totalCats === window.localStorage.getItem("total-cats"))
+        return;
+
+    window.localStorage.setItem("total-cats", totalCats.toString());
+
+    const cats = await fetch(`https://cataas.com/api/cats?limit=${totalCats}`).then(res => res.json());
+
+    cats.map(cat => delete cat.tags);
+
+    window.localStorage.setItem("all-cats", btoa(JSON.stringify(cats)));
 }

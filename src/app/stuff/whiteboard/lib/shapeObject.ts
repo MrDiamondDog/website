@@ -49,7 +49,7 @@ export class ShapeObject extends CanvasObject {
                 this.strokeData.endY - this.strokeData.startY,
                 this.strokeData.endX - this.strokeData.startX
             );
-            const headLength = 10;
+            const headLength = 10 + this.strokeData.size;
 
             ctx.moveTo(this.strokeData.startX, this.strokeData.startY);
             ctx.lineTo(this.strokeData.endX, this.strokeData.endY);

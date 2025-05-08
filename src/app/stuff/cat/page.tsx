@@ -7,7 +7,7 @@ import Button from "@/components/general/Button";
 import { FaCat } from "react-icons/fa6";
 import Subtext from "@/components/general/Subtext";
 import Confetti from "react-dom-confetti";
-import { addCatToCollection, APICat, getCollectedCatsCount, getTotalCats } from "./lib";
+import { addCatToCollection, APICat, cacheAllCats, getCollectedCatsCount, getTotalCats } from "./lib";
 
 export default function CatPage() {
     const [cat, setCat] = useState<APICat>(null);
@@ -16,6 +16,8 @@ export default function CatPage() {
     const [totalCatCount, setTotalCatCount] = useState(0);
 
     useEffect(() => {
+        cacheAllCats();
+
         getTotalCats().then(setTotalCatCount);
         setCollectedCats(getCollectedCatsCount());
     }, []);
@@ -48,8 +50,8 @@ export default function CatPage() {
         <div className="rounded-lg p-5 bg-bg-light absolute-center flex flex-col gap-1 items-center justify-center">
             <div className="size-[500px] bg-bg-lighter rounded-lg relative flex items-center justify-center">
                 <Subtext className="absolute inset-0 flex flex-row items-center justify-center">
-                    {!loading && <>Press <FaCat className="mx-1" /> for a cat!</>}
-                    {loading && <FaCat className={loading ? "cat-spin" : "rotate-0"} />}
+                    {(!loading && !cat) && <>Press <FaCat className="mx-1" /> for a cat!</>}
+                    {(loading || cat) && <FaCat className={(loading || cat) ? "cat-spin" : "rotate-0"} />}
                 </Subtext>
                 {cat &&
                 <img
@@ -65,7 +67,11 @@ export default function CatPage() {
             >
                 <FaCat />
             </Button>
-            <Subtext>{(!totalCatCount) ? "..." : <>Collected {collectedCats}/{totalCatCount} cats</>}</Subtext>
+            <Subtext>{
+                (!totalCatCount) ? "..." : <>
+                Collected {collectedCats}/{totalCatCount} cats!
+                </>
+            }</Subtext>
         </div>
     </div>);
 }

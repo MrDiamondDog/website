@@ -15,8 +15,6 @@ import Tablist from "@/components/tabs/Tablist";
 import { getPosts } from "@/lib/blog";
 
 export default async function Home() {
-    const blogPosts = await getPosts();
-
     return (<>
         <Background />
         <main

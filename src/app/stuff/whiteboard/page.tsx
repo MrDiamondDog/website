@@ -492,7 +492,7 @@ function WhiteboardPage() {
                             className={`absolute top-0 left-12 bg-bg-light border border-bg-lighter 
                                 rounded-lg p-2 px-3 flex flex-col justify-center items-center`}
                         >
-                            <Subtext>Brush Size</Subtext>
+                            <Subtext>Brush Size: {state.brushSize}px</Subtext>
                             <input
                                 type="range"
                                 min={1}
