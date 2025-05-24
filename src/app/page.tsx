@@ -17,7 +17,7 @@ export default async function Home() {
         <Background />
         <main
             className="absolute-center lg:w-[45%] md:w-2/3 w-full max-h-[75%] transition-[width]
-            p-5 rounded-lg border-[3px] border-primary bg-bg-light-transparent backdrop-blur-sm drop-shadow-xl overflow-scroll"
+            p-5 rounded-lg border-[3px] border-primary bg-bg-light-transparent backdrop-blur-sm drop-shadow-xl"
         >
             <Tablist
                 tabs={["Profile", "Projects", "Stuff", "Stack", "Contact", "Support"]}
