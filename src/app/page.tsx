@@ -28,18 +28,14 @@ export default async function Home() {
                         <div className="flex flex-row gap-3 items-center">
                             <img src="/images/avatar.webp" alt="Avatar" className="rounded-full w-[50px] md:w-[100px]" />
                             <div>
-                                <h1 className="text-sm md:text-3xl">MrDiamondDog</h1>
-                                <Subtext>He/Him</Subtext>
-                            </div>
-                        </div>
-
-                        <div className="flex flex-col gap-2 pt-2">
-                            <SocialMediaProfile icon={FaDiscord} copy="mrdiamonddog">
+                                <h1 className="text-sm md:text-3xl">Drew</h1>
+                                <SocialMediaProfile icon={FaDiscord} copy="mrdiamonddog">
                                 @mrdiamonddog
-                            </SocialMediaProfile>
-                            <SocialMediaProfile icon={FaGithub} link="https://github.com/MrDiamondDog">
+                                </SocialMediaProfile>
+                                <SocialMediaProfile icon={FaGithub} link="https://github.com/MrDiamondDog">
                                 MrDiamondDog
-                            </SocialMediaProfile>
+                                </SocialMediaProfile>
+                            </div>
                         </div>
                     </div>
 
