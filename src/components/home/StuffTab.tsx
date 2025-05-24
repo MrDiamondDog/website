@@ -70,7 +70,7 @@ const pages = [
 ];
 
 export default function StuffTab() {
-    return (<div className="grid grid-cols-2 gap-2">
+    return (<div className="grid grid-cols-2 gap-1 round-outside-grid">
         {pages.map((page, index) => <StuffItem
             key={index}
             title={page.name}

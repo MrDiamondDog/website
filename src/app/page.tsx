@@ -3,16 +3,14 @@ import { FaDiscord, FaGithub } from "react-icons/fa6";
 import Divider from "@/components/general/Divider";
 import Subtext from "@/components/general/Subtext";
 import Background from "@/components/home/Background";
-import BlogPost from "@/components/home/BlogPost";
 import ContactTab from "@/components/home/ContactTab";
 import ProjectCard from "@/components/home/ProjectCard";
-import SendADrawing from "@/components/home/SendADrawing";
 import SocialMediaProfile from "@/components/home/SocialMediaProfile";
 import StackTab from "@/components/home/StackTab";
 import StuffTab from "@/components/home/StuffTab";
 import Tab from "@/components/tabs/Tab";
 import Tablist from "@/components/tabs/Tablist";
-import { getPosts } from "@/lib/blog";
+import SupportTab from "@/components/home/SupportTab";
 
 export default async function Home() {
     return (<>
@@ -22,7 +20,7 @@ export default async function Home() {
             p-5 rounded-lg border-[3px] border-primary bg-bg-light-transparent backdrop-blur-sm drop-shadow-xl overflow-scroll"
         >
             <Tablist
-                tabs={["Profile", "Projects", "Stuff", "Stack", "Contact"]}
+                tabs={["Profile", "Projects", "Stuff", "Stack", "Contact", "Support"]}
                 activeTab="Profile"
             >
                 <Tab name="Profile">
@@ -52,23 +50,24 @@ export default async function Home() {
                         like modding, Discord bots, microcontrollers, etc.
                         I'm also a total theatre nerd.{"\n"}{"\n"}
 
-                        I'm currently working on Balatrools, a collection of tools & resources for Balatro!{"\n"}{"\n"}
+                        I'm currently working on{" "}
+                        <a href="https://balatrools.pages.dev" className="text-primary">Balatrools</a>,
+                        a collection of tools & resources for Balatro!{"\n"}{"\n"}
 
                         If you would like to support my work, please visit my{" "}
                         <a href="/support" className="text-primary">Support</a> page!
                     </p>
-
-                    <Divider />
-
-                    <SendADrawing />
                 </Tab>
                 <Tab name="Stack">
                     <StackTab />
                 </Tab>
                 <Tab name="Projects">
-                    <div className="grid grid-cols-2 gap-2">
-                        <ProjectCard owner="MrDiamondDog" repo="website" />
+                    <div className="grid grid-cols-2 gap-1 round-outside-grid">
+                        <ProjectCard owner="MrDiamondDog" repo="website" highlight />
+                        <ProjectCard owner="MrDiamondDog" repo="balatrools" highlight />
+                        <ProjectCard owner="MrDiamondDog" repo="v1-bot" />
                         <ProjectCard owner="MrDiamondDog" repo="objective-canvas" />
+                        <ProjectCard owner="MrDiamondDog" repo="elegoo-keyboard" />
                         <ProjectCard owner="MrDiamondDog" repo="noUglyIconsTheme" />
                         <ProjectCard owner="MrDiamondDog" repo="vencord-impersonation-reporter" />
                         <ProjectCard owner="MrDiamondDog" repo="reverse-roles-chess" />
@@ -81,6 +80,9 @@ export default async function Home() {
                 </Tab>
                 <Tab name="Contact">
                     <ContactTab />
+                </Tab>
+                <Tab name="Support">
+                    <SupportTab />
                 </Tab>
             </Tablist>
 

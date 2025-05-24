@@ -379,3 +379,26 @@ select, option {
 .table-alternate-colors tbody > tr:nth-child(odd) {
   background-color: var(--background-light);
 }
+
+/* round the outside of a 2-column grid, not the inside */
+.round-outside-grid {
+  & > * {
+    border-radius: 0.2rem;
+  }
+
+  & > :first-child {
+    border-top-left-radius: 1rem;
+  }
+
+  & > :nth-child(2) {
+    border-top-right-radius: 1rem;
+  }
+
+  & > :nth-last-child(2) {
+    border-bottom-left-radius: 1rem;
+  }
+
+  & > :last-child {
+    border-bottom-right-radius: 1rem;
+  }
+}

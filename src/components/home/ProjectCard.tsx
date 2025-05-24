@@ -9,6 +9,7 @@ import Subtext from "../general/Subtext";
 interface Props {
     owner: string;
     repo: string;
+    highlight?: boolean;
 }
 
 export default async function ProjectCard(props: Props) {
@@ -24,7 +25,7 @@ export default async function ProjectCard(props: Props) {
             href={`https://github.com/${props.owner}/${props.repo}`}
             target="_blank"
             className={`no-style rounded-lg bg-bg-lighter p-3 pb-8 relative 
-                transition-all border-[2px] border-transparent hover:border-primary`}
+                transition-all border-[2px] hover:border-primary ${props.highlight ? "border-purple-500" : "border-transparent"}`}
         >
             <div className="flex flex-row justify-between">
                 <div className="flex flex-row gap-2 items-center">
