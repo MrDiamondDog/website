@@ -30,7 +30,7 @@ export default function Tablist(props: Props) {
     }, [params]);
 
     return (<>
-        <div className={`flex space-x-2 mb-4 overflow-scroll ${props.className}`}>
+        <div className={`flex space-x-2 mb-4 overflow-x-auto ${props.className}`}>
             {props.tabs.map(tab => (
                 <TabButton
                     key={tab}
