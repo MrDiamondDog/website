@@ -1,107 +1,89 @@
 "use client";
 
-import { APIUser } from "discord-api-types/v10";
-import { useEffect, useRef, useState } from "react";
-import { toast } from "sonner";
-
-import { getUser } from "@/lib/discord";
-
+import { FormEvent, useState } from "react";
 import Button from "../general/Button";
-import DiscordAuthBarrier from "../general/DiscordUser";
-import Divider from "../general/Divider";
+import Spinner from "../general/Spinner";
 import Input from "../general/Input";
 
+const randomPlaceholders = [
+    {
+        name: "Elon Musk",
+        email: "elonmusk@x.com",
+        message: "Buy Tesla Cybertruck or I'll kms",
+    },
+    {
+        name: "Sam Altman",
+        email: "samaltman@openai.com",
+        message: "I would like to sponsoir you to promote my AI slop machines",
+    },
+    {
+        name: "Darrel Johnson",
+        email: "darreljohnson@hotmail.com",
+        message: "Collect my daily stock images",
+    },
+    {
+        name: "blobcatcozy",
+        email: "blobcatcozy@http.cat",
+        message: ":blobcatcozy: :blobcatcozy: :blobcatcozy:",
+    },
+    {
+        name: "Horse",
+        email: "horse@stable.org",
+        message: "How hungry...",
+    },
+];
+
 export default function ContactTab() {
-    const [clientId, setClientId] = useState("");
-    const [user, setUser] = useState<APIUser | null>(null);
+    const [result, setResult] = useState("");
+    const [loading, setLoading] = useState(false);
 
-    const [subject, setSubject] = useState("");
-    const [message, setMessage] = useState("");
+    const placeholder = randomPlaceholders[Math.floor(Math.random() * randomPlaceholders.length)];
 
-    const requested = useRef(false);
-    useEffect(() => {
-        if (requested.current)
-            return;
-        requested.current = true;
+    async function onSubmit(event: FormEvent) {
+        event.preventDefault();
+        setResult("Sending...");
+        setLoading(true);
 
-        (async() => {
-            let newToken = "";
+        const formData = new FormData(event.target as HTMLFormElement);
 
-            await fetch("/api/discord?token=true").then(res => res.json())
-                .then(json => newToken = json.access_token);
-            if (!newToken)
-                setClientId(await getClientId());
-            else
-                await getUser(newToken).then(user => setUser(user));
-        })();
-    }, []);
+        // yes this key is public
+        formData.append("access_key", "97f746ff-7238-4df3-93a1-979cee22da7c");
 
-    async function getClientId() {
-        return await fetch("/api/discord?clientId=true").then(res => res.json())
-            .then(json => json.clientId);
-    }
-
-    async function signOut() {
-        await fetch("/api/discord", { method: "DELETE" });
-
-        setUser(null);
-        setClientId(await getClientId());
-    }
-
-    async function submit() {
-        if (!user || !subject || !message)
-            return toast.error("Please fill out all fields.");
-
-        await fetch("/api/contact", {
+        const response = await fetch("https://api.web3forms.com/submit", {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ userId: user.id, subject, message }),
-        }).then(res => {
-            if (!res.ok)
-                throw res;
-            toast.success("Message sent. Expect a response... eventually.");
+            body: formData,
+        });
 
-            setSubject("");
-            setMessage("");
-        })
-            .catch(res => {
-                res.json().then(data => {
-                    toast.error(`${data.body}\nStatus Code: ${res.status}`);
-                });
-            });
+        const data = await response.json();
+
+        if (data.success) {
+            setResult("Success!");
+            (event.target as HTMLFormElement).reset();
+        } else {
+            console.log("Error", data);
+            setResult(data.message);
+        }
+
+        setLoading(false);
     }
 
     return (<>
         <p>
         Contact me about anything! An issue with a project or if you just have any questions!
-
-        I will respond to you via Discord, please make sure you have message requests open!
+        (or even suggest new placeholder messages...)
         </p>
 
-        <Divider />
+        <form onSubmit={onSubmit} className="flex flex-col gap-2 mt-2">
+            <Input type="text" label="Name" name="name" placeholder={placeholder.name} required/>
+            <Input type="email" label="Email" name="email" placeholder={placeholder.email} required/>
+            <Input name="message" label="Message" placeholder={placeholder.message}
+                multiline required />
 
-        <DiscordAuthBarrier>
-            <Input
-                type="text"
-                value={subject}
-                onChange={e => setSubject(e.target.value)}
-                placeholder="Just saying hi"
-                label="Subject"
-                required
-                maxLength={256}
-            />
-            <Input
-                type="text"
-                value={message}
-                onChange={e => setMessage(e.target.value)}
-                placeholder="hi"
-                label="Message"
-                multiline="true"
-                required
-                maxLength={2048}
-            />
-
-            <Button onClick={submit} className="w-full mt-2">Submit</Button>
-        </DiscordAuthBarrier>
+            <Button type="submit" disabled={!!result || loading}>
+                {loading && <Spinner />}
+                {!result && "Submit"}
+                {result}
+            </Button>
+        </form>
     </>);
 }
