@@ -120,3 +120,11 @@ export function randomFrom(arr: any[]) {
 export function map(num: number, inMin: number, inMax: number, outMin: number, outMax: number) {
     return (num - inMin) * (outMax - outMin) / (inMax - inMin) + outMin;
 }
+
+export function radToDeg(radians: number) {
+    return radians * (180 / Math.PI);
+}
+
+export function degToRad(degrees: number) {
+    return degrees * (Math.PI / 180);
+}

@@ -14,9 +14,13 @@
   --background-lightest: #2b2e37;
   --background-light-transparent: rgba(22, 25, 29, 0.5);
 
-  --primary: #3181bf;
+  /* --primary: #3181bf;
   --secondary: #1e5178;
-  --tertiary: #143b59;
+  --tertiary: #143b59; */
+
+  --primary: #254fa8;
+  --secondary: #3263ce;
+  --tertiary: #3364ce;
 
   font-variant-ligatures: none;
 }

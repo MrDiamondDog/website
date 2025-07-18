@@ -100,10 +100,8 @@ export default function DotsBackground() {
 
     return (<>
         <canvas className="absolute inset-0 motion-reduce:hidden" ref={canvas} />
-        <Subtext
-            className="absolute-center !top-5 hidden motion-reduce:block"
-        >
-            There's usually a cool background here, but it has been hidden based on your preferences.
+        <Subtext className="absolute-center !top-5 hidden motion-reduce:block">
+        There's usually a cool background here, but it has been hidden based on your preferences.
         </Subtext>
     </>);
 }

@@ -47,8 +47,8 @@ export default async function Home() {
                         I'm also a total theatre nerd.{"\n"}{"\n"}
 
                         I'm currently working on{" "}
-                        <a href="https://balatrools.pages.dev" className="text-primary">Balatrools</a>,
-                        a collection of tools & resources for Balatro!{"\n"}{"\n"}
+                        <a href="https://filatrack.app" className="text-primary">Filatrack</a>,
+                        a very simple way to track 3d printing filament!{"\n"}{"\n"}
 
                         If you would like to support my work, please visit my{" "}
                         <a href="/support" className="text-primary">Support</a> page!
