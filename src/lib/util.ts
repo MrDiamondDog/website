@@ -128,3 +128,7 @@ export function radToDeg(radians: number) {
 export function degToRad(degrees: number) {
     return degrees * (Math.PI / 180);
 }
+
+export function numberWithCommas(x: number) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}

@@ -1,9 +1,9 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { FaPause, FaPlay } from "react-icons/fa6";
 
 import { colors } from "@/lib/util";
+import { Pause, Play } from "lucide-react";
 
 export default function GameOfLifeBackground() {
     const canvas = useRef<HTMLCanvasElement>(null);
@@ -136,7 +136,7 @@ export default function GameOfLifeBackground() {
         <canvas className="absolute inset-0" ref={canvas} />
 
         <div className="absolute top-2 left-2 bg-bg-light rounded-lg p-2">
-            <button className="rounded-lg p-2 bg-bg-lighter" onClick={togglePlay}>{playing ? <FaPause /> : <FaPlay />}</button>
+            <button className="rounded-lg p-2 bg-bg-lighter" onClick={togglePlay}>{playing ? <Pause /> : <Play />}</button>
         </div>
     </>);
 }

@@ -1,11 +1,11 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { FaEye } from "react-icons/fa6";
 
 import { randomRange } from "@/lib/util";
 
 import DotsBackground from "./backgrounds/DotsBackground";
+import { Eye } from "lucide-react";
 
 const backgrounds = [
     () => <DotsBackground />,
@@ -38,7 +38,7 @@ export default function Background() {
             className="absolute top-2 right-2 text-gray-500 cursor-pointer z-10"
             onClick={() => setVisible(!visible)}
         >
-            <FaEye size={24} />
+            <Eye size={24} />
         </div>
         {visible && backgrounds[index]?.()}
     </>);

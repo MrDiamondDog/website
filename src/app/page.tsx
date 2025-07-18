@@ -17,7 +17,7 @@ export default async function Home() {
         <Background />
         <main
             className="absolute-center lg:w-[45%] md:w-2/3 w-full max-h-[75%] transition-[width]
-            p-5 rounded-lg border-[3px] border-primary bg-bg-light-transparent backdrop-blur-sm drop-shadow-xl overflow-y-auto"
+            p-5 rounded-lg border-[3px] border-primary bg-bg-light shadow-md shadow-secondary overflow-y-auto"
         >
             <Tablist
                 tabs={["Profile", "Projects", "Stuff", "Stack", "Contact", "Support"]}
@@ -59,16 +59,16 @@ export default async function Home() {
                 </Tab>
                 <Tab name="Projects">
                     <div className="grid grid-cols-2 gap-1 round-outside-grid">
-                        <ProjectCard owner="MrDiamondDog" repo="website" highlight />
+                        <ProjectCard owner="MrDiamondDog" repo="filatrack" highlight />
                         <ProjectCard owner="MrDiamondDog" repo="balatrools" highlight />
+                        <ProjectCard owner="Gabber235" repo="TypeWriter" />
+                        <ProjectCard owner="Vendicated" repo="Vencord" />
+                        <ProjectCard owner="MrDiamondDog" repo="website" />
                         <ProjectCard owner="MrDiamondDog" repo="v1-bot" />
                         <ProjectCard owner="MrDiamondDog" repo="objective-canvas" />
                         <ProjectCard owner="MrDiamondDog" repo="elegoo-keyboard" />
                         <ProjectCard owner="MrDiamondDog" repo="noUglyIconsTheme" />
-                        <ProjectCard owner="MrDiamondDog" repo="vencord-impersonation-reporter" />
                         <ProjectCard owner="MrDiamondDog" repo="reverse-roles-chess" />
-                        <ProjectCard owner="Vendicated" repo="Vencord" />
-                        <ProjectCard owner="Gabber235" repo="TypeWriter" />
                     </div>
                 </Tab>
                 <Tab name="Stuff" className="flex flex-col gap-2">

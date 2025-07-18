@@ -4,10 +4,10 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
 import Button from "@/components/general/Button";
-import { FaCat } from "react-icons/fa6";
 import Subtext from "@/components/general/Subtext";
 import Confetti from "react-dom-confetti";
 import { addCatToCollection, APICat, cacheAllCats, getCollectedCatsCount, getTotalCats } from "./lib";
+import { Cat } from "lucide-react";
 
 function getAverageColor(img: HTMLImageElement) {
     let canvas = document.createElement("canvas");
@@ -90,8 +90,8 @@ export default function CatPage() {
                 }}
             >
                 <Subtext className="absolute inset-0 flex flex-row items-center justify-center">
-                    {(!loading && !cat) && <>Press <FaCat className="mx-1" /> for a cat!</>}
-                    {(loading || cat) && <FaCat className={(loading || cat) ? "cat-spin" : "rotate-0"} />}
+                    {(!loading && !cat) && <>Press <Cat className="mx-1" /> for a cat!</>}
+                    {(loading || cat) && <Cat className={(loading || cat) ? "cat-spin" : "rotate-0"} />}
                 </Subtext>
                 {cat &&
                 <img
@@ -105,7 +105,7 @@ export default function CatPage() {
                 disabled={loading}
                 className="w-full h-[50px] text-xl enabled:hover:scale-105 enabled:active:scale-95 transition-all"
             >
-                <FaCat />
+                <Cat />
             </Button>
             <Subtext>{
                 (!totalCatCount) ? "..." : <>

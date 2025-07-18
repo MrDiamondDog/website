@@ -1,11 +1,11 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { toast } from "sonner";
 
 import Button from "../general/Button";
 import ColorSwatch from "../stuff/whiteboard/ColorSwatch";
+import { ChevronDown, ChevronUp } from "lucide-react";
 
 export default function SendADrawing() {
     const [minimized, setMinimized] = useState(true);
@@ -90,7 +90,7 @@ export default function SendADrawing() {
             <p
                 onClick={() => setMinimized(!minimized)}
                 className="flex flex-row gap-2 cursor-pointer justify-center items-center"
-            >Send me a drawing! {minimized ? <IoIosArrowDown /> : <IoIosArrowUp />}</p>
+            >Send me a drawing! {minimized ? <ChevronDown /> : <ChevronUp />}</p>
             {!minimized && <>
                 <canvas className="border-[3px] my-2 border-bg-light rounded-lg bg-white" width="350" height="350" ref={canvas} />
                 <div className="flex flex-row gap-1 justify-center items-center">

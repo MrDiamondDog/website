@@ -1,12 +1,12 @@
 import { useState } from "react";
 import ReactDOM from "react-dom";
-import { FaArrowRight, FaArrowUpRightFromSquare } from "react-icons/fa6";
 import { toast } from "sonner";
 
 import Button from "../general/Button";
 import Dialog from "../general/Dialog";
 import Input from "../general/Input";
 import StepProgress from "../general/StepProgress";
+import { ArrowRight, ExternalLink } from "lucide-react";
 
 type Question = {
     question: string;
@@ -130,12 +130,12 @@ export default function HumanVerificationDialog({ onFinish }: { onFinish?: () =>
                     } else {
                         toast.error("Please fill out all fields correctly");
                     }
-                }}>Next <FaArrowRight /></a>
+                }}>Next <ArrowRight /></a>
         </Dialog>
     );
 
     return (<>
-        <Button onClick={() => setOpen(true)} className="w-full flex flex-row gap-1">Verify<FaArrowUpRightFromSquare /></Button>
+        <Button onClick={() => setOpen(true)} className="w-full flex flex-row gap-1">Verify <ExternalLink /></Button>
 
         {open && ReactDOM.createPortal(dialog, document.body)}
     </>);

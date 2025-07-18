@@ -1,6 +1,6 @@
 "use client";
 
-import { FaX } from "react-icons/fa6";
+import { X } from "lucide-react";
 
 interface Props {
     open?: boolean;
@@ -20,7 +20,7 @@ export default function Dialog(props: Props) {
                         onClick={props.onClose}
                         className="size-8 flex items-center justify-center rounded-lg hover:bg-bg-lighter transition-all"
                     >
-                        <FaX />
+                        <X />
                     </button>
                 </div>
                 <div>{props.children}</div>

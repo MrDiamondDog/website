@@ -37,7 +37,6 @@
         "operator-linebreak": ["error", "after"],
         "no-unused-vars": "off",
         "eqeqeq": "error",
-        "no-nested-ternary": "error",
         "no-unneeded-ternary": "error",
         "nonblock-statement-body-position": ["error", "below"],
         "brace-style": ["error", "1tbs"],
@@ -64,6 +63,7 @@
         "no-trailing-spaces": "error",
         "comma-style": "error",
         "comma-dangle": ["error", "always-multiline"],
-        "semi": "error"
+        "semi": "error",
+        "unused-imports/no-unused-imports": "error"
     }
 }

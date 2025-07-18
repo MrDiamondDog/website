@@ -1,12 +1,12 @@
 import "./globals.css";
 
 import type { Metadata } from "next";
-import { Rethink_Sans } from "next/font/google";
+import { Lexend } from "next/font/google";
 import { Toaster } from "sonner";
 
 import Analytics from "@/components/general/Analytics";
 
-const font = Rethink_Sans({
+const font = Lexend({
     weight: "400",
     display: "swap",
     subsets: ["latin-ext"],

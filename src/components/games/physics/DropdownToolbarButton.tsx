@@ -1,9 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { MdArrowDropDown } from "react-icons/md";
 
 import ToolbarButton from "./ToolbarButton";
+import { ChevronDown } from "lucide-react";
 
 interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     title: string;
@@ -20,7 +20,7 @@ export default function DropdownToolbarButton(props: Props) {
                 if (!open && props.onClose)
                     props.onClose();
             }} className="flex flex-row items-center pr-3" >
-                {props.title} <MdArrowDropDown size={24} className={open ? "rotate-180" : "rotate-0"} />
+                {props.title} <ChevronDown size={24} className={open ? "rotate-180" : "rotate-0"} />
             </ToolbarButton>
 
             {open && (

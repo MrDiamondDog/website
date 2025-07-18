@@ -2,7 +2,7 @@ import { FaGithub } from "react-icons/fa6";
 import Divider from "../general/Divider";
 import Subtext from "../general/Subtext";
 import SupportMethod from "./SupportMethod";
-import { FaCoffee } from "react-icons/fa";
+import { Coffee } from "lucide-react";
 
 export default function SupportTab() {
     return <>
@@ -22,7 +22,7 @@ export default function SupportTab() {
                 description="The most simple way to support me. Any amount is appreciated!"
                 link={"https://buymeacoffee.com/zoy33nftqp"}
             >
-                <FaCoffee size={64} />
+                <Coffee size={64} />
             </SupportMethod>
         </div>
     </>;

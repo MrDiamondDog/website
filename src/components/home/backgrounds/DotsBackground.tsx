@@ -37,8 +37,8 @@ export default function DotsBackground() {
                     y: Math.random() * window.innerHeight,
                 },
                 vel: {
-                    x: Math.random() * 2 - 1,
-                    y: Math.random() * 2 - 1,
+                    x: Math.random() * 1.5 - 1,
+                    y: Math.random() * 1.5 - 1,
                 },
                 connections: 0,
             });
@@ -99,7 +99,7 @@ export default function DotsBackground() {
     }
 
     return (<>
-        <canvas className="absolute inset-0 motion-reduce:hidden" ref={canvas} />
+        <canvas className="absolute inset-0 motion-reduce:hidden blur-sm" ref={canvas} />
         <Subtext className="absolute-center !top-5 hidden motion-reduce:block">
         There's usually a cool background here, but it has been hidden based on your preferences.
         </Subtext>

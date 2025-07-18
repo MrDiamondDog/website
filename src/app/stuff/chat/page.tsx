@@ -1,14 +1,13 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { IoIosSend } from "react-icons/io";
-import { IoChatbubbleEllipses } from "react-icons/io5";
 
 import Button from "@/components/general/Button";
 import Input from "@/components/general/Input";
 import Spinner from "@/components/general/Spinner";
 import Subtext from "@/components/general/Subtext";
 import { AIMessage } from "@/lib/types";
+import { MessageSquareMore, Send } from "lucide-react";
 
 const commandRe = /\[\[([a-z]+)(?:\s(.*?))?\]\]/;
 
@@ -91,7 +90,7 @@ export default function ChatPage() {
     return (<>
         <div className="absolute inset-5 flex flex-col gap-0 drop-shadow-lg">
             <div className="rounded-t-lg p-3 bg-primary flex flex-row gap-2">
-                <IoChatbubbleEllipses size={32} />
+                <MessageSquareMore size={32} />
                 <p className="text-center">AI Chatbot</p>
             </div>
             <div className="rounded-b-lg p-3 bg-bg-lighter overflow-y-scroll overflow-x-hidden h-full" ref={messageList}>
@@ -119,7 +118,7 @@ export default function ChatPage() {
                     onKeyDown={onKeyDown}
                     disabled={ended}
                 />
-                <Button onClick={sendMessage} disabled={loading || ended}><IoIosSend size={24} /></Button>
+                <Button onClick={sendMessage} disabled={loading || ended}><Send size={24} /></Button>
             </div>
         </div>
     </>);
