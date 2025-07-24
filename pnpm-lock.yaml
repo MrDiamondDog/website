@@ -81,6 +81,9 @@ importers:
       eslint-import-resolver-alias:
         specifier: 1.1.2
         version: 1.1.2(eslint-plugin-import@2.31.0(@typescript-eslint/parser@7.7.0(eslint@8.57.1)(typescript@5.8.3))(eslint@8.57.1))
+      eslint-plugin-import:
+        specifier: ^2.31.0
+        version: 2.31.0(@typescript-eslint/parser@7.7.0(eslint@8.57.1)(typescript@5.8.3))(eslint@8.57.1)
       eslint-plugin-path-alias:
         specifier: 1.0.0
         version: 1.0.0(eslint@8.57.1)
