@@ -1,0 +1,85 @@
+@import "tailwindcss";
+
+@font-face {
+	font-family: "Beleren";
+	src: url("/Beleren2016-Bold.ttf");
+}
+
+@theme dark {
+	--color-text: #dfe1e6;
+
+	--color-bg: #0d0e10;
+	--color-surface0: #16191d;
+	--color-surface1: #1b222a;
+	--color-surface2: #2c2f37;
+
+	--color-primary: #254fa8;
+
+	--color-danger: #9f0900;
+
+	--color-success: #009f2d;
+}
+
+:root {
+	color: var(--color-text);
+}
+
+@layer base {
+	@media (min-width: 768px) {
+		h1 {
+			font-size: 2rem;
+			font-weight: 700;
+		}
+
+		h2 {
+			font-size: 1.5rem;
+			font-weight: 600;
+		}
+
+		h3 {
+			font-size: 1.25rem;
+			font-weight: 500;
+		}
+
+		h4 {
+			font-size: 1rem;
+			font-weight: 500;
+		}
+	}
+
+	@media (max-width: 768px) {
+		h1 {
+			font-size: 1.5rem;
+			font-weight: 700;
+		}
+
+		h2 {
+			font-size: 1.25rem;
+			font-weight: 600;
+		}
+
+		h3 {
+			font-size: 1rem;
+			font-weight: 500;
+		}
+
+		h4 {
+			font-size: 0.8rem;
+			font-weight: 500;
+		}
+	}
+}
+
+@layer utilities {
+	.absolute-center {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+	}
+
+	.pixelated {
+		image-rendering: pixelated;
+		image-rendering: -moz-crisp-edges;
+	}
+}

@@ -1,0 +1,102 @@
+import stylistic from "@stylistic/eslint-plugin";
+import { defineConfig, globalIgnores } from "eslint/config";
+import nextVitals from "eslint-config-next/core-web-vitals";
+import nextTs from "eslint-config-next/typescript";
+import react from "eslint-plugin-react";
+import simpleImportSort from "eslint-plugin-simple-import-sort";
+import unusedImports from "eslint-plugin-unused-imports";
+
+const eslintConfig = defineConfig([
+	...nextVitals,
+	...nextTs,
+	{
+		files: ["src/**/*.{tsx,ts,mts,mjs,js,jsx}", "eslint.config.mjs"],
+		settings: {
+			react: {
+				version: "18"
+			}
+		},
+		...react.configs.flat.recommended,
+		rules: {
+			...react.configs.flat.recommended.rules,
+			"react-hooks/set-state-in-effect": "off",
+			"react/react-in-jsx-scope": "off",
+			"react/prop-types": "off",
+			"react/display-name": "off",
+			"react/no-unescaped-entities": "off",
+			"next/no-img-element": "off",
+			"@typescript-eslint/no-explicit-any": "off"
+		}
+	},
+	{
+		files: ["src/**/*.{tsx,ts,mts,mjs,js,jsx}", "eslint.config.mjs"],
+		plugins: {
+			"@stylistic": stylistic,
+			"simple-import-sort": simpleImportSort,
+			"unused-imports": unusedImports,
+		},
+		rules: {
+			"@stylistic/jsx-quotes": ["error", "prefer-double"],
+			"@stylistic/quotes": ["error", "double", { "avoidEscape": true }],
+			"@stylistic/no-mixed-spaces-and-tabs": "error",
+			"@stylistic/arrow-parens": ["error", "as-needed"],
+			"@stylistic/eol-last": ["error", "always"],
+			"@stylistic/no-multi-spaces": "error",
+			"@stylistic/no-trailing-spaces": "error",
+			"@stylistic/no-whitespace-before-property": "error",
+			"@stylistic/semi": ["error", "always"],
+			"@stylistic/semi-style": ["error", "last"],
+			"@stylistic/space-in-parens": ["error", "never"],
+			"@stylistic/block-spacing": ["error", "always"],
+			"@stylistic/object-curly-spacing": ["error", "always"],
+			"@stylistic/spaced-comment": ["error", "always", { "markers": ["!"] }],
+			"@stylistic/no-extra-semi": "error",
+			"@stylistic/function-call-spacing": ["error", "never"],
+			"yoda": "error",
+			"eqeqeq": ["error", "always", { "null": "ignore" }],
+			"prefer-destructuring": ["error", {
+				"VariableDeclarator": { "array": false, "object": true },
+				"AssignmentExpression": { "array": false, "object": false }
+			}],
+			"operator-assignment": ["error", "always"],
+			"no-useless-computed-key": "error",
+			"no-unneeded-ternary": ["error", { "defaultAssignment": false }],
+			"no-invalid-regexp": "error",
+			"no-constant-condition": ["error", { "checkLoops": false }],
+			"no-duplicate-imports": "error",
+			"no-useless-escape": "error",
+			"no-fallthrough": "error",
+			"for-direction": "error",
+			"no-async-promise-executor": "error",
+			"no-cond-assign": "error",
+			"no-dupe-else-if": "error",
+			"no-duplicate-case": "error",
+			"no-irregular-whitespace": "error",
+			"no-loss-of-precision": "error",
+			"no-misleading-character-class": "error",
+			"no-prototype-builtins": "error",
+			"no-regex-spaces": "error",
+			"no-shadow-restricted-names": "error",
+			"no-unexpected-multiline": "error",
+			"no-unsafe-optional-chaining": "error",
+			"no-useless-backreference": "error",
+			"use-isnan": "error",
+			"prefer-const": ["error", { destructuring: "all" }],
+			"prefer-spread": "error",
+			"no-restricted-globals": ["error", "event", "name"],
+			"simple-import-sort/imports": "error",
+			"simple-import-sort/exports": "error",
+			"unused-imports/no-unused-imports": "error",
+		}
+	},
+	// Override default ignores of eslint-config-next.
+	globalIgnores([
+		// Default ignores of eslint-config-next:
+		".next/**",
+		"out/**",
+		"build/**",
+		"next-env.d.ts",
+	]),
+]);
+
+export default eslintConfig;
