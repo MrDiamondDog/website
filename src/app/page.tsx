@@ -1,11 +1,14 @@
 "use client";
 
+import { Mail } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import { FaGithub } from "react-icons/fa6";
 
 import CellularAutomata from "@/components/gimmicks/CellularAutomata";
 import ContactTab from "@/components/home/ContactTab";
 import ProjectTab from "@/components/home/ProjectTab";
+import Button from "@/components/primitives/Button";
 import Divider from "@/components/primitives/Divider";
 import Subtext from "@/components/primitives/Subtext";
 
@@ -52,6 +55,11 @@ export default function Home() {
 					<Divider />
 
 					<p>Hi! I'm from Colorado and I like building useful things on the internet!</p>
+
+					<div className="flex gap-2 mt-2 *:w-full">
+						<a href="mailto:drew@drewrat.dev" target="_blank"><Button><Mail size={18} /> Email</Button></a>
+						<a href="https://github.com/mrdiamonddog" target="_blank"><Button><FaGithub size={18} /> GitHub</Button></a>
+					</div>
 				</>}
 				<ProjectTab visible={tab === "projects"} />
 				<ContactTab visible={tab === "contact"} />
