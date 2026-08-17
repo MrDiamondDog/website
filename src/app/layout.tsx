@@ -15,7 +15,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en"
       className="h-full antialiased"
     >
-		<body className="bg-bg">
+		<body className="bg-bg h-screen">
 			{children}
 
 			<Toaster
@@ -34,6 +34,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
 					info: <Info size={20} />,
 				}}
 			/>
+
+			<div id="portal-root" />
 		</body>
     </html>
   );

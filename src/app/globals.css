@@ -2,7 +2,12 @@
 
 @font-face {
 	font-family: "Beleren";
-	src: url("/Beleren2016-Bold.ttf");
+	src: url("/font/Beleren2016-Bold.ttf");
+}
+
+@font-face {
+	font-family: "Determination Mono";
+	src: url("/font/Determination-Mono.ttf");
 }
 
 @theme dark {
