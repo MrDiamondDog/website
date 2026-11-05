@@ -7,7 +7,26 @@ import Subtext from "../primitives/Subtext";
 export type Vec2 = { x: number, y: number };
 
 const cellSize = 10;
-const framerate = 5;
+const framerate = 1;
+
+const marchingSquares: ({ from: [number, number], to: [number, number] })[][] = [
+	[], // 0
+	[{ from: [0, 0.5], to: [0.5, 1] }], // 1: bottom left fill
+	[{ from: [0.5, 1], to: [1, 0.5] }], // 2: bottom right fill
+	[{ from: [0, 0.5], to: [1, 0.5] }], // 3: bottom fill
+	[{ from: [0.5, 0], to: [1, 0.5] }], // 4: top right fill
+	[{ from: [0, 0.5], to: [0.5, 0] }, { from: [0.5, 1], to: [1, 0.5] }], // 5
+	[{ from: [0.5, 0], to: [0.5, 1] }], // 6: right fill
+	[{ from: [0, 0.5], to: [0.5, 0] }], // 7: bottom right fill
+	[{ from: [0, 0.5], to: [0.5, 0] }], // 8: top left fill
+	[{ from: [0.5, 0], to: [0.5, 1] }], // 9: left fill
+	[{ from: [0, 0.5], to: [0.5, 1] }, { from: [0.5, 0], to: [1, 0.5] }], // 10
+	[{ from: [0.5, 0], to: [1, 0.5] }], // 11: bottom left fill
+	[{ from: [0, 0.5], to: [1, 0.5] }], // 12: top fill
+	[{ from: [0.5, 1], to: [1, 0.5] }], // 13: top left fill
+	[{ from: [0, 0.5], to: [0.5, 1] }], // 14: top right fill
+	[] // 15
+];
 
 const colors = {
 	bg: "#0d0e10",
@@ -83,7 +102,62 @@ export default function CellularAutomata({ rulestring, defaultPixels }: { rulest
 			}
 		}
 
+		drawMarching();
 		simulate();
+	}
+
+	function drawMarching() {
+		const marchedGrid: number[][] = [];
+
+		const { current: ctx } = ctxRef;
+		const { current: grid } = gridRef;
+
+		if (!ctx)
+			return;
+
+		// ctx.clearRect(0, 0, width.current, height.current);
+
+		for (let x = 0; x < gridW.current - 1; x++) {
+			marchedGrid[x] = [];
+			for (let y = 0; y < gridH.current - 1; y++) {
+				let marchIndex = 0;
+
+				const realGridNeighbors = [grid[x][y], grid[x][y + 1], grid[x + 1][y + 1], grid[x + 1][y]];
+				const cornerValues = [8, 4, 2, 1];
+				for (let i = 0; i < 4; i++)
+					if (realGridNeighbors[i])
+						marchIndex |= cornerValues[i];
+
+				marchedGrid[x][y] = marchIndex;
+			}
+		}
+
+		for (let x = 0; x < gridW.current - 1; x++) {
+			for (let y = 0; y < gridH.current - 1; y++) {
+				ctx.strokeStyle = colors.surface0;
+				ctx.lineWidth = 0.5;
+
+				const xPos = x * cellSize + cellSize / 2;
+				const yPos = y * cellSize + cellSize / 2;
+
+				// ctx.strokeRect(xPos, yPos, cellSize, cellSize);
+
+				ctx.fillStyle = "white";
+				ctx.strokeStyle = "white";
+				ctx.lineWidth = 1;
+				// ctx.fillText(marchedGrid[y][x] + "", y * cellSize + cellSize / 2, x * cellSize + cellSize / 2);
+
+				const lineData = marchingSquares[marchedGrid[x][y]];
+				for (const line of lineData) {
+					ctx.beginPath();
+					ctx.moveTo(line.from[0] * cellSize + xPos, line.from[1] * cellSize + yPos);
+					ctx.lineTo(line.to[0] * cellSize + xPos, line.to[1] * cellSize + yPos);
+					ctx.stroke();
+				}
+			}
+		}
+
+		// simulate();
 	}
 
 	function simulate() {
