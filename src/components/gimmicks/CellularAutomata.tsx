@@ -7,7 +7,7 @@ import Subtext from "../primitives/Subtext";
 export type Vec2 = { x: number, y: number };
 
 const cellSize = 10;
-const framerate = 10;
+const framerate = 5;
 
 const colors = {
 	bg: "#0d0e10",
@@ -15,7 +15,7 @@ const colors = {
 	surface1: "#1b222a",
 	surface2: "#2c2f37",
 
-	primary: "#254fa8"
+	primary: "#182e5c"
 };
 
 export default function CellularAutomata({ rulestring, defaultPixels }: { rulestring: string, defaultPixels?: Vec2[] }) {
@@ -139,7 +139,7 @@ export default function CellularAutomata({ rulestring, defaultPixels }: { rulest
 
 				for (let y = 0; y < gridH.current; y++) {
 					if (!newGrid[x][y])
-						newGrid[x].push(Math.random() > 0.5);
+						newGrid[x].push(Math.random() > 0.9);
 				}
 			}
 
