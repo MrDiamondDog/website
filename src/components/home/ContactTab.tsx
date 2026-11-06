@@ -24,7 +24,7 @@ export default function ContactTab({ visible }: { visible?: boolean }) {
 			toast.error("Something went wrong. Please try again later.");
 	}
 
-	return <form className={`${visible ? "block" : "hidden"} w-100`} onSubmit={onSubmit}>
+	return <form className={`${visible ? "block" : "hidden"} w-full`} onSubmit={onSubmit}>
 		<Input type="text" name="name" label="Name" required className="w-full" placeholder="W.D. Gaster" />
 		<Input type="email" name="email" label="Email" required className="w-full" placeholder="sjelter@deltarune.com" />
 		<Input name="message" label="Message" required multiline className="w-full min-h-25" placeholder={"VERY\nVERY\nINTERESTING"} />

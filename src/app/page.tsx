@@ -1,6 +1,7 @@
 "use client";
 
 import { Mail } from "lucide-react";
+import { motion } from "motion/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { FaDiscord } from "react-icons/fa";
@@ -15,10 +16,12 @@ import Subtext from "@/components/primitives/Subtext";
 import { AnimateSize } from "@/components/utils/AnimateSize";
 
 function Tab({ active, onClick, children }: { active?: boolean, onClick?: () => void } & React.PropsWithChildren) {
-	return <div className={`bg-surface0 border-t-2 border-surface1 border-2 ${active ? "border-b-primary" : "border-b-surface1"} rounded-lg	text-center py-1 px-4 cursor-pointer w-full`}
+	return <motion.div className={`bg-surface0 border-t-2 border-surface1 border-2 ${active ? "border-b-primary" : "border-b-surface1"} rounded-lg text-center py-1 cursor-pointer`}
+		animate={{ width: active ? "100%" : "25%" }}
+		transition={{ type: "tween", ease: "easeInOut", duration: 0.1 }}
 		onClick={onClick}>
 		{children}
-	</div>;
+	</motion.div>;
 }
 
 export default function Home() {
@@ -44,9 +47,9 @@ export default function Home() {
 				<Tab active={tab === "projects"} onClick={() => setTab("projects")}>Projects</Tab>
 				<Tab active={tab === "contact"} onClick={() => setTab("contact")}>Contact</Tab>
 			</div>
-			<div className="bg-surface0 p-2 rounded-lg border-2 border-surface1 overflow-y-scroll overflow-x-hidden drop-shadow-lg w-fit">
-				{tab === "home" && <div className="w-200">
-					<div className="flex gap-2 items-center">
+			<div className="bg-surface0 p-2 rounded-lg border-2 border-surface1 overflow-y-scroll overflow-x-hidden drop-shadow-lg w-200">
+				{tab === "home" && <div>
+					<div className="flex gap-2 items-center w-full">
 						<img src="/img/avatar.png" width="100" height="100" className="rounded-full size-25" alt="My Avatar" />
 						<div className="h-full">
 							<h1>Drew</h1>

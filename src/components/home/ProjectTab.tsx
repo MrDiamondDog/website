@@ -13,7 +13,7 @@ export default function ProjectTab({ visible }: { visible?: boolean }) {
 			.then(setLanguageColors);
 	}, []);
 
-	return <div className={`grid grid-cols-2 gap-2 ${(visible && languageColors) ? "block" : "hidden"} w-fit`}>
+	return <div className={`grid grid-cols-2 gap-2 ${(visible && languageColors) ? "block" : "hidden"} w-full`}>
 		<Project languageColors={languageColors} owner="MrDiamondDog" repo="Filatrack" />
 		<Project languageColors={languageColors} owner="MrDiamondDog" repo="Balatrools" />
 		<Project languageColors={languageColors} owner="MrDiamondDog" repo="Tungsten" />
