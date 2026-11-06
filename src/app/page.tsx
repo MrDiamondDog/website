@@ -10,6 +10,7 @@ import { FaGithub } from "react-icons/fa6";
 import CellularAutomata from "@/components/gimmicks/CellularAutomata";
 import ContactTab from "@/components/home/ContactTab";
 import ProjectTab from "@/components/home/ProjectTab";
+import SupportTab from "@/components/home/SupportTab";
 import Button from "@/components/primitives/Button";
 import Divider from "@/components/primitives/Divider";
 import Subtext from "@/components/primitives/Subtext";
@@ -17,7 +18,7 @@ import { AnimateSize } from "@/components/utils/AnimateSize";
 
 function Tab({ active, onClick, children }: { active?: boolean, onClick?: () => void } & React.PropsWithChildren) {
 	return <motion.div className={`bg-surface0 border-t-2 border-surface1 border-2 ${active ? "border-b-primary" : "border-b-surface1"} rounded-lg text-center py-1 cursor-pointer`}
-		animate={{ width: active ? "100%" : "25%" }}
+		animate={{ width: active ? "100%" : "30%" }}
 		transition={{ type: "tween", ease: "easeInOut", duration: 0.1 }}
 		onClick={onClick}>
 		{children}
@@ -46,6 +47,7 @@ export default function Home() {
 				<Tab active={tab === "home"} onClick={() => setTab("home")}>Home</Tab>
 				<Tab active={tab === "projects"} onClick={() => setTab("projects")}>Projects</Tab>
 				<Tab active={tab === "contact"} onClick={() => setTab("contact")}>Contact</Tab>
+				<Tab active={tab === "support"} onClick={() => setTab("support")}>Support</Tab>
 			</div>
 			<div className="bg-surface0 p-2 rounded-lg border-2 border-surface1 overflow-y-scroll overflow-x-hidden drop-shadow-lg w-200">
 				{tab === "home" && <div>
@@ -70,13 +72,14 @@ export default function Home() {
 					<Divider />
 
 					<div className="flex gap-2 mt-2 *:w-full">
-						<a href={`mailto:${atob("ZHJld0BkcmV3cmF0LmRldg==")}`} target="_blank"><Button><Mail size={18} /> Email</Button></a>
+						<Button onClick={() => window.open("mailto:" + atob("ZHJld0BkcmV3cmF0LmRldg=="))}><Mail size={18} /> Email</Button>
 						<a href="https://discord.gg/rVp5BR8K96" target="_blank"><Button><FaDiscord size={18} /> Discord</Button></a>
 						<a href="https://github.com/mrdiamonddog" target="_blank"><Button><FaGithub size={18} /> GitHub</Button></a>
 					</div>
 				</div>}
 				<ProjectTab visible={tab === "projects"} />
 				<ContactTab visible={tab === "contact"} />
+				<SupportTab visible={tab === "support"} />
 			</div>
 		</AnimateSize>
 	</>;
